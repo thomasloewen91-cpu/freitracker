@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreiTracker – Tage ohne Porno</title>
+    <link rel="manifest" href="data:application/manifest+json,{
+        'name': 'FreiTracker',
+        'short_name': 'FreiTracker',
+        'start_url': '/',
+        'display': 'standalone',
+        'background_color': '#1a1a2e',
+        'theme_color': '#16213e',
+        'icons': [{'src': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjU2IiBmaWxsPSIjZmY2YjA5Ii8+CjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMjA4IiBmaWxsPSIjZDJhM2U4Ii8+CjxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSIjM2I1Y2ZmIi8+Cjwvc3ZnPg==', 'sizes': '512x512'}]
+    }">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); 
+            color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px;
+        }
+        .counter-card { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); 
+            backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 30px; text-align: center; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); margin-bottom: 30px; width: 100%; max-width: 400px; 
+            border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease;
+        }
+        .counter-card:hover { transform: scale(1.02); }
+        .days { font-size: 4rem; font-weight: 700; background: linear-gradient(45deg, #3bc5ff, #ff6b09); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
+        .streak-badge { background: linear-gradient(45deg, #ff6b09, #3bc5ff); padding: 10px 20px; border-radius: 50px; font-weight: 600; display: inline-block; margin: 10px 0; }
+        .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
+        .buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        button { 
+            background: linear-gradient(45deg, #3bc5ff, #1e90ff); border: none; padding: 15px 30px; 
+            border-radius: 25px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; 
+            font-family: inherit; font-size: 1rem;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(59,197,255,0.4); }
+        button.reset { background: linear-gradient(45deg, #ff6b09, #ff4500); }
+        .reset:hover { box-shadow: 0 10px 20px rgba(255,107,9,0.4); }
+        .milestone { font-size: 1.2rem; color: #3bc5ff; margin-top: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .journal { margin-top: 20px; }
+        textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
+        .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <div class="counter-card">
+        <h1>FreiTracker</h1>
+        <div class="days" id="days">0</div>
+        <div class="streak-badge" id="badge">Neuer Start</div>
+        <div class="last-view" id="lastView">Noch nie zurückgesetzt</div>
+        <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
+        <div class="bible" id="bibleVerse">„Durch Christus können wir alles schaffen.“ – Philipper 4:13</div>
+    </div>
+
+    <div class="counter-card">
+        <div class="buttons">
+            <button onclick="checkIn()">Heute sauber ✅</button>
+            <button class="reset" onclick="resetCounter()">Zurücksetzen 😔</button>
+        </div>
+        <div class="journal">
+            <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang?"></textarea>
+        </div>
+    </div>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+
+        function updateDisplay() {
+            const now = new Date();
+            const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
+            document.getElementById('days').textContent = daysFree;
+            document.getElementById('lastView').textContent = data.lastReset ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` : 'Noch nie zurückgesetzt';
+
+            // Badge & Milestone
+            const badge = document.getElementById('badge');
+            const milestone = document.getElementById('milestone');
+            if (daysFree === 0) { badge.textContent = 'Neuer Start'; badge.style.background = 'linear-gradient(45deg, #ff6b09, #ff4500)'; }
+            else if (daysFree < 7) { badge.textContent = `${daysFree} Tage Streak`; badge.style.background = 'linear-gradient(45deg, #ff6b09, #3bc5ff)'; }
+            else if (daysFree < 30) { badge.textContent = '1-Wochen-Sieger!'; badge.style.background = 'linear-gradient(45deg, #3bc5ff, #1e90ff)'; }
+            else { badge.textContent = 'Monatsheld!'; badge.style.background = 'linear-gradient(45deg, #00ff88, #3bc5ff)'; }
+
+            if (daysFree % 7 === 0 && daysFree > 0) { milestone.style.display = 'block'; setTimeout(() => milestone.style.display = 'none', 3000); }
+
+            // Bibelverse rotieren
+            const verses = ['„Durch Christus können wir alles schaffen.“ – Philipper 4:13', '„Er gibt Kraft den Müden.“ – Jesaja 40:29', '„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13'];
+            document.getElementById('bibleVerse').textContent = verses[daysFree % verses.length];
+
+            // Journal laden
+            document.getElementById('journal').value = data.journal[data.journal.length - 1] || '';
+        }
+
+        function checkIn() {
+            const today = new Date().toDateString();
+            if (!data.checkIns || data.checkIns[data.checkIns.length - 1] !== today) {
+                data.checkIns = data.checkIns || [];
+                data.checkIns.push(today);
+                saveData();
+            }
+            updateDisplay();
+        }
+
+        function resetCounter() {
+            if (confirm('Bist du sicher? Das setzt deinen Counter zurück. Schreib warum ins Journal.')) {
+                data.lastReset = new Date().toISOString();
+                const reason = prompt('Warum Rückfall? Sei ehrlich – das hilft!');
+                data.journal.push(reason || 'Zurückgesetzt');
+                saveData();
+                updateDisplay();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('freiTracker', JSON.stringify(data));
+        }
+
+        // Init
+        updateDisplay();
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,c29tZSBiYXNpYyBwd2Egc3c='); // Placeholder für Offline
+        }
+    </script>
+</body>
+</html>
