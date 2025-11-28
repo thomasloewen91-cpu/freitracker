@@ -1,110 +1,281 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="true">
-    <!-- CACHE-BUSTER -->
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
     <title>FreiTracker – Tage ohne Porno</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { 
-            height: 100vh; width: 100vw;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%); 
-            color: white; font-family: 'Montserrat', sans-serif; overflow: hidden;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        body { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 20px; gap: 30px; min-height: 100vh;
+        html,
+        body {
+            height: 100vh;
+            width: 100vw;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
         }
-        .counter-card { 
-            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); 
-            backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 30px; text-align: center; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); width: 100%; max-width: 450px; 
-            border: 1px solid rgba(255,107,9,0.2); transition: transform 0.3s ease;
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: 30px;
+            min-height: 100vh;
         }
-        @media (min-width: 900px) { body { flex-direction: row; gap: 40px; } }
-        .counter-card:hover { transform: scale(1.02); }
-        h1 { font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 20px; }
-        .days { font-size: clamp(3rem, 10vw, 5rem); font-weight: 700; background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
-        .streak-badge { background: linear-gradient(45deg, #ff6b09, #ff8e53); padding: 12px 25px; border-radius: 50px; font-weight: 600; display: inline-block; margin: 10px 0; box-shadow: 0 5px 15px rgba(255,107,9,0.4); }
-        .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
-        .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; }
-
-        /* GAMIFICATION PROGRESS BAR MIT TÄGLICHEN STRICHEN */
-        .milestone-scale { margin: 25px 0; }
-        .scale-container { 
-            position: relative; height: 70px; background: rgba(255,255,255,0.05); 
-            border-radius: 30px; padding: 15px; overflow: hidden;
-            border: 2px solid rgba(255,107,9,0.3);
+        .counter-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(255, 107, 9, 0.2);
+            transition: transform 0.3s ease;
         }
-        .scale-track { 
-            height: 40px; background: linear-gradient(90deg, rgba(255,107,9,0.1), rgba(255,142,83,0.1)); 
-            border-radius: 20px; position: relative; padding: 0 20px;
+        @media (min-width: 900px) {
+            body {
+                flex-direction: row;
+                gap: 40px;
+            }
         }
-        /* TÄGLICHE STRICHE */
+        .counter-card:hover {
+            transform: scale(1.02);
+        }
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-bottom: 20px;
+        }
+        .days {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+        .streak-badge {
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px 0;
+            box-shadow: 0 5px 15px rgba(255, 107, 9, 0.4);
+        }
+        .last-view {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        .milestone {
+            font-size: 1.2rem;
+            color: #ff6b09;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        .bible {
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+        /* GAMIFICATION PROGRESS BAR MIT TAGSSTRICHEN */
+        .milestone-scale {
+            margin: 25px 0;
+        }
+        .scale-container {
+            position: relative;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 15px 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 107, 9, 0.3);
+        }
+        .scale-track {
+            height: 40px;
+            background: linear-gradient(90deg, rgba(255, 107, 9, 0.1), rgba(255, 142, 83, 0.1));
+            border-radius: 20px;
+            position: relative;
+        }
+        /* TÄGLICHE STRICHE - variabel über JS */
         .scale-ticks {
-            position: absolute; top: 50%; left: 20px; right: 20px; height: 2px; background: transparent;
-            display: flex; justify-content: space-between; transform: translateY(-50%);
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+            pointer-events: none;
         }
         .scale-tick {
-            width: 2px; height: 16px; background: rgba(255,255,255,0.4); border-radius: 1px;
+            width: 2px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 1px;
         }
-        .scale-marker { 
-            width: 4px; height: 20px; background: rgba(255,255,255,0.6); border-radius: 2px; 
-            position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+        .scale-marker {
+            width: 4px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 2px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
         }
-        .scale-marker.next { background: linear-gradient(180deg, #ff6b09, #ff8e53); width: 8px; box-shadow: 0 0 20px rgba(255,107,9,0.8); }
-        .scale-fill { 
-            height: 100%; background: linear-gradient(90deg, #ff6b09, #ff8e53, #ffa726); 
-            border-radius: 20px; position: absolute; left: 0; top: 0; transition: width 1s ease;
-            box-shadow: 0 0 30px rgba(255,107,9,0.5);
+        .scale-marker.next {
+            background: linear-gradient(180deg, #ff6b09, #ff8e53);
+            width: 8px;
+            box-shadow: 0 0 20px rgba(255, 107, 9, 0.8);
         }
-        .scale-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; opacity: 0.7; }
-        .next-milestone { 
-            font-weight: 700; color: #ff6b09; font-size: 1.2rem; margin-top: 15px;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .scale-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b09, #ff8e53, #ffa726);
+            border-radius: 20px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 1s ease;
+            box-shadow: 0 0 30px rgba(255, 107, 9, 0.5);
         }
-        .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
-
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        .next-milestone {
+            font-weight: 700;
+            color: #ff6b09;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .days-left {
+            font-size: 1.5rem;
+            color: #ff8e53;
+            font-weight: 600;
+        }
         /* NOTIZEN ANZEIGE */
-        .last-note { 
-            font-size: 1.1rem; font-weight: 600; color: #ff8e53; margin-bottom: 15px; 
-            padding: 12px; background: rgba(255,142,83,0.1); border-radius: 12px;
-            border-left: 4px solid #ff6b09;
+        .last-note {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff6b09;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 142, 83, 0.15);
+            border-radius: 12px;
+            border-left: 5px solid #ff6b09;
+            word-wrap: break-word;
+            max-height: 10em;
+            overflow-y: auto;
+            white-space: pre-wrap;
         }
-        .action-section { margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .save-btn, .reset-btn { 
-            padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; 
-            transition: all 0.3s; font-family: inherit; font-size: 1rem; border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        .action-section {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .save-btn { background: linear-gradient(45deg, #4CAF50, #45a049); color: white; }
-        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.6); }
-        .reset-btn { background: linear-gradient(45deg, #666, #888); color: white; }
-        .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
-        .journal { margin-top: 10px; }
-        textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
-        @media (max-width: 480px) { body { padding: 10px; } .counter-card { padding: 30px 20px; } }
+        .save-btn,
+        .reset-btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 1rem;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .save-btn {
+            background: linear-gradient(45deg, #4caf50, #45a049);
+            color: white;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.6);
+        }
+        .reset-btn {
+            background: linear-gradient(45deg, #666, #888);
+            color: white;
+        }
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(100, 100, 100, 0.6);
+        }
+        .journal {
+            margin-top: 10px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 107, 9, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+            resize: vertical;
+        }
+        textarea:empty::before {
+            content: attr(placeholder);
+            color: #ff8e53;
+            opacity: 0.7;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .counter-card {
+                padding: 30px 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="counter-card">
         <h1>FreiTracker</h1>
         <div class="days" id="days">0</div>
-        
+
         <!-- GAMIFICATION SCALE -->
         <div class="milestone-scale" id="milestoneScale"></div>
-        
-        <div class="streak-badge" id="badge">Neuer Start</div>
-        <div class="last-view" id="lastView">Noch nie zurückgesetzt</div>
+
+        <div class="streak-badge" id="badge"></div>
+        <div class="last-view" id="lastView"></div>
         <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
         <div class="bible" id="bibleVerse">Lade...</div>
     </div>
@@ -114,7 +285,7 @@
             <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
         </div>
         <div class="journal">
-            <textarea id="journal" placeholder="Neue Notiz eingeben..."></textarea>
+            <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
         </div>
         <div class="action-section">
             <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
@@ -128,13 +299,51 @@
         // ETAPPENZIELE GAMIFICATION
         const milestones = [3, 7, 14, 30, 40, 50, 75, 92, 100, 125, 150, 183, 200, 235, 275, 300, 333, 365];
         const milestoneLabels = {
-            7: "Eine Woche frei!", 30: "Ein Monat frei!", 92: "Drei Monate frei!", 
-            183: "Ein halbes Jahr frei!", 275: "Neun Monate frei!", 365: "1 Jahr frei!"
+            7: "Eine Woche frei!",
+            30: "Ein Monat frei!",
+            92: "Drei Monate frei!",
+            183: "Ein halbes Jahr frei!",
+            275: "Neun Monate frei!",
+            365: "1 Jahr frei!",
         };
 
-        const verses = ["„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29","„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10","„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31","„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1","„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1","„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37","„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58","„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25","„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13","„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2","„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2","„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12","„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10","„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9","„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26","„Ihr seid mehr als Überwinder!“ – Römer 8:37"];
+        const verses = [
+            "„Durch Christus können wir alles schaffen.“ – Philipper 4:13",
+            "„Er gibt Kraft den Müden.“ – Jesaja 40:29",
+            "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13",
+            "„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
+            "„Meine Gnade genügt dir.“ – 2. Korinther 12:9",
+            "„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
+            "„Seid stark und mutig!“ – Josua 1:9",
+            "„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
+            "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17",
+            "„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
+            "„Ich will euch erquicken.“ – Matthäus 11:28",
+            "„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
+            "„Frieden lasse ich euch.“ – Johannes 14:27",
+            "„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
+            "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17",
+            "„Euer Herz fasse Mut!“ – Psalm 31:25",
+            "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39",
+            "„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
+            "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6",
+            "„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
+            "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3",
+            "„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
+            "„Ihr seid zur Freiheit berufen.“ – Galater 5:13",
+            "„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
+            "„Ich wandle in weitem Raum.“ – Psalm 119:45",
+            "„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
+            "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4",
+            "„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
+            "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2",
+            "„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
+            "„Ihr seid mehr als Überwinder!“ – Römer 8:37",
+        ];
 
-        function getRandomVerse() { return verses[Math.floor(Math.random() * verses.length)]; }
+        function getRandomVerse() {
+            return verses[Math.floor(Math.random() * verses.length)];
+        }
 
         function getNextMilestone(currentDays) {
             for (let milestone of milestones) {
@@ -145,25 +354,28 @@
 
         function createMilestoneScale(currentDays) {
             const nextMilestone = getNextMilestone(currentDays);
-            const progress = currentDays / nextMilestone * 100;
+            const progress = (currentDays / nextMilestone) * 100;
             const daysLeft = nextMilestone - currentDays;
             const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
 
-            // TICKS für jeden Tag erstellen
+            // TICKS für jeden Tag erstellen (max 182 ticks, sonst begrenzen für Performance)
+            const maxTicks = 182;  // für 183 Tage max Striche (Tage -1)
+            const totalTicks = nextMilestone - 1;
+            const ticksToShow = totalTicks > maxTicks ? maxTicks : totalTicks;
             let ticksHtml = '<div class="scale-ticks">';
-            for (let i = 0; i <= 20; i++) { // 20 kleine Striche
+            for (let i = 0; i < ticksToShow; i++) {
                 ticksHtml += '<div class="scale-tick"></div>';
             }
             ticksHtml += '</div>';
 
             const scaleHtml = `
                 <div class="scale-container">
-                    <div class="scale-fill" style="width: ${progress}%"></div>
+                    <div class="scale-fill" style="width: ${progress}%;"></div>
                     ${ticksHtml}
                     <div class="scale-track">
-                        <div class="scale-marker" style="left: 0%"></div>
-                        <div class="scale-marker next" style="left: ${progress}%"></div>
-                        <div class="scale-marker" style="left: 100%"></div>
+                        <div class="scale-marker" style="left:0%"></div>
+                        <div class="scale-marker next" style="left: ${progress}%;"></div>
+                        <div class="scale-marker" style="left: 100%;"></div>
                     </div>
                 </div>
                 <div class="scale-labels">
@@ -174,21 +386,21 @@
                 <div class="next-milestone">Nächstes Ziel: ${label}</div>
                 <div class="days-left">⏳ ${daysLeft} Tage fehlen</div>
             `;
-            
+
             document.getElementById('milestoneScale').innerHTML = scaleHtml;
         }
 
         function saveNote() {
-            const note = document.getElementById('journal').value.trim();
-            if (note) {
-                data.journal[data.journal.length] = note; // Neue Notiz anhängen
-                saveData();
-                updateDisplay(); // Notiz sofort anzeigen
-                document.getElementById('journal').value = ''; // Feld leeren
-                alert('Notiz gespeichert! ✅');
-            } else {
-                alert('Bitte eine Notiz eingeben.');
+            let note = document.getElementById('journal').value.trim();
+            if (note.length === 0) return alert('Bitte eine Notiz eingeben.');
+            if (note.length > 140) {
+                note = note.substring(0, 140);
+                alert('Notiz wurde auf 140 Zeichen gekürzt.');
             }
+            data.journal[data.journal.length] = note;
+            saveData();
+            updateDisplay();
+            document.getElementById('journal').value = '';
         }
 
         function updateDisplay() {
@@ -200,15 +412,14 @@
             createMilestoneScale(daysFree);
 
             const badge = document.getElementById('badge');
-            if (daysFree === 0) { badge.textContent = 'Neuer Start'; }
-            else if (daysFree < 7) { badge.textContent = `${daysFree} Tage Streak`; }
-            else if (daysFree < 30) { badge.textContent = '1-Wochen-Sieger!'; }
-            else { badge.textContent = 'Monatsheld!'; }
+            badge.textContent = daysFree === 0 ? '' : daysFree < 7 ? `${daysFree} Tage Streak` : daysFree < 30 ? '1-Wochen-Sieger!' : 'Monatsheld!';
 
             const milestone = document.getElementById('milestone');
-            if (milestones.includes(daysFree)) { 
-                milestone.style.display = 'block'; 
-                setTimeout(() => milestone.style.display = 'none', 3000); 
+            if (milestones.includes(daysFree)) {
+                milestone.style.display = 'block';
+                setTimeout(() => (milestone.style.display = 'none'), 3000);
+            } else {
+                milestone.style.display = 'none';
             }
 
             document.getElementById('bibleVerse').textContent = getRandomVerse();
@@ -225,6 +436,7 @@
                 lastNoteContainer.style.display = 'none';
             }
 
+            // Textarea leer lassen nach speichern
             document.getElementById('journal').value = '';
         }
 
@@ -232,13 +444,15 @@
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
                 const note = prompt('Notiz an dich selbst (optional)');
-                if (note && note.trim()) data.journal.push(note.trim());
+                if (note && note.trim()) data.journal.push(note.trim().substring(0, 140));
                 saveData();
                 updateDisplay();
             }
         }
 
-        function saveData() { localStorage.setItem('freiTracker', JSON.stringify(data)); }
+        function saveData() {
+            localStorage.setItem('freiTracker', JSON.stringify(data));
+        }
 
         updateDisplay();
         setInterval(updateDisplay, 60000);
