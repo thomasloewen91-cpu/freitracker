@@ -1,49 +1,167 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FreiTracker – Tage ohne Porno</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { 
-            height: 100vh; overflow: hidden; 
-            font-family: 'Montserrat', sans-serif; 
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%) !important; 
-            color: white; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; gap: 30px; }
-        .counter-card { 
-            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); 
-            backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 30px; text-align: center; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); width: 100%; max-width: 450px; 
-            border: 1px solid rgba(255,50,9,0.2); transition: transform 0.3s ease;
+
+        html,
+        body {
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
         }
-        .counter-card:hover { transform: scale(1.02); }
-        .days { font-size: clamp(3rem, 10vw, 5rem); font-weight: 700; background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
-        .streak-badge { background: linear-gradient(45deg, #ff6b09, #ff8e53); padding: 12px 25px; border-radius: 50px; font-weight: 600; display: inline-block; margin: 10px 0; box-shadow: 0 5px 15px rgba(255,107,9,0.4); }
-        .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
-        .buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        button { 
-            background: linear-gradient(45deg, #ff6b09, #ff8e53); border: none; padding: 15px 30px; 
-            border-radius: 25px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; 
-            font-family: inherit; font-size: 1rem; box-shadow: 0 5px 15px rgba(255,107,9,0.4);
+
+        body {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            justify-content: center;
+            align-content: start;
+            padding: 20px;
+            min-height: 100vh;
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,107,9,0.6); }
-        button.reset { background: linear-gradient(45deg, #666, #888); }
-        .reset:hover { box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
-        .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .journal { margin-top: 20px; }
-        textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
-        .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; }
-        @media (max-width: 480px) { body { padding: 10px; } .counter-card { padding: 30px 20px; } }
+
+        @media (min-width: 768px) {
+            body {
+                grid-template-columns: repeat(2, minmax(300px, 450px));
+                justify-content: center;
+                align-content: start;
+            }
+        }
+
+        .counter-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 107, 9, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .counter-card:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            margin-bottom: 20px;
+        }
+
+        .days {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+
+        .streak-badge {
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px 0;
+            box-shadow: 0 5px 15px rgba(255, 107, 9, 0.4);
+        }
+
+        .last-view {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .milestone {
+            font-size: 1.2rem;
+            color: #ff6b09;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .bible {
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 9, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 9, 0.6);
+        }
+
+        button.reset {
+            background: linear-gradient(45deg, #666, #888);
+        }
+
+        button.reset:hover {
+            box-shadow: 0 10px 25px rgba(100, 100, 100, 0.6);
+        }
+
+        .journal {
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 107, 9, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+            resize: vertical;
+        }
     </style>
 </head>
 <body>
     <div class="counter-card">
-        <h1 style="font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 20px;">FreiTracker</h1>
+        <h1>FreiTracker</h1>
         <div class="days" id="days">0</div>
         <div class="streak-badge" id="badge">Neuer Start</div>
         <div class="last-view" id="lastView">Noch nie zurückgesetzt</div>
@@ -57,7 +175,7 @@
             <button class="reset" onclick="resetCounter()">Zurücksetzen 😔</button>
         </div>
         <div class="journal">
-            <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang?"></textarea>
+            <textarea id="journal" placeholder="Notiz an dich selbst (optional)"></textarea>
         </div>
     </div>
 
@@ -72,14 +190,26 @@
 
             const badge = document.getElementById('badge');
             const milestone = document.getElementById('milestone');
-            if (daysFree === 0) { badge.textContent = 'Neuer Start'; }
-            else if (daysFree < 7) { badge.textContent = `${daysFree} Tage Streak`; }
-            else if (daysFree < 30) { badge.textContent = '1-Wochen-Sieger!'; }
-            else { badge.textContent = 'Monatsheld!'; }
+            if (daysFree === 0) {
+                badge.textContent = 'Neuer Start';
+            } else if (daysFree < 7) {
+                badge.textContent = `${daysFree} Tage Streak`;
+            } else if (daysFree < 30) {
+                badge.textContent = '1-Wochen-Sieger!';
+            } else {
+                badge.textContent = 'Monatsheld!';
+            }
 
-            if (daysFree % 7 === 0 && daysFree > 0) { milestone.style.display = 'block'; setTimeout(() => milestone.style.display = 'none', 3000); }
+            if (daysFree % 7 === 0 && daysFree > 0) {
+                milestone.style.display = 'block';
+                setTimeout(() => milestone.style.display = 'none', 3000);
+            }
 
-            const verses = ['„Durch Christus können wir alles schaffen.“ – Philipper 4:13', '„Er gibt Kraft den Müden.“ – Jesaja 40:29', '„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13'];
+            const verses = [
+                '„Durch Christus können wir alles schaffen.“ – Philipper 4:13',
+                '„Er gibt Kraft den Müden.“ – Jesaja 40:29',
+                '„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13'
+            ];
             document.getElementById('bibleVerse').textContent = verses[daysFree % verses.length];
 
             document.getElementById('journal').value = data.journal[data.journal.length - 1] || '';
@@ -87,7 +217,7 @@
 
         function checkIn() {
             const today = new Date().toDateString();
-            if (data.checkIns[data.checkIns.length - 1] !== today) {
+            if (!data.checkIns.length || data.checkIns[data.checkIns.length - 1] !== today) {
                 data.checkIns.push(today);
                 saveData();
             }
@@ -97,7 +227,7 @@
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
-                const reason = prompt('Warum Rückfall? Sei ehrlich – das hilft!');
+                const reason = prompt('Notiz an dich selbst (optional)');
                 data.journal.push(reason || 'Zurückgesetzt');
                 saveData();
                 updateDisplay();
