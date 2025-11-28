@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="true">
+    <!-- CACHE-BUSTER -->
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
     <title>FreiTracker – Tage ohne Porno</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -63,16 +67,23 @@
         }
         .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
 
-        /* SIMPLIFIED LAYOUT - NO BUTTONS */
-        .journal { margin-top: 30px; }
-        textarea { width: 100%; min-height: 120px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
-        .reset-section { margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
+        /* CLEAN BUTTON SECTION */
+        .action-section { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .save-btn, .reset-btn { 
+            padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; 
+            transition: all 0.3s; font-family: inherit; font-size: 1rem; border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .save-btn { 
+            background: linear-gradient(45deg, #4CAF50, #45a049); color: white; 
+        }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.6); }
         .reset-btn { 
-            background: linear-gradient(45deg, #666, #888); border: none; padding: 12px 28px; 
-            border-radius: 25px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; 
-            font-family: inherit; font-size: 1rem; box-shadow: 0 5px 15px rgba(100,100,100,0.4);
+            background: linear-gradient(45deg, #666, #888); color: white; 
         }
         .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
+        .journal { margin-top: 20px; }
+        textarea { width: 100%; min-height: 120px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
         @media (max-width: 480px) { body { padding: 10px; } .counter-card { padding: 30px 20px; } }
     </style>
 </head>
@@ -94,7 +105,8 @@
         <div class="journal">
             <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang? Sport? Deine Gedanken..."></textarea>
         </div>
-        <div class="reset-section">
+        <div class="action-section">
+            <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
             <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
         </div>
     </div>
@@ -149,6 +161,18 @@
             document.getElementById('milestoneScale').innerHTML = scaleHtml;
         }
 
+        function saveNote() {
+            const note = document.getElementById('journal').value.trim();
+            if (note) {
+                data.journal.push(note);
+                saveData();
+                alert('Notiz gespeichert! ✅');
+                document.getElementById('journal').value = '';
+            } else {
+                alert('Bitte eine Notiz eingeben.');
+            }
+        }
+
         function updateDisplay() {
             const now = new Date();
             const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
@@ -177,7 +201,7 @@
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
                 const note = prompt('Notiz an dich selbst (optional)');
-                data.journal.push(note || 'Zurückgesetzt');
+                if (note) data.journal.push(note);
                 saveData();
                 updateDisplay();
             }
@@ -185,7 +209,6 @@
 
         function saveData() { localStorage.setItem('freiTracker', JSON.stringify(data)); }
 
-        // AUTO-UPDATE EVERY MINUTE
         updateDisplay();
         setInterval(updateDisplay, 60000);
     </script>
