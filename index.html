@@ -22,8 +22,8 @@
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
             color: white;
             font-family: 'Montserrat', sans-serif;
-            overflow-y: auto;  /* Scrollen erlauben auf mobilen Geräten */
-            -webkit-overflow-scrolling: touch; /* smoother scroll on iOS */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
         }
         body {
@@ -46,6 +46,8 @@
             max-width: 450px;
             border: 1px solid rgba(255, 107, 9, 0.2);
             transition: transform 0.3s ease;
+            overflow: visible; /* ✅ FIX: Kein Scroll mehr in Cards */
+            height: fit-content;
         }
         @media (min-width: 900px) {
             body {
@@ -81,12 +83,8 @@
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         .bible {
             font-style: italic;
@@ -95,7 +93,8 @@
             font-size: 0.95rem;
             min-height: 2.5em;
         }
-        /* GAMIFICATION PROGRESS BAR MIT STRICHEN NUR FÜR REST-TAGE */
+        
+        /* ✅ FIX: SKALA - Ticks jetzt sichtbar mit korrekter Positionierung */
         .milestone-scale {
             margin: 25px 0;
         }
@@ -105,7 +104,7 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 30px;
             padding: 15px 20px;
-            overflow: hidden;
+            overflow: visible; /* ✅ Ticks sichtbar */
             border: 2px solid rgba(255, 107, 9, 0.3);
         }
         .scale-track {
@@ -113,30 +112,31 @@
             background: linear-gradient(90deg, rgba(255, 107, 9, 0.1), rgba(255, 142, 83, 0.1));
             border-radius: 20px;
             position: relative;
+            margin: 0 10px; /* ✅ Platz für Ticks */
         }
         .scale-ticks {
             position: absolute;
             top: 50%;
-            left: 0;
-            right: 0;
+            left: 10px;
+            right: 10px;
             height: 2px;
             background: transparent;
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
-            padding: 0 20px;
             pointer-events: none;
         }
         .scale-tick {
             width: 2px;
             height: 14px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.5); /* ✅ Heller sichtbar */
             border-radius: 1px;
+            flex: none;
         }
         .scale-marker {
             width: 4px;
             height: 20px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 2px;
             position: absolute;
             top: 50%;
@@ -179,7 +179,8 @@
             color: #ff8e53;
             font-weight: 600;
         }
-        /* NOTIZEN ANZEIGE */
+        
+        /* NOTIZEN */
         .last-note {
             font-size: 1.3rem;
             font-weight: 700;
@@ -201,8 +202,7 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-        .save-btn,
-        .reset-btn {
+        .save-btn, .reset-btn {
             padding: 12px 28px;
             border-radius: 25px;
             font-weight: 600;
@@ -217,21 +217,13 @@
             background: linear-gradient(45deg, #4caf50, #45a049);
             color: white;
         }
-        .save-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.6);
-        }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76, 175, 80, 0.6); }
         .reset-btn {
             background: linear-gradient(45deg, #666, #888);
             color: white;
         }
-        .reset-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(100, 100, 100, 0.6);
-        }
-        .journal {
-            margin-top: 10px;
-        }
+        .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100, 100, 100, 0.6); }
+        .journal { margin-top: 10px; }
         textarea {
             width: 100%;
             min-height: 100px;
@@ -244,13 +236,11 @@
             resize: vertical;
         }
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            .counter-card {
-                padding: 30px 20px;
-                max-width: 100vw;
-                overflow-x: hidden;
+            body { padding: 10px; }
+            .counter-card { 
+                padding: 30px 20px; 
+                max-width: 100vw; 
+                overflow: visible; /* ✅ Mobile Fix */
             }
         }
     </style>
@@ -259,12 +249,7 @@
     <div class="counter-card">
         <h1>FreiTracker</h1>
         <div class="days" id="days">0</div>
-
-        <!-- GAMIFICATION SCALE -->
         <div class="milestone-scale" id="milestoneScale"></div>
-
-        <!-- entfernt orangener irrelevanter Button -->
-
         <div class="last-view" id="lastView"></div>
         <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
         <div class="bible" id="bibleVerse">Lade...</div>
@@ -286,15 +271,10 @@
     <script>
         let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
 
-        // ETAPPENZIELE GAMIFICATION
         const milestones = [3, 7, 14, 30, 40, 50, 75, 92, 100, 125, 150, 183, 200, 235, 275, 300, 333, 365];
         const milestoneLabels = {
-            7: "Eine Woche frei!",
-            30: "Ein Monat frei!",
-            92: "Drei Monate frei!",
-            183: "Ein halbes Jahr frei!",
-            275: "Neun Monate frei!",
-            365: "1 Jahr frei!",
+            7: "Eine Woche frei!", 30: "Ein Monat frei!", 92: "Drei Monate frei!", 
+            183: "Ein halbes Jahr frei!", 275: "Neun Monate frei!", 365: "1 Jahr frei!"
         };
 
         const verses = [
@@ -351,6 +331,7 @@
             return last;
         }
 
+        /* ✅ FIX: Korrekte Tick-Generierung für Zwischen-Tage */
         function createMilestoneScale(currentDays) {
             const nextMilestone = getNextMilestone(currentDays);
             const lastMilestone = getLastMilestone(currentDays);
@@ -360,13 +341,10 @@
             const daysLeft = nextMilestone - currentDays;
             const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
 
-            let ticksCount = totalRange - 1;
-            if (ticksCount < 0) ticksCount = 0;
-            const maxTicks = 182;
-            let ticksToShow = ticksCount > maxTicks ? maxTicks : ticksCount;
-
+            // ✅ FIX: Genau (totalRange-1) Ticks zwischen Start & Ziel
+            const ticksCount = Math.max(0, totalRange - 1);
             let ticksHtml = '<div class="scale-ticks">';
-            for (let i = 0; i < ticksToShow; i++) {
+            for (let i = 0; i < ticksCount; i++) {
                 ticksHtml += '<div class="scale-tick"></div>';
             }
             ticksHtml += '</div>';
@@ -393,42 +371,35 @@
             document.getElementById('milestoneScale').innerHTML = scaleHtml;
         }
 
+        /* ✅ FIX: Notiz speichern funktioniert jetzt */
         function saveNote() {
             let note = document.getElementById('journal').value.trim();
-            if (note.length === 0) return alert('Bitte eine Notiz eingeben.');
+            if (!note) return alert('Bitte eine Notiz eingeben.');
             if (note.length > 140) {
                 note = note.substring(0, 140);
-                alert('Notiz wurde auf 140 Zeichen gekürzt.');
+                alert('Notiz auf 140 Zeichen gekürzt.');
             }
-            data.journal[data.journal.length] = note;
+            data.journal.push(note); // ✅ FIX: push() statt data.journal.length
             saveData();
-            updateDisplay();
             document.getElementById('journal').value = '';
+            updateDisplay(); // ✅ Sofort anzeigen
         }
 
         function updateDisplay() {
             const now = new Date();
             const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
+            
             document.getElementById('days').textContent = daysFree;
-            document.getElementById('lastView').textContent = data.lastReset ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` : 'Noch nie zurückgesetzt';
+            document.getElementById('lastView').textContent = data.lastReset 
+                ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` 
+                : 'Noch nie zurückgesetzt';
 
             createMilestoneScale(daysFree);
 
-            const badge = document.getElementById('badge');
-            badge.textContent = ''; // Entfernt den überflüssigen Button
-
-            const milestone = document.getElementById('milestone');
-            if (milestones.includes(daysFree)) {
-                milestone.style.display = 'block';
-                setTimeout(() => (milestone.style.display = 'none'), 3000);
-            } else {
-                milestone.style.display = 'none';
-            }
-
-            // Bibelvers anzeigen, nicht nur "Lade..."
+            // ✅ Bibelvers IMMER laden (nicht nur beim Reset)
             document.getElementById('bibleVerse').textContent = getRandomVerse();
 
-            // Letzte Notiz groß anzeigen
+            // ✅ Letzte Notiz anzeigen
             const lastNoteEl = document.getElementById('lastNote');
             const lastNoteContainer = document.getElementById('lastNoteContainer');
             if (data.journal.length > 0) {
@@ -437,18 +408,27 @@
                 lastNoteContainer.style.display = 'block';
             } else {
                 lastNoteEl.style.display = 'none';
-                lastNoteContainer.style.display = 'none';
+                lastNoteContainer.style.display = 'block'; // ✅ Container bleibt sichtbar
+                lastNoteEl.textContent = 'Noch keine Notiz';
             }
 
-            // Textarea nach speichern leer lassen
-            document.getElementById('journal').value = '';
+            // Milestone-Check
+            const milestone = document.getElementById('milestone');
+            if (milestones.includes(daysFree)) {
+                milestone.style.display = 'block';
+                setTimeout(() => milestone.style.display = 'none', 3000);
+            } else {
+                milestone.style.display = 'none';
+            }
         }
 
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
                 const note = prompt('Notiz an dich selbst (optional, max. 140 Zeichen)');
-                if (note && note.trim()) data.journal.push(note.trim().substring(0,140));
+                if (note && note.trim()) {
+                    data.journal.push(note.trim().substring(0, 140));
+                }
                 saveData();
                 updateDisplay();
             }
@@ -458,6 +438,7 @@
             localStorage.setItem('freiTracker', JSON.stringify(data));
         }
 
+        // ✅ Initial & alle 60s updaten
         updateDisplay();
         setInterval(updateDisplay, 60000);
     </script>
