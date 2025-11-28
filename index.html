@@ -33,13 +33,46 @@
         .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
         .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; }
-        .buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        button { background: linear-gradient(45deg, #ff6b09, #ff8e53); border: none; padding: 15px 30px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: inherit; font-size: 1rem; box-shadow: 0 5px 15px rgba(255,107,9,0.4); }
-        button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,107,9,0.6); }
-        button.reset { background: linear-gradient(45deg, #666, #888); }
-        button.reset:hover { box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
-        .journal { margin-top: 20px; }
-        textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
+
+        /* GAMIFICATION PROGRESS BAR */
+        .milestone-scale { margin: 25px 0; }
+        .scale-container { 
+            position: relative; height: 60px; background: rgba(255,255,255,0.05); 
+            border-radius: 30px; padding: 10px; overflow: hidden;
+            border: 2px solid rgba(255,107,9,0.3);
+        }
+        .scale-track { 
+            height: 40px; background: linear-gradient(90deg, rgba(255,107,9,0.1), rgba(255,142,83,0.1)); 
+            border-radius: 20px; position: relative; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px;
+        }
+        .scale-marker { 
+            width: 4px; height: 20px; background: rgba(255,255,255,0.3); border-radius: 2px; 
+            position: absolute; top: 50%; transform: translateY(-50%);
+        }
+        .scale-marker.next { background: linear-gradient(180deg, #ff6b09, #ff8e53); width: 8px; box-shadow: 0 0 20px rgba(255,107,9,0.6); }
+        .scale-fill { 
+            height: 100%; background: linear-gradient(90deg, #ff6b09, #ff8e53, #ffa726); 
+            border-radius: 20px; position: absolute; left: 0; top: 0; transition: width 1s ease;
+            box-shadow: 0 0 30px rgba(255,107,9,0.5);
+        }
+        .scale-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; opacity: 0.7; }
+        .next-milestone { 
+            font-weight: 700; color: #ff6b09; font-size: 1.2rem; margin-top: 15px;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
+
+        /* SIMPLIFIED LAYOUT - NO BUTTONS */
+        .journal { margin-top: 30px; }
+        textarea { width: 100%; min-height: 120px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
+        .reset-section { margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .reset-btn { 
+            background: linear-gradient(45deg, #666, #888); border: none; padding: 12px 28px; 
+            border-radius: 25px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; 
+            font-family: inherit; font-size: 1rem; box-shadow: 0 5px 15px rgba(100,100,100,0.4);
+        }
+        .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
         @media (max-width: 480px) { body { padding: 10px; } .counter-card { padding: 30px 20px; } }
     </style>
 </head>
@@ -47,47 +80,99 @@
     <div class="counter-card">
         <h1>FreiTracker</h1>
         <div class="days" id="days">0</div>
+        
+        <!-- GAMIFICATION SCALE -->
+        <div class="milestone-scale" id="milestoneScale"></div>
+        
         <div class="streak-badge" id="badge">Neuer Start</div>
         <div class="last-view" id="lastView">Noch nie zurückgesetzt</div>
         <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
         <div class="bible" id="bibleVerse">Lade...</div>
     </div>
+
     <div class="counter-card">
-        <div class="buttons">
-            <button onclick="checkIn()">Heute sauber ✅</button>
-            <button class="reset" onclick="resetCounter()">Zurücksetzen 😔</button>
-        </div>
         <div class="journal">
-            <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang?"></textarea>
+            <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang? Sport? Deine Gedanken..."></textarea>
+        </div>
+        <div class="reset-section">
+            <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
         </div>
     </div>
+
     <script>
         let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [], checkIns: [] };
+
+        // ETAPPENZIELE GAMIFICATION
+        const milestones = [3, 7, 14, 30, 40, 50, 75, 92, 100, 125, 150, 183, 200, 235, 275, 300, 333, 365];
+        const milestoneLabels = {
+            7: "Eine Woche frei!", 30: "Ein Monat frei!", 92: "Drei Monate frei!", 
+            183: "Ein halbes Jahr frei!", 275: "Neun Monate frei!", 365: "1 Jahr frei!"
+        };
+
         const verses = ["„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29","„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10","„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31","„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1","„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1","„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37","„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58","„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25","„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13","„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2","„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2","„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12","„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10","„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9","„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26","„Ihr seid mehr als Überwinder!“ – Römer 8:37"];
+
         function getRandomVerse() { return verses[Math.floor(Math.random() * verses.length)]; }
+
+        function getNextMilestone(currentDays) {
+            for (let milestone of milestones) {
+                if (currentDays < milestone) return milestone;
+            }
+            return 365;
+        }
+
+        function createMilestoneScale(currentDays) {
+            const nextMilestone = getNextMilestone(currentDays);
+            const progress = currentDays / nextMilestone * 100;
+            const daysLeft = nextMilestone - currentDays;
+            const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
+
+            const scaleHtml = `
+                <div class="scale-container">
+                    <div class="scale-fill" style="width: ${progress}%"></div>
+                    <div class="scale-track">
+                        <div class="scale-marker" style="left: 0%"></div>
+                        <div class="scale-marker next" style="left: ${progress}%"></div>
+                        <div class="scale-marker" style="left: 100%"></div>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>0</span>
+                    <span>${currentDays} Tage</span>
+                    <span>${nextMilestone}</span>
+                </div>
+                <div class="next-milestone">
+                    Nächstes Ziel: ${label}
+                </div>
+                <div class="days-left">⏳ ${daysLeft} Tage fehlen</div>
+            `;
+            
+            document.getElementById('milestoneScale').innerHTML = scaleHtml;
+        }
+
         function updateDisplay() {
             const now = new Date();
             const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
             document.getElementById('days').textContent = daysFree;
             document.getElementById('lastView').textContent = data.lastReset ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` : 'Noch nie zurückgesetzt';
+
+            createMilestoneScale(daysFree);
+
             const badge = document.getElementById('badge');
             const milestone = document.getElementById('milestone');
             if (daysFree === 0) { badge.textContent = 'Neuer Start'; }
             else if (daysFree < 7) { badge.textContent = `${daysFree} Tage Streak`; }
             else if (daysFree < 30) { badge.textContent = '1-Wochen-Sieger!'; }
             else { badge.textContent = 'Monatsheld!'; }
-            if (daysFree % 7 === 0 && daysFree > 0) { milestone.style.display = 'block'; setTimeout(() => milestone.style.display = 'none', 3000); }
+
+            if (milestones.includes(daysFree)) { 
+                milestone.style.display = 'block'; 
+                setTimeout(() => milestone.style.display = 'none', 3000); 
+            }
+
             document.getElementById('bibleVerse').textContent = getRandomVerse();
             document.getElementById('journal').value = data.journal[data.journal.length - 1] || '';
         }
-        function checkIn() {
-            const today = new Date().toDateString();
-            if (data.checkIns[data.checkIns.length - 1] !== today) {
-                data.checkIns.push(today);
-                saveData();
-            }
-            updateDisplay();
-        }
+
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
@@ -97,8 +182,12 @@
                 updateDisplay();
             }
         }
+
         function saveData() { localStorage.setItem('freiTracker', JSON.stringify(data)); }
+
+        // AUTO-UPDATE EVERY MINUTE
         updateDisplay();
+        setInterval(updateDisplay, 60000);
     </script>
 </body>
 </html>
