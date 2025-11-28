@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="true">
+    <!-- CACHE-BUSTER -->
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
     <title>FreiTracker – Tage ohne Porno</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -34,23 +38,30 @@
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
         .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; }
 
-        /* GAMIFICATION PROGRESS BAR */
+        /* GAMIFICATION PROGRESS BAR MIT TÄGLICHEN STRICHEN */
         .milestone-scale { margin: 25px 0; }
         .scale-container { 
-            position: relative; height: 60px; background: rgba(255,255,255,0.05); 
-            border-radius: 30px; padding: 10px; overflow: hidden;
+            position: relative; height: 70px; background: rgba(255,255,255,0.05); 
+            border-radius: 30px; padding: 15px; overflow: hidden;
             border: 2px solid rgba(255,107,9,0.3);
         }
         .scale-track { 
             height: 40px; background: linear-gradient(90deg, rgba(255,107,9,0.1), rgba(255,142,83,0.1)); 
-            border-radius: 20px; position: relative; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px;
+            border-radius: 20px; position: relative; padding: 0 20px;
+        }
+        /* TÄGLICHE STRICHE */
+        .scale-ticks {
+            position: absolute; top: 50%; left: 20px; right: 20px; height: 2px; background: transparent;
+            display: flex; justify-content: space-between; transform: translateY(-50%);
+        }
+        .scale-tick {
+            width: 2px; height: 16px; background: rgba(255,255,255,0.4); border-radius: 1px;
         }
         .scale-marker { 
-            width: 4px; height: 20px; background: rgba(255,255,255,0.3); border-radius: 2px; 
-            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 4px; height: 20px; background: rgba(255,255,255,0.6); border-radius: 2px; 
+            position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
         }
-        .scale-marker.next { background: linear-gradient(180deg, #ff6b09, #ff8e53); width: 8px; box-shadow: 0 0 20px rgba(255,107,9,0.6); }
+        .scale-marker.next { background: linear-gradient(180deg, #ff6b09, #ff8e53); width: 8px; box-shadow: 0 0 20px rgba(255,107,9,0.8); }
         .scale-fill { 
             height: 100%; background: linear-gradient(90deg, #ff6b09, #ff8e53, #ffa726); 
             border-radius: 20px; position: absolute; left: 0; top: 0; transition: width 1s ease;
@@ -63,23 +74,24 @@
         }
         .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
 
-        /* CLEAN BUTTON SECTION */
-        .action-section { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        /* NOTIZEN ANZEIGE */
+        .last-note { 
+            font-size: 1.1rem; font-weight: 600; color: #ff8e53; margin-bottom: 15px; 
+            padding: 12px; background: rgba(255,142,83,0.1); border-radius: 12px;
+            border-left: 4px solid #ff6b09;
+        }
+        .action-section { margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
         .save-btn, .reset-btn { 
             padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; 
             transition: all 0.3s; font-family: inherit; font-size: 1rem; border: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .save-btn { 
-            background: linear-gradient(45deg, #4CAF50, #45a049); color: white; 
-        }
+        .save-btn { background: linear-gradient(45deg, #4CAF50, #45a049); color: white; }
         .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.6); }
-        .reset-btn { 
-            background: linear-gradient(45deg, #666, #888); color: white; 
-        }
+        .reset-btn { background: linear-gradient(45deg, #666, #888); color: white; }
         .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
-        .journal { margin-top: 20px; }
-        textarea { width: 100%; min-height: 120px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
+        .journal { margin-top: 10px; }
+        textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
         @media (max-width: 480px) { body { padding: 10px; } .counter-card { padding: 30px 20px; } }
     </style>
 </head>
@@ -98,8 +110,11 @@
     </div>
 
     <div class="counter-card">
+        <div id="lastNoteContainer">
+            <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
+        </div>
         <div class="journal">
-            <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang? Sport? Deine Gedanken..."></textarea>
+            <textarea id="journal" placeholder="Neue Notiz eingeben..."></textarea>
         </div>
         <div class="action-section">
             <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
@@ -134,9 +149,17 @@
             const daysLeft = nextMilestone - currentDays;
             const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
 
+            // TICKS für jeden Tag erstellen
+            let ticksHtml = '<div class="scale-ticks">';
+            for (let i = 0; i <= 20; i++) { // 20 kleine Striche
+                ticksHtml += '<div class="scale-tick"></div>';
+            }
+            ticksHtml += '</div>';
+
             const scaleHtml = `
                 <div class="scale-container">
                     <div class="scale-fill" style="width: ${progress}%"></div>
+                    ${ticksHtml}
                     <div class="scale-track">
                         <div class="scale-marker" style="left: 0%"></div>
                         <div class="scale-marker next" style="left: ${progress}%"></div>
@@ -148,9 +171,7 @@
                     <span>${currentDays} Tage</span>
                     <span>${nextMilestone}</span>
                 </div>
-                <div class="next-milestone">
-                    Nächstes Ziel: ${label}
-                </div>
+                <div class="next-milestone">Nächstes Ziel: ${label}</div>
                 <div class="days-left">⏳ ${daysLeft} Tage fehlen</div>
             `;
             
@@ -160,8 +181,10 @@
         function saveNote() {
             const note = document.getElementById('journal').value.trim();
             if (note) {
-                data.journal[data.journal.length - 1] = note; // letzte Notiz ersetzen oder setzen
+                data.journal[data.journal.length] = note; // Neue Notiz anhängen
                 saveData();
+                updateDisplay(); // Notiz sofort anzeigen
+                document.getElementById('journal').value = ''; // Feld leeren
                 alert('Notiz gespeichert! ✅');
             } else {
                 alert('Bitte eine Notiz eingeben.');
@@ -177,12 +200,12 @@
             createMilestoneScale(daysFree);
 
             const badge = document.getElementById('badge');
-            const milestone = document.getElementById('milestone');
             if (daysFree === 0) { badge.textContent = 'Neuer Start'; }
             else if (daysFree < 7) { badge.textContent = `${daysFree} Tage Streak`; }
             else if (daysFree < 30) { badge.textContent = '1-Wochen-Sieger!'; }
             else { badge.textContent = 'Monatsheld!'; }
 
+            const milestone = document.getElementById('milestone');
             if (milestones.includes(daysFree)) { 
                 milestone.style.display = 'block'; 
                 setTimeout(() => milestone.style.display = 'none', 3000); 
@@ -190,15 +213,26 @@
 
             document.getElementById('bibleVerse').textContent = getRandomVerse();
 
-            // Zeige immer die zuletzt gespeicherte Notiz an
-            document.getElementById('journal').value = data.journal.length > 0 ? data.journal[data.journal.length - 1] : '';
+            // Letzte Notiz groß anzeigen
+            const lastNoteEl = document.getElementById('lastNote');
+            const lastNoteContainer = document.getElementById('lastNoteContainer');
+            if (data.journal.length > 0) {
+                lastNoteEl.textContent = data.journal[data.journal.length - 1];
+                lastNoteEl.style.display = 'block';
+                lastNoteContainer.style.display = 'block';
+            } else {
+                lastNoteEl.style.display = 'none';
+                lastNoteContainer.style.display = 'none';
+            }
+
+            document.getElementById('journal').value = '';
         }
 
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
                 const note = prompt('Notiz an dich selbst (optional)');
-                if (note) data.journal.push(note);
+                if (note && note.trim()) data.journal.push(note.trim());
                 saveData();
                 updateDisplay();
             }
