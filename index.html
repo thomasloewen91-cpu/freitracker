@@ -3,19 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="HandheldFriendly" content="true" />
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
     <title>FreiTracker – Tage ohne Porno</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             height: 100%;
             width: 100%;
@@ -23,225 +14,91 @@
             color: white;
             font-family: 'Montserrat', sans-serif;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
         }
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 20px;
-            gap: 30px;
-            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: flex-start; padding: 20px; gap: 30px; min-height: 100vh;
         }
         .counter-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid rgba(255, 107, 9, 0.2);
-            transition: transform 0.3s ease;
-            overflow: visible; /* ✅ FIX: Kein Scroll mehr in Cards */
-            height: fit-content;
+            background: linear-gradient(145deg, rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+            backdrop-filter: blur(20px); border-radius: 30px;
+            padding: 40px 30px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 100%; max-width: 450px; border: 1px solid rgba(255,107,9,0.2);
         }
         @media (min-width: 900px) {
-            body {
-                flex-direction: row;
-                justify-content: center;
-                gap: 40px;
-            }
+            body { flex-direction: row; justify-content: center; gap: 40px; }
         }
-        .counter-card:hover {
-            transform: scale(1.02);
-        }
-        h1 {
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            margin-bottom: 20px;
-        }
-        .days {
-            font-size: clamp(3rem, 10vw, 5rem);
-            font-weight: 700;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 20px 0;
-        }
-        .last-view {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            margin-top: 10px;
-        }
-        .milestone {
-            font-size: 1.2rem;
-            color: #ff6b09;
-            margin-top: 10px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        .bible {
-            font-style: italic;
-            opacity: 0.9;
-            margin-top: 10px;
-            font-size: 0.95rem;
-            min-height: 2.5em;
-        }
-        
-        /* ✅ FIX: SKALA - Ticks jetzt sichtbar mit korrekter Positionierung */
-        .milestone-scale {
-            margin: 25px 0;
-        }
+        h1 { font-size: clamp(1.5rem,5vw,2rem); margin-bottom: 20px; }
+        .days { font-size: clamp(3rem,10vw,5rem); font-weight: 700;
+            background: linear-gradient(45deg,#ff6b09,#ff8e53);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
+        .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
+        .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
+        .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; min-height: 2.5em; }
+        /* Skala & Ticks exakt auf Track */
+        .milestone-scale { margin: 25px 0; }
         .scale-container {
-            position: relative;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 15px 20px;
-            overflow: visible; /* ✅ Ticks sichtbar */
-            border: 2px solid rgba(255, 107, 9, 0.3);
+            position: relative; height: 70px; background: rgba(255,255,255,0.05);
+            border-radius: 30px; padding: 15px 20px; border: 2px solid rgba(255,107,9,0.3); overflow: visible;
         }
         .scale-track {
-            height: 40px;
-            background: linear-gradient(90deg, rgba(255, 107, 9, 0.1), rgba(255, 142, 83, 0.1));
-            border-radius: 20px;
-            position: relative;
-            margin: 0 10px; /* ✅ Platz für Ticks */
+            position: relative; height: 40px; background: linear-gradient(90deg,rgba(255,107,9,0.1),rgba(255,142,83,0.1));
+            border-radius: 20px; margin: 0;
         }
         .scale-ticks {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            right: 10px;
-            height: 2px;
-            background: transparent;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            pointer-events: none;
+            position: absolute; top: 50%; left: 20px; right: 20px;
+            height: 2px; display: flex; justify-content: space-between;
+            transform: translateY(-50%); pointer-events: none; background: transparent;
         }
         .scale-tick {
-            width: 2px;
-            height: 14px;
-            background: rgba(255, 255, 255, 0.5); /* ✅ Heller sichtbar */
-            border-radius: 1px;
-            flex: none;
+            width: 2px; height: 14px; background: rgba(255,255,255,0.7); border-radius: 1px; flex: none;
         }
         .scale-marker {
-            width: 4px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 2px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 2;
+            width: 4px; height: 20px; background: rgba(255,255,255,0.8); border-radius: 2px;
+            position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
         }
         .scale-marker.next {
-            background: linear-gradient(180deg, #ff6b09, #ff8e53);
-            width: 8px;
-            box-shadow: 0 0 20px rgba(255, 107, 9, 0.8);
+            background: linear-gradient(180deg,#ff6b09,#ff8e53); width: 8px; box-shadow: 0 0 20px rgba(255,107,9,0.8);
         }
         .scale-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b09, #ff8e53, #ffa726);
-            border-radius: 20px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            transition: width 1s ease;
-            box-shadow: 0 0 30px rgba(255, 107, 9, 0.5);
+            height: 100%; background: linear-gradient(90deg,#ff6b09,#ff8e53,#ffa726);
+            border-radius: 20px; position: absolute; left: 0; top: 0; transition: width 1s ease; box-shadow: 0 0 30px rgba(255,107,9,0.5);
         }
         .scale-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            opacity: 0.7;
+            display: flex; justify-content: space-between; margin-top: 10px;
+            font-size: 0.85rem; opacity: 0.7;
         }
         .next-milestone {
-            font-weight: 700;
-            color: #ff6b09;
-            font-size: 1.2rem;
-            margin-top: 15px;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700; color: #ff6b09; font-size: 1.2rem; margin-top: 15px;
+            background: linear-gradient(45deg,#ff6b09,#ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .days-left {
-            font-size: 1.5rem;
-            color: #ff8e53;
-            font-weight: 600;
-        }
-        
-        /* NOTIZEN */
+        .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
         .last-note {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #ff6b09;
-            margin-bottom: 15px;
-            padding: 12px;
-            background: rgba(255, 142, 83, 0.15);
-            border-radius: 12px;
-            border-left: 5px solid #ff6b09;
-            word-wrap: break-word;
-            max-height: 10em;
-            overflow-y: auto;
-            white-space: pre-wrap;
+            font-size: 1.3rem; font-weight: 700; color: #ff6b09; margin-bottom: 15px;
+            padding:12px; background:rgba(255,142,83,0.15); border-radius:12px; border-left:5px solid #ff6b09;
+            word-wrap: break-word; max-height:10em; overflow-y:auto; white-space:pre-wrap;
         }
         .action-section {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;
         }
         .save-btn, .reset-btn {
-            padding: 12px 28px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 1rem;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; font-size: 1rem; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .save-btn {
-            background: linear-gradient(45deg, #4caf50, #45a049);
-            color: white;
-        }
-        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76, 175, 80, 0.6); }
-        .reset-btn {
-            background: linear-gradient(45deg, #666, #888);
-            color: white;
-        }
-        .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100, 100, 100, 0.6); }
-        .journal { margin-top: 10px; }
+        .save-btn { background: linear-gradient(45deg,#4caf50,#45a049); color: white; }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.6); }
+        .reset-btn { background: linear-gradient(45deg,#666,#888); color: white; }
+        .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
+        .journal { margin-top:10px; }
         textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 107, 9, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-family: inherit;
-            resize: vertical;
+            width:100%; min-height:100px; padding:15px; border-radius:15px; border:1px solid rgba(255,107,9,0.3);
+            background:rgba(255,255,255,0.05); color:white; font-family:inherit; resize:vertical;
         }
         @media (max-width: 480px) {
             body { padding: 10px; }
-            .counter-card { 
-                padding: 30px 20px; 
-                max-width: 100vw; 
-                overflow: visible; /* ✅ Mobile Fix */
-            }
+            .counter-card { padding: 30px 20px; max-width: 100vw; }
         }
     </style>
 </head>
@@ -254,7 +111,6 @@
         <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
         <div class="bible" id="bibleVerse">Lade...</div>
     </div>
-
     <div class="counter-card">
         <div id="lastNoteContainer">
             <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
@@ -267,16 +123,10 @@
             <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
         </div>
     </div>
-
     <script>
         let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
-
-        const milestones = [3, 7, 14, 30, 40, 50, 75, 92, 100, 125, 150, 183, 200, 235, 275, 300, 333, 365];
-        const milestoneLabels = {
-            7: "Eine Woche frei!", 30: "Ein Monat frei!", 92: "Drei Monate frei!", 
-            183: "Ein halbes Jahr frei!", 275: "Neun Monate frei!", 365: "1 Jahr frei!"
-        };
-
+        const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
+        const milestoneLabels = {7:"Eine Woche frei!",30:"Ein Monat frei!",92:"Drei Monate frei!",183:"Ein halbes Jahr frei!",275:"Neun Monate frei!",365:"1 Jahr frei!"};
         const verses = [
             "„Durch Christus können wir alles schaffen.“ – Philipper 4:13",
             "„Er gibt Kraft den Müden.“ – Jesaja 40:29",
@@ -310,18 +160,15 @@
             "„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
             "„Ihr seid mehr als Überwinder!“ – Römer 8:37",
         ];
-
         function getRandomVerse() {
             return verses[Math.floor(Math.random() * verses.length)];
         }
-
         function getNextMilestone(currentDays) {
             for (let milestone of milestones) {
                 if (currentDays < milestone) return milestone;
             }
             return 365;
         }
-
         function getLastMilestone(currentDays) {
             let last = 0;
             for (let i = 0; i < milestones.length; i++) {
@@ -330,8 +177,6 @@
             }
             return last;
         }
-
-        /* ✅ FIX: Korrekte Tick-Generierung für Zwischen-Tage */
         function createMilestoneScale(currentDays) {
             const nextMilestone = getNextMilestone(currentDays);
             const lastMilestone = getLastMilestone(currentDays);
@@ -340,15 +185,12 @@
             const progress = (progressInRange / totalRange) * 100;
             const daysLeft = nextMilestone - currentDays;
             const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
-
-            // ✅ FIX: Genau (totalRange-1) Ticks zwischen Start & Ziel
             const ticksCount = Math.max(0, totalRange - 1);
             let ticksHtml = '<div class="scale-ticks">';
             for (let i = 0; i < ticksCount; i++) {
                 ticksHtml += '<div class="scale-tick"></div>';
             }
             ticksHtml += '</div>';
-
             const scaleHtml = `
                 <div class="scale-container">
                     <div class="scale-fill" style="width: ${progress}%;"></div>
@@ -367,11 +209,8 @@
                 <div class="next-milestone">Nächstes Ziel: ${label}</div>
                 <div class="days-left">⏳ ${daysLeft} Tage fehlen</div>
             `;
-
             document.getElementById('milestoneScale').innerHTML = scaleHtml;
         }
-
-        /* ✅ FIX: Notiz speichern funktioniert jetzt */
         function saveNote() {
             let note = document.getElementById('journal').value.trim();
             if (!note) return alert('Bitte eine Notiz eingeben.');
@@ -379,27 +218,18 @@
                 note = note.substring(0, 140);
                 alert('Notiz auf 140 Zeichen gekürzt.');
             }
-            data.journal.push(note); // ✅ FIX: push() statt data.journal.length
+            data.journal.push(note);
             saveData();
             document.getElementById('journal').value = '';
-            updateDisplay(); // ✅ Sofort anzeigen
+            updateDisplay();
         }
-
         function updateDisplay() {
             const now = new Date();
             const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
-            
             document.getElementById('days').textContent = daysFree;
-            document.getElementById('lastView').textContent = data.lastReset 
-                ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` 
-                : 'Noch nie zurückgesetzt';
-
+            document.getElementById('lastView').textContent = data.lastReset ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` : 'Noch nie zurückgesetzt';
             createMilestoneScale(daysFree);
-
-            // ✅ Bibelvers IMMER laden (nicht nur beim Reset)
             document.getElementById('bibleVerse').textContent = getRandomVerse();
-
-            // ✅ Letzte Notiz anzeigen
             const lastNoteEl = document.getElementById('lastNote');
             const lastNoteContainer = document.getElementById('lastNoteContainer');
             if (data.journal.length > 0) {
@@ -408,11 +238,9 @@
                 lastNoteContainer.style.display = 'block';
             } else {
                 lastNoteEl.style.display = 'none';
-                lastNoteContainer.style.display = 'block'; // ✅ Container bleibt sichtbar
+                lastNoteContainer.style.display = 'block';
                 lastNoteEl.textContent = 'Noch keine Notiz';
             }
-
-            // Milestone-Check
             const milestone = document.getElementById('milestone');
             if (milestones.includes(daysFree)) {
                 milestone.style.display = 'block';
@@ -421,24 +249,17 @@
                 milestone.style.display = 'none';
             }
         }
-
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
                 const note = prompt('Notiz an dich selbst (optional, max. 140 Zeichen)');
-                if (note && note.trim()) {
-                    data.journal.push(note.trim().substring(0, 140));
-                }
-                saveData();
-                updateDisplay();
+                if (note && note.trim()) data.journal.push(note.trim().substring(0,140));
+                saveData(); updateDisplay();
             }
         }
-
         function saveData() {
             localStorage.setItem('freiTracker', JSON.stringify(data));
         }
-
-        // ✅ Initial & alle 60s updaten
         updateDisplay();
         setInterval(updateDisplay, 60000);
     </script>
