@@ -2,48 +2,50 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <!-- IONOS FRAME MOBILE-FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="true">
     <title>FreiTracker – Tage ohne Porno</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { 
-            height: 100vh !important; width: 100vw !important;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%) !important; 
-            color: white !important; 
-            font-family: 'Montserrat', sans-serif !important; 
-            overflow: hidden !important;
+            height: 100vh; width: 100vw;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%); 
+            color: white; font-family: 'Montserrat', sans-serif; overflow: hidden;
         }
         body { 
-            display: flex !important; 
-            flex-direction: column !important; 
-            align-items: center !important; 
-            justify-content: center !important; 
-            padding: 20px !important; 
-            gap: 30px !important; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            padding: 20px; gap: 30px; min-height: 100vh;
         }
         .counter-card { 
-            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)) !important; 
-            backdrop-filter: blur(20px) !important; border-radius: 30px !important; padding: 40px 30px !important; 
-            text-align: center !important; box-shadow: 0 25px 50px rgba(0,0,0,0.5) !important; 
-            width: 100% !important; max-width: 450px !important; 
-            border: 1px solid rgba(255,107,9,0.2) !important; transition: transform 0.3s ease !important;
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); 
+            backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 30px; text-align: center; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); width: 100%; max-width: 450px; 
+            border: 1px solid rgba(255,107,9,0.2); transition: transform 0.3s ease;
         }
-        @media (min-width: 900px) { body { flex-direction: row !important; gap: 40px !important; } }
-        /* Rest unverändert - siehe vorheriger Code */
-        .counter-card:hover { transform: scale(1.02) !important; }
-        .days { font-size: clamp(3rem, 10vw, 5rem) !important; font-weight: 700 !important; background: linear-gradient(45deg, #ff6b09, #ff8e53) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; margin: 20px 0 !important; }
-        .streak-badge { background: linear-gradient(45deg, #ff6b09, #ff8e53) !important; padding: 12px 25px !important; border-radius: 50px !important; font-weight: 600 !important; display: inline-block !important; margin: 10px 0 !important; box-shadow: 0 5px 15px rgba(255,107,9,0.4) !important; }
-        /* Weitere Styles wie vorher... */
+        @media (min-width: 900px) { body { flex-direction: row; gap: 40px; } }
+        .counter-card:hover { transform: scale(1.02); }
+        h1 { font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 20px; }
+        .days { font-size: clamp(3rem, 10vw, 5rem); font-weight: 700; background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
+        .streak-badge { background: linear-gradient(45deg, #ff6b09, #ff8e53); padding: 12px 25px; border-radius: 50px; font-weight: 600; display: inline-block; margin: 10px 0; box-shadow: 0 5px 15px rgba(255,107,9,0.4); }
+        .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
+        .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; }
+        .buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        button { background: linear-gradient(45deg, #ff6b09, #ff8e53); border: none; padding: 15px 30px; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: inherit; font-size: 1rem; box-shadow: 0 5px 15px rgba(255,107,9,0.4); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,107,9,0.6); }
+        button.reset { background: linear-gradient(45deg, #666, #888); }
+        button.reset:hover { box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
+        .journal { margin-top: 20px; }
+        textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,107,9,0.3); background: rgba(255,255,255,0.05); color: white; font-family: inherit; resize: vertical; }
+        @media (max-width: 480px) { body { padding: 10px; } .counter-card { padding: 30px 20px; } }
     </style>
 </head>
 <body>
-    <!-- HTML-Inhalt wie vorher (Counter-Cards, Buttons, Script) -->
     <div class="counter-card">
-        <h1 style="font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 20px;">FreiTracker</h1>
+        <h1>FreiTracker</h1>
         <div class="days" id="days">0</div>
         <div class="streak-badge" id="badge">Neuer Start</div>
         <div class="last-view" id="lastView">Noch nie zurückgesetzt</div>
@@ -59,13 +61,43 @@
             <textarea id="journal" placeholder="Heute reflektieren: Was hat geholfen? Gebet? Spaziergang?"></textarea>
         </div>
     </div>
-    <!-- JavaScript wie vorher -->
     <script>
-        // Komplettes Script wie im vorherigen Code
         let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [], checkIns: [] };
-        const verses = [ /* 31 Verse wie vorher */ ];
+        const verses = ["„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29","„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10","„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31","„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1","„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1","„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37","„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58","„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25","„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13","„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2","„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2","„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12","„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10","„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9","„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26","„Ihr seid mehr als Überwinder!“ – Römer 8:37"];
         function getRandomVerse() { return verses[Math.floor(Math.random() * verses.length)]; }
-        // Rest der Funktionen unverändert...
+        function updateDisplay() {
+            const now = new Date();
+            const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
+            document.getElementById('days').textContent = daysFree;
+            document.getElementById('lastView').textContent = data.lastReset ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}` : 'Noch nie zurückgesetzt';
+            const badge = document.getElementById('badge');
+            const milestone = document.getElementById('milestone');
+            if (daysFree === 0) { badge.textContent = 'Neuer Start'; }
+            else if (daysFree < 7) { badge.textContent = `${daysFree} Tage Streak`; }
+            else if (daysFree < 30) { badge.textContent = '1-Wochen-Sieger!'; }
+            else { badge.textContent = 'Monatsheld!'; }
+            if (daysFree % 7 === 0 && daysFree > 0) { milestone.style.display = 'block'; setTimeout(() => milestone.style.display = 'none', 3000); }
+            document.getElementById('bibleVerse').textContent = getRandomVerse();
+            document.getElementById('journal').value = data.journal[data.journal.length - 1] || '';
+        }
+        function checkIn() {
+            const today = new Date().toDateString();
+            if (data.checkIns[data.checkIns.length - 1] !== today) {
+                data.checkIns.push(today);
+                saveData();
+            }
+            updateDisplay();
+        }
+        function resetCounter() {
+            if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
+                data.lastReset = new Date().toISOString();
+                const note = prompt('Notiz an dich selbst (optional)');
+                data.journal.push(note || 'Zurückgesetzt');
+                saveData();
+                updateDisplay();
+            }
+        }
+        function saveData() { localStorage.setItem('freiTracker', JSON.stringify(data)); }
         updateDisplay();
     </script>
 </body>
