@@ -22,9 +22,14 @@
         }
         .counter-card {
             background: linear-gradient(145deg, rgba(255,255,255,0.08),rgba(255,255,255,0.03));
-            backdrop-filter: blur(20px); border-radius: 30px;
-            padding: 40px 30px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            width: 100%; max-width: 450px; border: 1px solid rgba(255,107,9,0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(255,107,9,0.2);
         }
         @media (min-width: 900px) {
             body { flex-direction: row; justify-content: center; gap: 40px; }
@@ -37,42 +42,38 @@
         .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
         .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; min-height: 2.5em; }
-        /* Skala & Ticks exakt auf Track */
+        /* EINFACHE TAGES-SKALA */
         .milestone-scale { margin: 25px 0; }
-        .scale-container {
-            position: relative; height: 70px; background: rgba(255,255,255,0.05);
-            border-radius: 30px; padding: 15px 20px; border: 2px solid rgba(255,107,9,0.3); overflow: visible;
+        .simple-scale-container { width: 100%; }
+        .simple-scale-line {
+            position: relative;
+            width: 100%; height: 6px; border-radius: 999px;
+            background: rgba(255,255,255,0.15);
+            overflow: visible;
         }
-        .scale-track {
-            position: relative; height: 40px; background: linear-gradient(90deg,rgba(255,107,9,0.1),rgba(255,142,83,0.1));
-            border-radius: 20px; margin: 0;
+        .simple-scale-fill {
+            position: absolute; left: 0; top: 0; height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg,#ff6b09,#ff8e53);
+            width: 0%; transition: width 0.4s ease;
         }
-        .scale-ticks {
-            position: absolute; top: 50%; left: 20px; right: 20px;
-            height: 2px; display: flex; justify-content: space-between;
-            transform: translateY(-50%); pointer-events: none; background: transparent;
+        .simple-scale-ticks {
+            position: absolute; left: 0; top: 50%; width: 100%; height: 1px;
+            transform: translateY(-50%); pointer-events: none;
         }
-        .scale-tick {
-            width: 2px; height: 14px; background: rgba(255,255,255,0.7); border-radius: 1px; flex: none;
+        .simple-scale-tick {
+            position: absolute; width: 2px; height: 10px;
+            background: rgba(255,255,255,0.7);
+            top: 50%; transform: translate(-50%, -50%);
+            border-radius: 1px;
         }
-        .scale-marker {
-            width: 4px; height: 20px; background: rgba(255,255,255,0.8); border-radius: 2px;
-            position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
-        }
-        .scale-marker.next {
-            background: linear-gradient(180deg,#ff6b09,#ff8e53); width: 8px; box-shadow: 0 0 20px rgba(255,107,9,0.8);
-        }
-        .scale-fill {
-            height: 100%; background: linear-gradient(90deg,#ff6b09,#ff8e53,#ffa726);
-            border-radius: 20px; position: absolute; left: 0; top: 0; transition: width 1s ease; box-shadow: 0 0 30px rgba(255,107,9,0.5);
-        }
-        .scale-labels {
-            display: flex; justify-content: space-between; margin-top: 10px;
-            font-size: 0.85rem; opacity: 0.7;
+        .simple-scale-labels {
+            display: flex; justify-content: space-between;
+            margin-top: 8px; font-size: 0.85rem; opacity: 0.8;
         }
         .next-milestone {
             font-weight: 700; color: #ff6b09; font-size: 1.2rem; margin-top: 15px;
-            background: linear-gradient(45deg,#ff6b09,#ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
         .last-note {
@@ -80,16 +81,14 @@
             padding:12px; background:rgba(255,142,83,0.15); border-radius:12px; border-left:5px solid #ff6b09;
             word-wrap: break-word; max-height:10em; overflow-y:auto; white-space:pre-wrap;
         }
-        .action-section {
-            margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;
-        }
+        .action-section {margin-top:20px; display:flex; gap:15px; flex-wrap:wrap; justify-content:center;}
         .save-btn, .reset-btn {
             padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;
             font-family: inherit; font-size: 1rem; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .save-btn { background: linear-gradient(45deg,#4caf50,#45a049); color: white; }
-        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.6); }
-        .reset-btn { background: linear-gradient(45deg,#666,#888); color: white; }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.6);}
+        .reset-btn { background: linear-gradient(45deg,#666,#888); color: white;}
         .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
         .journal { margin-top:10px; }
         textarea {
@@ -177,39 +176,43 @@
             }
             return last;
         }
+        // NEUE SKALA (JS)
         function createMilestoneScale(currentDays) {
             const nextMilestone = getNextMilestone(currentDays);
             const lastMilestone = getLastMilestone(currentDays);
-            const totalRange = nextMilestone - lastMilestone;
-            const progressInRange = currentDays - lastMilestone;
-            const progress = (progressInRange / totalRange) * 100;
-            const daysLeft = nextMilestone - currentDays;
-            const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
+            const start = lastMilestone;
+            const end = nextMilestone;
+            const totalRange = end - start;
+            const progressInRange = Math.max(0, Math.min(currentDays - start, totalRange));
+            const progressPercent = totalRange > 0 ? (progressInRange / totalRange) * 100 : 0;
+            // Anzahl der Tage dazwischen = totalRange - 1
             const ticksCount = Math.max(0, totalRange - 1);
-            let ticksHtml = '<div class="scale-ticks">';
-            for (let i = 0; i < ticksCount; i++) {
-                ticksHtml += '<div class="scale-tick"></div>';
+            let html = `
+                <div class="simple-scale-container">
+                    <div class="simple-scale-line">
+                        <div class="simple-scale-fill" style="width:${progressPercent}%;"></div>
+                        <div class="simple-scale-ticks">
+            `;
+            for (let i = 1; i <= ticksCount; i++) {
+                const pos = (i / totalRange) * 100;
+                html += `<div class="simple-scale-tick" style="left:${pos}%;"></div>`;
             }
-            ticksHtml += '</div>';
-            const scaleHtml = `
-                <div class="scale-container">
-                    <div class="scale-fill" style="width: ${progress}%;"></div>
-                    ${ticksHtml}
-                    <div class="scale-track">
-                        <div class="scale-marker" style="left:0%"></div>
-                        <div class="scale-marker next" style="left: ${progress}%;"></div>
-                        <div class="scale-marker" style="left: 100%;"></div>
+            html += `
+                        </div>
+                    </div>
+                    <div class="simple-scale-labels">
+                        <span>${start}</span>
+                        <span>${end}</span>
                     </div>
                 </div>
-                <div class="scale-labels">
-                    <span>${lastMilestone}</span>
-                    <span>${currentDays}</span>
-                    <span>${nextMilestone}</span>
-                </div>
-                <div class="next-milestone">Nächstes Ziel: ${label}</div>
-                <div class="days-left">⏳ ${daysLeft} Tage fehlen</div>
             `;
-            document.getElementById('milestoneScale').innerHTML = scaleHtml;
+            document.getElementById('milestoneScale').innerHTML = html;
+            const daysLeft = end - currentDays;
+            const label = milestoneLabels[end] || `${end} Tage`;
+            document.getElementById('milestoneScale').innerHTML += `
+                <div class="next-milestone">Nächstes Ziel: ${label}</div>
+                <div class="days-left">⏳ ${Math.max(0, daysLeft)} Tage fehlen</div>
+            `;
         }
         function saveNote() {
             let note = document.getElementById('journal').value.trim();
