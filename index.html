@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="HandheldFriendly" content="true" />
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
@@ -16,20 +16,21 @@
             padding: 0;
             box-sizing: border-box;
         }
-        html,
-        body {
-            height: 100vh;
-            width: 100vw;
+        html, body {
+            height: 100%;
+            width: 100%;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
             color: white;
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
+            overflow-y: auto;  /* Scrollen erlauben auf mobilen Geräten */
+            -webkit-overflow-scrolling: touch; /* smoother scroll on iOS */
+            scroll-behavior: smooth;
         }
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 20px;
             gap: 30px;
             min-height: 100vh;
@@ -49,6 +50,7 @@
         @media (min-width: 900px) {
             body {
                 flex-direction: row;
+                justify-content: center;
                 gap: 40px;
             }
         }
@@ -67,15 +69,6 @@
             -webkit-text-fill-color: transparent;
             margin: 20px 0;
         }
-        .streak-badge {
-            background: linear-gradient(45deg, #ff6b09, #ff8e53);
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            display: inline-block;
-            margin: 10px 0;
-            box-shadow: 0 5px 15px rgba(255, 107, 9, 0.4);
-        }
         .last-view {
             font-size: 1.1rem;
             opacity: 0.8;
@@ -88,8 +81,7 @@
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0%,
-            100% {
+            0%, 100% {
                 opacity: 1;
             }
             50% {
@@ -101,6 +93,7 @@
             opacity: 0.9;
             margin-top: 10px;
             font-size: 0.95rem;
+            min-height: 2.5em;
         }
         /* GAMIFICATION PROGRESS BAR MIT STRICHEN NUR FÜR REST-TAGE */
         .milestone-scale {
@@ -250,17 +243,14 @@
             font-family: inherit;
             resize: vertical;
         }
-        textarea:empty::before {
-            content: attr(placeholder);
-            color: #ff8e53;
-            opacity: 0.7;
-        }
         @media (max-width: 480px) {
             body {
                 padding: 10px;
             }
             .counter-card {
                 padding: 30px 20px;
+                max-width: 100vw;
+                overflow-x: hidden;
             }
         }
     </style>
@@ -273,7 +263,7 @@
         <!-- GAMIFICATION SCALE -->
         <div class="milestone-scale" id="milestoneScale"></div>
 
-        <!-- Entfernt: Überflüssiger orangener kleiner Button -->
+        <!-- entfernt orangener irrelevanter Button -->
 
         <div class="last-view" id="lastView"></div>
         <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
@@ -366,13 +356,10 @@
             const lastMilestone = getLastMilestone(currentDays);
             const totalRange = nextMilestone - lastMilestone;
             const progressInRange = currentDays - lastMilestone;
-            // Progress in % relative zum Intervall zwischen letztem und nächstem Ziel
             const progress = (progressInRange / totalRange) * 100;
             const daysLeft = nextMilestone - currentDays;
             const label = milestoneLabels[nextMilestone] || `${nextMilestone} Tage`;
 
-            // Ticks = Anzahl Tage zwischen letzte und nächste Etappe - 1 (zwischenwerte)
-            // Maximal 182 Ticks (für Performance) sonst verkleinern Anzahl Ticks und spacing später
             let ticksCount = totalRange - 1;
             if (ticksCount < 0) ticksCount = 0;
             const maxTicks = 182;
@@ -428,7 +415,7 @@
             createMilestoneScale(daysFree);
 
             const badge = document.getElementById('badge');
-            badge.textContent = ''; // Entfernt "oranger kleiner Button"
+            badge.textContent = ''; // Entfernt den überflüssigen Button
 
             const milestone = document.getElementById('milestone');
             if (milestones.includes(daysFree)) {
@@ -438,6 +425,7 @@
                 milestone.style.display = 'none';
             }
 
+            // Bibelvers anzeigen, nicht nur "Lade..."
             document.getElementById('bibleVerse').textContent = getRandomVerse();
 
             // Letzte Notiz groß anzeigen
@@ -452,14 +440,15 @@
                 lastNoteContainer.style.display = 'none';
             }
 
+            // Textarea nach speichern leer lassen
             document.getElementById('journal').value = '';
         }
 
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
-                const note = prompt('Notiz an dich selbst (optional)');
-                if (note && note.trim()) data.journal.push(note.trim().substring(0, 140));
+                const note = prompt('Notiz an dich selbst (optional, max. 140 Zeichen)');
+                if (note && note.trim()) data.journal.push(note.trim().substring(0,140));
                 saveData();
                 updateDisplay();
             }
