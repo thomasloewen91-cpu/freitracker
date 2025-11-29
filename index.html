@@ -190,6 +190,68 @@
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
+
+        /* MOTIVIERTES POPUP */
+        .motivation-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .motivation-popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-content {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            border: 1px solid rgba(255,107,9,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+        }
+        .popup-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ff6b09;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .popup-verse {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        .popup-close-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(255,107,9,0.4);
+            transition: all 0.3s;
+        }
+        .popup-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,107,9,0.6);
+        }
     </style>
 </head>
 <body>
@@ -213,6 +275,14 @@
         <div class="action-section">
             <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
             <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
+        </div>
+    </div>
+
+    <!-- MOTIVIERTES POPUP -->
+    <div id="motivationPopup" class="motivation-popup">
+        <div class="popup-content">
+            <div id="popupMessage"></div>
+            <button class="popup-close-btn" onclick="closeMotivationPopup()">Verstanden 💪</button>
         </div>
     </div>
 
@@ -285,47 +355,18 @@
             "„Ihr seid mehr als Überwinder!“ – Römer 8:37",
         ];
 
-        const resetMessages = [
-          {
-            line: "Ein Neustart ist kein Game Over!",
-            verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16"
-          },
-          {
-            line: "Gott ist gnädiger zu dir, als du zu dir selbst!",
-            verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9"
-          },
-          {
-            line: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.",
-            verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14"
-          },
-          {
-            line: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.",
-            verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37"
-          },
-          {
-            line: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!",
-            verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1"
-          },
-          {
-            line: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.",
-            verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5"
-          },
-          {
-            line: "Steh auf! Heute ist ein neuer Tag voller Gnade.",
-            verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23"
-          },
-          {
-            line: "Du bist stärker, als du gerade glaubst.",
-            verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13"
-          },
-          {
-            line: "Scham hält dich fest. Gnade macht dich frei.",
-            verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17"
-          },
-          {
-            line: "Mach weiter! Gott ist größer als jede Versuchung.",
-            verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8"
-          }
+        // NEUE MOTIVIERUNG-NACHRICHTEN
+        const motivationMessages = [
+            { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
+            { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
+            { title: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.", verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14" },
+            { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
+            { title: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!", verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1" },
+            { title: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.", verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5" },
+            { title: "Steh auf! Heute ist ein neuer Tag voller Gnade.", verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23" },
+            { title: "Du bist stärker, als du gerade glaubst.", verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13" },
+            { title: "Scham hält dich fest. Gnade macht dich frei.", verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17" },
+            { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
         ];
 
         let lastLevelShown = 1;
@@ -334,8 +375,25 @@
             return verses[Math.floor(Math.random() * verses.length)];
         }
 
-        function getRandomResetMessage() {
-            return resetMessages[Math.floor(Math.random() * resetMessages.length)];
+        function getRandomMotivationMessage() {
+            const randomIndex = Math.floor(Math.random() * motivationMessages.length);
+            return motivationMessages[randomIndex];
+        }
+
+        function showMotivationPopup() {
+            const message = getRandomMotivationMessage();
+            const popupMessageEl = document.getElementById('popupMessage');
+            popupMessageEl.innerHTML = `
+                <div class="popup-title">${message.title}</div>
+                <div class="popup-verse">${message.verse}</div>
+            `;
+            const popup = document.getElementById('motivationPopup');
+            popup.classList.add('show');
+        }
+
+        function closeMotivationPopup() {
+            const popup = document.getElementById('motivationPopup');
+            popup.classList.remove('show');
         }
 
         function getNextMilestone(currentDays) {
@@ -375,7 +433,7 @@
             return 1;
         }
 
-        // Skala: ab Tag 366 „Deckel drauf“
+        // Skala: ab Tag 366 „Deckel drauf"
         function createMilestoneScale(currentDays) {
             const scaleEl = document.getElementById('milestoneScale');
 
@@ -467,7 +525,8 @@
 
             if (level !== lastLevelShown) {
                 levelTitleEl.classList.remove('level-fade');
-                void levelTitleEl.offsetWidth; // Reflow für Animation
+                // Reflow für Animation
+                void levelTitleEl.offsetWidth;
                 levelTitleEl.textContent = levelTitleText;
                 levelTitleEl.classList.add('level-fade');
                 lastLevelShown = level;
@@ -476,12 +535,7 @@
             }
 
             createMilestoneScale(daysFree);
-
-            // Vers nur neu laden, wenn noch kein Reset-Text gesetzt wurde
-            const bibleEl = document.getElementById('bibleVerse');
-            if (!bibleEl.dataset.locked) {
-                bibleEl.textContent = getRandomVerse();
-            }
+            document.getElementById('bibleVerse').textContent = getRandomVerse();
 
             const lastNoteEl = document.getElementById('lastNote');
             const lastNoteContainer = document.getElementById('lastNoteContainer');
@@ -504,32 +558,26 @@
             }
         }
 
+        // NEUE RESET-FUNKTION MIT MOTIVIERTEM POPUP
         function resetCounter() {
-            if (!confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
-                return;
+            if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
+                data.lastReset = new Date().toISOString();
+                saveData();
+                updateDisplay();
+                showMotivationPopup(); // Zeigt motivierende Nachricht statt Notiz-Prompt
             }
-
-            // Counter zurücksetzen
-            data.lastReset = new Date().toISOString();
-
-            // Zufällige Ermutigungsnachricht holen
-            const msg = getRandomResetMessage();
-            const bibleEl = document.getElementById('bibleVerse');
-            bibleEl.innerHTML = `<strong>${msg.line}</strong><br>${msg.verse}`;
-            bibleEl.dataset.locked = "1"; // verhindert sofortiges Überschreiben
-
-            saveData();
-            updateDisplay();
-
-            // nach 60 Sekunden wieder „freigeben“, damit sich Verse später wieder ändern können
-            setTimeout(() => {
-                delete bibleEl.dataset.locked;
-            }, 60000);
         }
 
         function saveData() {
             localStorage.setItem('freiTracker', JSON.stringify(data));
         }
+
+        // Popup auch mit ESC schließen
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMotivationPopup();
+            }
+        });
 
         updateDisplay();
         setInterval(updateDisplay, 60000);
