@@ -16,14 +16,17 @@
             overflow-y: auto;
             scroll-behavior: smooth;
         }
-        body {
+        
+        /* MAIN CONTAINER FÜR CONTENT */
+        .main-content {
+            min-height: calc(100vh - 120px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             padding: 20px;
             gap: 30px;
-            min-height: 100vh;
+            flex: 1;
         }
         
         /* HAUPTTITEL - PERFEKT ZENTRIERT MOBILE + DESKTOP */
@@ -32,7 +35,6 @@
             text-align: center;
             margin: 20px 0 30px 0;
             padding: 0 20px;
-            order: -1;
         }
         .site-title h1 {
             font-size: clamp(2rem, 6vw, 3.5rem);
@@ -46,7 +48,7 @@
         }
         
         @media (min-width: 900px) {
-            body { flex-direction: row; justify-content: center; gap: 40px; }
+            .main-content { flex-direction: row; justify-content: center; gap: 40px; }
             .site-title {
                 position: absolute;
                 top: 30px;
@@ -54,7 +56,6 @@
                 transform: translateX(-50%);
                 width: auto;
                 max-width: 800px;
-                order: unset;
             }
         }
 
@@ -178,7 +179,6 @@
             border: none;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        /* Speichern-Button ORANGE */
         .save-btn {
             background: linear-gradient(45deg,#ff6b09,#ff8e53);
             color: white;
@@ -208,7 +208,7 @@
             resize:vertical;
         }
         @media (max-width: 480px) {
-            body { padding: 10px; }
+            .main-content { padding: 10px; }
             .counter-card { padding: 30px 20px; max-width: 100vw; }
         }
 
@@ -219,6 +219,28 @@
         @keyframes levelFade {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
+        }
+
+        /* FOOTER - IMMER GANZ UNTEN */
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            color: white;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,107,9,0.2);
+            flex-shrink: 0;
+        }
+        .footer a {
+            color: #ff6b09;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         /* MOTIVIERTES POPUP */
@@ -282,58 +304,47 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255,107,9,0.6);
         }
-        /* FOOTER - GANZ UNTEN UNTER ALLEM */
-.footer {
-    width: 100%;
-    text-align: center;
-    padding: 30px 20px;
-    font-size: 0.85rem;
-    opacity: 0.8;
-    color: white;
-    margin-top: auto !important;
-    order: 999 !important;
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255,107,9,0.2);
-}
-
-@media (min-width: 900px) {
-    .footer {
-        position: relative;
-        margin-top: 40px !important;
-        order: unset !important;
-    }
-}
     </style>
 </head>
 <body>
-    <!-- HAUPTTITEL - MOBILE + DESKTOP ZENTRIERT -->
-    <div class="site-title">
-        <h1>FreiTracker – Dein Jahr der Freiheit</h1>
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="main-content">
+        <!-- HAUPTTITEL -->
+        <div class="site-title">
+            <h1>FreiTracker – Dein Jahr der Freiheit</h1>
+        </div>
+
+        <!-- COUNTER KARTEN -->
+        <div class="counter-card">
+            <h1 id="levelTitle">🚀 Level 1</h1>
+            <div class="days" id="days">0</div>
+            <div class="milestone-scale" id="milestoneScale"></div>
+            <div class="last-view" id="lastView"></div>
+            <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
+            <div class="bible" id="bibleVerse">Lade...</div>
+        </div>
+
+        <div class="counter-card">
+            <div id="lastNoteContainer">
+                <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
+            </div>
+            <div class="journal">
+                <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
+            </div>
+            <div class="action-section">
+                <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
+                <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
+            </div>
+        </div>
     </div>
 
-    <div class="counter-card">
-        <!-- dynamischer Leveltitel -->
-        <h1 id="levelTitle">🚀 Level 1</h1>
-        <div class="days" id="days">0</div>
-        <div class="milestone-scale" id="milestoneScale"></div>
-        <div class="last-view" id="lastView"></div>
-        <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
-        <div class="bible" id="bibleVerse">Lade...</div>
-    </div>
-
-    <div class="counter-card">
-        <div id="lastNoteContainer">
-            <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
-        </div>
-        <div class="journal">
-            <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
-        </div>
-        <div class="action-section">
-            <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
-            <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
-        </div>
-    </div>
+    <!-- FOOTER - GANZ UNTEN -->
+    <footer class="footer">
+        © 2025 FreiTracker – Dein Jahr der Freiheit · thomasloewen.de<br>
+        <a href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">
+            Probleme mit dem Tracker?
+        </a>
+    </footer>
 
     <!-- MOTIVIERTES POPUP -->
     <div id="motivationPopup" class="motivation-popup">
@@ -358,61 +369,31 @@
         };
 
         const levelTitles = {
-            1: "🚀 Level 1",
-            2: "⭐ Level 2",
-            3: "⛓️‍💥 Level 3",
-            4: "🗡️ Level 4",
-            5: "⚓ Level 5",
-            6: "🌟 Level 6",
-            7: "🔰 Level 7",
-            8: "🛡️ Level 8",
-            9: "⚔️ Level 9",
-            10: "🔥 Level 10",
-            11: "💥 Level 11",
-            12: "⚡ Level 12",
-            13: "🪙 Level 13",
-            14: "🏅 Level 14",
-            15: "🥇 Level 15",
-            16: "👑 Level 16",
-            17: "🦾 Level 17",
-            18: "🏆 Level 18"
+            1: "🚀 Level 1", 2: "⭐ Level 2", 3: "⛓️‍💥 Level 3", 4: "🗡️ Level 4", 5: "⚓ Level 5",
+            6: "🌟 Level 6", 7: "🔰 Level 7", 8: "🛡️ Level 8", 9: "⚔️ Level 9", 10: "🔥 Level 10",
+            11: "💥 Level 11", 12: "⚡ Level 12", 13: "🪙 Level 13", 14: "🏅 Level 14", 15: "🥇 Level 15",
+            16: "👑 Level 16", 17: "🦾 Level 17", 18: "🏆 Level 18"
         };
 
         const verses = [
-            "„Durch Christus können wir alles schaffen.“ – Philipper 4:13",
-            "„Er gibt Kraft den Müden.“ – Jesaja 40:29",
-            "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13",
-            "„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
-            "„Meine Gnade genügt dir.“ – 2. Korinther 12:9",
-            "„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
-            "„Seid stark und mutig!“ – Josua 1:9",
-            "„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
-            "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17",
-            "„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
-            "„Ich will euch erquicken.“ – Matthäus 11:28",
-            "„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
-            "„Frieden lasse ich euch.“ – Johannes 14:27",
-            "„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
-            "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17",
-            "„Euer Herz fasse Mut!“ – Psalm 31:25",
-            "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39",
-            "„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
-            "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6",
-            "„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
-            "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3",
-            "„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
-            "„Ihr seid zur Freiheit berufen.“ – Galater 5:13",
-            "„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
-            "„Ich wandle in weitem Raum.“ – Psalm 119:45",
-            "„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
-            "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4",
-            "„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
-            "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2",
-            "„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
-            "„Ihr seid mehr als Überwinder!“ – Römer 8:37",
+            "„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29",
+            "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
+            "„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
+            "„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
+            "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
+            "„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
+            "„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
+            "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25",
+            "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
+            "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
+            "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
+            "„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
+            "„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
+            "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
+            "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
+            "„Ihr seid mehr als Überwinder!“ – Römer 8:37"
         ];
 
-        // NEUE MOTIVIERUNG-NACHRICHTEN
         const motivationMessages = [
             { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
             { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
@@ -469,31 +450,22 @@
             return last;
         }
 
-        // Level anhand der Etappenbereiche bestimmen
         function getLevel(currentDays) {
-            const bounds = [0, ...milestones]; // 0,3,7,14,...,365
+            const bounds = [0, ...milestones];
             for (let i = 0; i < bounds.length - 1; i++) {
                 const start = bounds[i];
                 const end = bounds[i + 1];
-
                 if (i === bounds.length - 2) {
-                    // letzter Bereich inkl. Endtag
-                    if (currentDays >= start && currentDays <= end) {
-                        return i + 1;
-                    }
+                    if (currentDays >= start && currentDays <= end) return i + 1;
                 } else {
-                    if (currentDays >= start && currentDays < end) {
-                        return i + 1;
-                    }
+                    if (currentDays >= start && currentDays < end) return i + 1;
                 }
             }
             return 1;
         }
 
-        // Skala: ab Tag 366 „Deckel drauf"
         function createMilestoneScale(currentDays) {
             const scaleEl = document.getElementById('milestoneScale');
-
             if (currentDays >= 366) {
                 const html = `
                     <div class="simple-scale-container">
@@ -501,8 +473,7 @@
                             <div class="simple-scale-fill" style="width:100%;"></div>
                         </div>
                         <div class="simple-scale-labels">
-                            <span>0</span>
-                            <span>365</span>
+                            <span>0</span><span>365</span>
                         </div>
                     </div>
                     <div class="next-milestone">Nächstes Ziel: 365 Tage</div>
@@ -535,8 +506,7 @@
                         </div>
                     </div>
                     <div class="simple-scale-labels">
-                        <span>${start}</span>
-                        <span>${end}</span>
+                        <span>${start}</span><span>${end}</span>
                     </div>
                 </div>
             `;
@@ -547,7 +517,6 @@
                 <div class="next-milestone">Nächstes Ziel: ${label}</div>
                 <div class="days-left">⏳ ${Math.max(0, daysLeft)} Tage fehlen</div>
             `;
-
             scaleEl.innerHTML = html;
         }
 
@@ -582,7 +551,6 @@
 
             if (level !== lastLevelShown) {
                 levelTitleEl.classList.remove('level-fade');
-                // Reflow für Animation
                 void levelTitleEl.offsetWidth;
                 levelTitleEl.textContent = levelTitleText;
                 levelTitleEl.classList.add('level-fade');
@@ -603,7 +571,6 @@
             } else {
                 lastNoteEl.style.display = 'none';
                 lastNoteContainer.style.display = 'block';
-                lastNoteEl.textContent = 'Noch keine Notiz';
             }
 
             const milestone = document.getElementById('milestone');
@@ -615,13 +582,12 @@
             }
         }
 
-        // NEUE RESET-FUNKTION MIT MOTIVIERTEM POPUP
         function resetCounter() {
             if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
                 data.lastReset = new Date().toISOString();
                 saveData();
                 updateDisplay();
-                showMotivationPopup(); // Zeigt motivierende Nachricht statt Notiz-Prompt
+                showMotivationPopup();
             }
         }
 
@@ -629,7 +595,7 @@
             localStorage.setItem('freiTracker', JSON.stringify(data));
         }
 
-        // Popup auch mit ESC schließen
+        // Popup mit ESC schließen
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeMotivationPopup();
@@ -639,12 +605,6 @@
         updateDisplay();
         setInterval(updateDisplay, 60000);
     </script>
-<footer class="footer">
-    © 2025 FreiTracker – Dein Jahr der Freiheit · thomasloewen.de<br>
-    <a href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker" 
-       style="color: #ff6b09; text-decoration: none; font-weight: 600;">
-        Probleme mit dem Tracker?
-    </a>
-</footer>
 </body>
 </html>
+
