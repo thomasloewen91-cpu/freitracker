@@ -47,18 +47,36 @@
             display: block;
         }
         
-        @media (min-width: 900px) {
-            .main-content { flex-direction: row; justify-content: center; gap: 40px; padding-top: 120px; }
-            .site-title {
-                position: absolute;
-                top: 50px;  /* ← MEHR LUFT OBEN */
-                left: 50%;
-                transform: translateX(-50%);
-                width: auto;
-                max-width: 800px;
-                z-index: 10;  /* ← TITEL ÜBER KARTEN */
-            }
-        }
+        /* MOBILE: Weniger Abstand */
+@media (max-width: 899px) {
+    .site-title {
+        margin: 30px 0 50px 0 !important;
+    }
+    .main-content {
+        padding-top: 20px;
+    }
+}
+
+/* DESKTOP: Mehr Abstand, Titel fixiert */
+@media (min-width: 900px) {
+    .main-content { 
+        flex-direction: row; 
+        justify-content: center; 
+        gap: 40px; 
+        padding-top: 140px;  /* ← GENUG LUFT FÜR KARTEN */
+    }
+    .site-title {
+        position: absolute;
+        top: 60px;              /* ← IDEAL FÜR DESKTOP */
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        max-width: 800px;
+        z-index: 10;
+        margin: 0 !important;
+    }
+}
+
 
 
         .counter-card {
