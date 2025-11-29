@@ -6,23 +6,6 @@
     <title>FreiTracker – Dein Jahr der Freiheit</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        /* HAUPTTITEL ÜBER BEIDE KARTEN ZENTRIEREN */
-.site-title {
-    width: 100% !important;
-    text-align: center !important;
-    margin: 40px 0 20px 0 !important;
-    padding: 0 20px !important;
-    order: -1; /* Stellt sicher, dass es ganz oben steht */
-}
-
-@media (min-width: 900px) {
-    .site-title h1 {
-        max-width: 800px !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-}
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             height: 100%;
@@ -42,6 +25,39 @@
             gap: 30px;
             min-height: 100vh;
         }
+        
+        /* HAUPTTITEL - PERFEKT ZENTRIERT MOBILE + DESKTOP */
+        .site-title {
+            width: 100%;
+            text-align: center;
+            margin: 20px 0 30px 0;
+            padding: 0 20px;
+            order: -1;
+        }
+        .site-title h1 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin: 0;
+            display: block;
+        }
+        
+        @media (min-width: 900px) {
+            body { flex-direction: row; justify-content: center; gap: 40px; }
+            .site-title {
+                position: absolute;
+                top: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                max-width: 800px;
+                order: unset;
+            }
+        }
+
         .counter-card {
             background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
             backdrop-filter: blur(20px);
@@ -52,9 +68,6 @@
             width: 100%;
             max-width: 450px;
             border: 1px solid rgba(255,107,9,0.2);
-        }
-        @media (min-width: 900px) {
-            body { flex-direction: row; justify-content: center; gap: 40px; }
         }
 
         /* Level-Titel */
@@ -272,14 +285,10 @@
     </style>
 </head>
 <body>
-    <!-- HAUPTTITEL - PERFEKT ZENTRIERT -->
+    <!-- HAUPTTITEL - MOBILE + DESKTOP ZENTRIERT -->
     <div class="site-title">
-     <h1 style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; color: #ff6b09; background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin: 0; display: block;">
-        FreiTracker – Dein Jahr der Freiheit
-     </h1>
+        <h1>FreiTracker – Dein Jahr der Freiheit</h1>
     </div>
-
-
 
     <div class="counter-card">
         <!-- dynamischer Leveltitel -->
@@ -386,7 +395,7 @@
             { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
             { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
             { title: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.", verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14" },
-            { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Beziehung zu ihn.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
+            { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
             { title: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!", verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1" },
             { title: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.", verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5" },
             { title: "Steh auf! Heute ist ein neuer Tag voller Gnade.", verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23" },
