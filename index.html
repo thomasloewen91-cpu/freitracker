@@ -285,10 +285,57 @@
             "„Ihr seid mehr als Überwinder!“ – Römer 8:37",
         ];
 
+        const resetMessages = [
+          {
+            line: "Ein Neustart ist kein Game Over!",
+            verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16"
+          },
+          {
+            line: "Gott ist gnädiger zu dir, als du zu dir selbst!",
+            verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9"
+          },
+          {
+            line: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.",
+            verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14"
+          },
+          {
+            line: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.",
+            verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37"
+          },
+          {
+            line: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!",
+            verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1"
+          },
+          {
+            line: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.",
+            verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5"
+          },
+          {
+            line: "Steh auf! Heute ist ein neuer Tag voller Gnade.",
+            verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23"
+          },
+          {
+            line: "Du bist stärker, als du gerade glaubst.",
+            verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13"
+          },
+          {
+            line: "Scham hält dich fest. Gnade macht dich frei.",
+            verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17"
+          },
+          {
+            line: "Mach weiter! Gott ist größer als jede Versuchung.",
+            verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8"
+          }
+        ];
+
         let lastLevelShown = 1;
 
         function getRandomVerse() {
             return verses[Math.floor(Math.random() * verses.length)];
+        }
+
+        function getRandomResetMessage() {
+            return resetMessages[Math.floor(Math.random() * resetMessages.length)];
         }
 
         function getNextMilestone(currentDays) {
@@ -420,8 +467,7 @@
 
             if (level !== lastLevelShown) {
                 levelTitleEl.classList.remove('level-fade');
-                // Reflow für Animation
-                void levelTitleEl.offsetWidth;
+                void levelTitleEl.offsetWidth; // Reflow für Animation
                 levelTitleEl.textContent = levelTitleText;
                 levelTitleEl.classList.add('level-fade');
                 lastLevelShown = level;
@@ -430,7 +476,12 @@
             }
 
             createMilestoneScale(daysFree);
-            document.getElementById('bibleVerse').textContent = getRandomVerse();
+
+            // Vers nur neu laden, wenn noch kein Reset-Text gesetzt wurde
+            const bibleEl = document.getElementById('bibleVerse');
+            if (!bibleEl.dataset.locked) {
+                bibleEl.textContent = getRandomVerse();
+            }
 
             const lastNoteEl = document.getElementById('lastNote');
             const lastNoteContainer = document.getElementById('lastNoteContainer');
@@ -453,53 +504,28 @@
             }
         }
 
-const resetMessages = [
-  {
-    line: "Ein Neustart ist kein Game Over!",
-    verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16"
-  },
-  {
-    line: "Gott ist gnädiger zu dir, als du zu dir selbst!",
-    verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9"
-  },
-  {
-    line: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.",
-    verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14"
-  },
-  {
-    line: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.",
-    verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37"
-  },
-  {
-    line: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!",
-    verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1"
-  },
-  {
-    line: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.",
-    verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5"
-  },
-  {
-    line: "Steh auf! Heute ist ein neuer Tag voller Gnade.",
-    verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23"
-  },
-  {
-    line: "Du bist stärker, als du gerade glaubst.",
-    verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13"
-  },
-  {
-    line: "Scham hält dich fest. Gnade macht dich frei.",
-    verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17"
-  },
-  {
-    line: "Mach weiter! Gott ist größer als jede Versuchung.",
-    verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8"
-  }
-];
+        function resetCounter() {
+            if (!confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
+                return;
+            }
 
-function getRandomResetMessage() {
-  return resetMessages[Math.floor(Math.random() * resetMessages.length)];
-}
+            // Counter zurücksetzen
+            data.lastReset = new Date().toISOString();
 
+            // Zufällige Ermutigungsnachricht holen
+            const msg = getRandomResetMessage();
+            const bibleEl = document.getElementById('bibleVerse');
+            bibleEl.innerHTML = `<strong>${msg.line}</strong><br>${msg.verse}`;
+            bibleEl.dataset.locked = "1"; // verhindert sofortiges Überschreiben
+
+            saveData();
+            updateDisplay();
+
+            // nach 60 Sekunden wieder „freigeben“, damit sich Verse später wieder ändern können
+            setTimeout(() => {
+                delete bibleEl.dataset.locked;
+            }, 60000);
+        }
 
         function saveData() {
             localStorage.setItem('freiTracker', JSON.stringify(data));
