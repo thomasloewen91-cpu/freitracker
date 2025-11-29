@@ -282,6 +282,28 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255,107,9,0.6);
         }
+        /* FOOTER - GANZ UNTEN UNTER ALLEM */
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    color: white;
+    margin-top: auto !important;
+    order: 999 !important;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,107,9,0.2);
+}
+
+@media (min-width: 900px) {
+    .footer {
+        position: relative;
+        margin-top: 40px !important;
+        order: unset !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -617,5 +639,12 @@
         updateDisplay();
         setInterval(updateDisplay, 60000);
     </script>
+<footer class="footer">
+    © 2025 FreiTracker – Dein Jahr der Freiheit · thomasloewen.de<br>
+    <a href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker" 
+       style="color: #ff6b09; text-decoration: none; font-weight: 600;">
+        Probleme mit dem Tracker?
+    </a>
+</footer>
 </body>
 </html>
