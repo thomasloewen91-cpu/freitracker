@@ -6,6 +6,23 @@
     <title>FreiTracker – Dein Jahr der Freiheit</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
+        /* HAUPTTITEL ÜBER BEIDE KARTEN ZENTRIEREN */
+.site-title {
+    width: 100% !important;
+    text-align: center !important;
+    margin: 40px 0 20px 0 !important;
+    padding: 0 20px !important;
+    order: -1; /* Stellt sicher, dass es ganz oben steht */
+}
+
+@media (min-width: 900px) {
+    .site-title h1 {
+        max-width: 800px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             height: 100%;
@@ -255,13 +272,13 @@
     </style>
 </head>
 <body>
-    <body>
-    <!-- HAUPTTITEL - MOBIL & DESKTOP ZENTRIERT -->
-<div style="width: 100%; text-align: center; margin: 40px 0 20px 0; padding: 0 20px;">
-    <h1 style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; color: #ff6b09; background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin: 0; display: inline-block;">
+    <!-- HAUPTTITEL - PERFEKT ZENTRIERT -->
+<div class="site-title">
+    <h1 style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; color: #ff6b09; background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin: 0; display: block;">
         FreiTracker – Dein Jahr der Freiheit
     </h1>
 </div>
+
 
 
     <div class="counter-card">
