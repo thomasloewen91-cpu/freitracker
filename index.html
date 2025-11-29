@@ -17,11 +17,16 @@
             scroll-behavior: smooth;
         }
         body {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: flex-start; padding: 20px; gap: 30px; min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            gap: 30px;
+            min-height: 100vh;
         }
         .counter-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+            background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 40px 30px;
@@ -34,10 +39,21 @@
         @media (min-width: 900px) {
             body { flex-direction: row; justify-content: center; gap: 40px; }
         }
-        h1 { font-size: clamp(1.5rem,5vw,2rem); margin-bottom: 20px; }
-        .days { font-size: clamp(3rem,10vw,5rem); font-weight: 700;
+
+        /* Level-Titel */
+        h1#levelTitle {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            margin-bottom: 10px;
+        }
+
+        .days {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 700;
             background: linear-gradient(45deg,#ff6b09,#ff8e53);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0 20px;
+        }
         .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
         .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
@@ -48,47 +64,91 @@
         .simple-scale-container { width: 100%; }
         .simple-scale-line {
             position: relative;
-            width: 100%; height: 6px; border-radius: 999px;
+            width: 100%;
+            height: 6px;
+            border-radius: 999px;
             background: rgba(255,255,255,0.15);
             overflow: visible;
         }
         .simple-scale-fill {
-            position: absolute; left: 0; top: 0; height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
             border-radius: 999px;
             background: linear-gradient(90deg,#ff6b09,#ff8e53);
-            width: 0%; transition: width 0.4s ease;
+            width: 0%;
+            transition: width 0.4s ease;
         }
         .simple-scale-ticks {
-            position: absolute; left: 0; top: 50%; width: 100%; height: 1px;
-            transform: translateY(-50%); pointer-events: none;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            transform: translateY(-50%);
+            pointer-events: none;
         }
         .simple-scale-tick {
-            position: absolute; width: 2px; height: 10px;
+            position: absolute;
+            width: 2px;
+            height: 10px;
             background: rgba(255,255,255,0.7);
-            top: 50%; transform: translate(-50%, -50%);
+            top: 50%;
+            transform: translate(-50%, -50%);
             border-radius: 1px;
         }
         .simple-scale-labels {
-            display: flex; justify-content: space-between;
-            margin-top: 8px; font-size: 0.85rem; opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            opacity: 0.8;
         }
         .next-milestone {
-            font-weight: 700; color: #ff6b09; font-size: 1.2rem; margin-top: 15px;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            color: #ff6b09;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .days-left { font-size: 1.5rem; color: #ff8e53; font-weight: 600; }
 
         .last-note {
-            font-size: 1.3rem; font-weight: 700; color: #ff6b09; margin-bottom: 15px;
-            padding:12px; background:rgba(255,142,83,0.15); border-radius:12px; border-left:5px solid #ff6b09;
-            word-wrap: break-word; max-height:10em; overflow-y:auto; white-space:pre-wrap;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff6b09;
+            margin-bottom: 15px;
+            padding:12px;
+            background:rgba(255,142,83,0.15);
+            border-radius:12px;
+            border-left:5px solid #ff6b09;
+            word-wrap: break-word;
+            max-height:10em;
+            overflow-y:auto;
+            white-space:pre-wrap;
         }
-        .action-section {margin-top:20px; display:flex; gap:15px; flex-wrap:wrap; justify-content:center;}
+        .action-section {
+            margin-top:20px;
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+            justify-content:center;
+        }
         .save-btn, .reset-btn {
-            padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;
-            font-family: inherit; font-size: 1rem; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 1rem;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        /* Speichern-Button jetzt ORANGE */
+        /* Speichern-Button ORANGE */
         .save-btn {
             background: linear-gradient(45deg,#ff6b09,#ff8e53);
             color: white;
@@ -97,28 +157,52 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255,140,80,0.7);
         }
-        .reset-btn { background: linear-gradient(45deg,#666,#888); color: white;}
-        .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
+        .reset-btn {
+            background: linear-gradient(45deg,#666,#888);
+            color: white;
+        }
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(100,100,100,0.6);
+        }
         .journal { margin-top:10px; }
         textarea {
-            width:100%; min-height:100px; padding:15px; border-radius:15px; border:1px solid rgba(255,107,9,0.3);
-            background:rgba(255,255,255,0.05); color:white; font-family:inherit; resize:vertical;
+            width:100%;
+            min-height:100px;
+            padding:15px;
+            border-radius:15px;
+            border:1px solid rgba(255,107,9,0.3);
+            background:rgba(255,255,255,0.05);
+            color:white;
+            font-family:inherit;
+            resize:vertical;
         }
         @media (max-width: 480px) {
             body { padding: 10px; }
             .counter-card { padding: 30px 20px; max-width: 100vw; }
         }
+
+        /* kleines Level-Fade */
+        .level-fade {
+            animation: levelFade 0.5s ease;
+        }
+        @keyframes levelFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 <body>
     <div class="counter-card">
-        <h1>FreiTracker</h1>
+        <!-- dynamischer Leveltitel -->
+        <h1 id="levelTitle">🚀 Level 1</h1>
         <div class="days" id="days">0</div>
         <div class="milestone-scale" id="milestoneScale"></div>
         <div class="last-view" id="lastView"></div>
         <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
         <div class="bible" id="bibleVerse">Lade...</div>
     </div>
+
     <div class="counter-card">
         <div id="lastNoteContainer">
             <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
@@ -131,17 +215,40 @@
             <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
         </div>
     </div>
+
     <script>
         let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
 
         const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
+
         const milestoneLabels = {
-            7:"Eine Woche frei!",
-            30:"Ein Monat frei!",
-            92:"Drei Monate frei!",
-            183:"Ein halbes Jahr frei!",
-            275:"Neun Monate frei!",
-            365:"1 Jahr frei!"
+            7: "Eine Woche frei!",
+            30: "Ein Monat frei!",
+            92: "Drei Monate frei!",
+            183: "Ein halbes Jahr frei!",
+            275: "Neun Monate frei!",
+            365: "1 Jahr frei!",
+        };
+
+        const levelTitles = {
+            1: "🚀 Level 1",
+            2: "⭐ Level 2",
+            3: "⛓️‍💥 Level 3",
+            4: "🗡️ Level 4",
+            5: "⚓ Level 5",
+            6: "🌟 Level 6",
+            7: "🔰 Level 7",
+            8: "🛡️ Level 8",
+            9: "⚔️ Level 9",
+            10: "🔥 Level 10",
+            11: "💥 Level 11",
+            12: "⚡ Level 12",
+            13: "🪙 Level 13",
+            14: "🏅 Level 14",
+            15: "🥇 Level 15",
+            16: "👑 Level 16",
+            17: "🦾 Level 17",
+            18: "🏆 Level 18"
         };
 
         const verses = [
@@ -178,6 +285,8 @@
             "„Ihr seid mehr als Überwinder!“ – Römer 8:37",
         ];
 
+        let lastLevelShown = 1;
+
         function getRandomVerse() {
             return verses[Math.floor(Math.random() * verses.length)];
         }
@@ -198,7 +307,28 @@
             return last;
         }
 
-        // ab Tag 366: Deckel drauf + Gratulationstext
+        // Level anhand der Etappenbereiche bestimmen
+        function getLevel(currentDays) {
+            const bounds = [0, ...milestones]; // 0,3,7,14,...,365
+            for (let i = 0; i < bounds.length - 1; i++) {
+                const start = bounds[i];
+                const end = bounds[i + 1];
+
+                if (i === bounds.length - 2) {
+                    // letzter Bereich inkl. Endtag
+                    if (currentDays >= start && currentDays <= end) {
+                        return i + 1;
+                    }
+                } else {
+                    if (currentDays >= start && currentDays < end) {
+                        return i + 1;
+                    }
+                }
+            }
+            return 1;
+        }
+
+        // Skala: ab Tag 366 „Deckel drauf“
         function createMilestoneScale(currentDays) {
             const scaleEl = document.getElementById('milestoneScale');
 
@@ -274,11 +404,30 @@
 
         function updateDisplay() {
             const now = new Date();
-            const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24)) : 0;
+            const daysFree = data.lastReset
+                ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
+                : 0;
+
             document.getElementById('days').textContent = daysFree;
             document.getElementById('lastView').textContent = data.lastReset
                 ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`
                 : 'Noch nie zurückgesetzt';
+
+            // Level bestimmen und anzeigen
+            const level = getLevel(daysFree);
+            const levelTitleText = levelTitles[level] || "🚀 Level 1";
+            const levelTitleEl = document.getElementById('levelTitle');
+
+            if (level !== lastLevelShown) {
+                levelTitleEl.classList.remove('level-fade');
+                // Reflow für Animation
+                void levelTitleEl.offsetWidth;
+                levelTitleEl.textContent = levelTitleText;
+                levelTitleEl.classList.add('level-fade');
+                lastLevelShown = level;
+            } else {
+                levelTitleEl.textContent = levelTitleText;
+            }
 
             createMilestoneScale(daysFree);
             document.getElementById('bibleVerse').textContent = getRandomVerse();
