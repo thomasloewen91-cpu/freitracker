@@ -537,17 +537,21 @@
             `;
 
             const daysLeft = end - currentDays;
-            const label = milestoneLabels[end] || `${end} Tage`;
+                const label = milestoneLabels[end] || `${end} Tage`;
+            
+                // SPEZIALTEXT: 1 TAG ÜBRIG
+                let daysLeftText;
+                if (daysLeft === 1) {
+                    daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
+                } else {
+                    daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
+                }
+            
+                html += `
+                    <div class="next-milestone">Nächstes Ziel: ${label}</div>
+                    <div class="days-left">${daysLeftText}</div>
+                `;
 
-            // SPEZIALTEXT BEI 1 TAG ÜBRIG
-            const daysLeftText = daysLeft === 1 
-                ? "Nur noch ein Tag, zieh durch! 💪" 
-                : `⏳ ${daysLeft} Tage fehlen`;
-
-            html += `
-                <div class="next-milestone">Nächstes Ziel: ${label}</div>
-                <div class="days-left">${daysLeftText}</div>
-            `;
 
             scaleEl.innerHTML = html;
         }
