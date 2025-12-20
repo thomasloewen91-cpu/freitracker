@@ -6,6 +6,11 @@
     <title>Dein FreiTracker – Ein Jahr frei von negativen Gewohnheiten</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #ff6b09, #ff8e53);
+            --secondary-gradient: linear-gradient(90deg, #ff6b09, #ff8e53);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             height: 100%;
@@ -39,7 +44,7 @@
         .site-title h1 {
             font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 700;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
@@ -48,36 +53,34 @@
         }
         
         /* MOBILE: Weniger Abstand */
-@media (max-width: 899px) {
-    .site-title {
-        margin: 30px 0 15px 0 !important;
-    }
-    .main-content {
-        padding-top: 20px;
-    }
-}
+        @media (max-width: 899px) {
+            .site-title {
+                margin: 30px 0 15px 0 !important;
+            }
+            .main-content {
+                padding-top: 20px;
+            }
+        }
 
-/* DESKTOP: Mehr Abstand, Titel fixiert */
-@media (min-width: 900px) {
-    .main-content { 
-        flex-direction: row; 
-        justify-content: center; 
-        gap: 40px; 
-        padding-top: 170px;  /* ← GENUG LUFT FÜR KARTEN */
-    }
-    .site-title {
-        position: absolute;
-        top: 60px;              /* ← IDEAL FÜR DESKTOP */
-        left: 50%;
-        transform: translateX(-50%);
-        width: auto;
-        max-width: 800px;
-        z-index: 10;
-        margin: 0 !important;
-    }
-}
-
-
+        /* DESKTOP: Mehr Abstand, Titel fixiert */
+        @media (min-width: 900px) {
+            .main-content { 
+                flex-direction: row; 
+                justify-content: center; 
+                gap: 40px; 
+                padding-top: 170px;
+            }
+            .site-title {
+                position: absolute;
+                top: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                max-width: 800px;
+                z-index: 10;
+                margin: 0 !important;
+            }
+        }
 
         .counter-card {
             background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
@@ -100,13 +103,21 @@
         .days {
             font-size: clamp(3rem, 10vw, 5rem);
             font-weight: 700;
-            background: linear-gradient(45deg,#ff6b09,#ff8e53);
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 10px 0 20px;
         }
         .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
-        .milestone { font-size: 1.2rem; color: #ff6b09; margin-top: 10px; animation: pulse 2s infinite; }
+        .milestone { 
+            font-size: 1.2rem; 
+            color: #ff6b09; 
+            margin-top: 10px; 
+            animation: pulse 2s infinite; 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
         .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; min-height: 2.5em; }
 
@@ -127,7 +138,7 @@
             top: 0;
             height: 100%;
             border-radius: 999px;
-            background: linear-gradient(90deg,#ff6b09,#ff8e53);
+            background: var(--secondary-gradient);
             width: 0%;
             transition: width 0.4s ease;
         }
@@ -161,7 +172,7 @@
             color: #ff6b09;
             font-size: 1.2rem;
             margin-top: 15px;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -200,7 +211,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .save-btn {
-            background: linear-gradient(45deg,#ff6b09,#ff8e53);
+            background: var(--primary-gradient);
             color: white;
         }
         .save-btn:hover {
@@ -314,7 +325,7 @@
             border-radius: 25px;
             font-weight: 600;
             cursor: pointer;
-            background: linear-gradient(45deg, #ff6b09, #ff8e53);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             font-size: 1.1rem;
@@ -325,111 +336,147 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255,107,9,0.6);
         }
-       /* SUPPORT-LINK – GUT SICHTBAR */
-    .support-link {
-        display: block;
-        margin-bottom: 14px;
-        font-size: 1rem;
-        font-weight: 700;
-        color: #ff6b09;
-        text-decoration: none;
-    }
 
-    .support-link:hover {
-        text-decoration: underline;
-    }
+        /* SUPPORT-LINK – GUT SICHTBAR */
+        .support-link {
+            display: block;
+            margin-bottom: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ff6b09;
+            text-decoration: none;
+        }
+        .support-link:hover {
+            text-decoration: underline;
+        }
 
-    /* DEZENTE LEGAL-LINKS */
-    .legal-links {
-        font-size: 0.8rem;
-        opacity: 0.6;
-        margin-bottom: 10px;
-    }
+        /* DEZENTE LEGAL-LINKS */
+        .legal-links {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+        .legal-links a {
+            color: #ff6b09;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .legal-links a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+        .legal-links .divider {
+            margin: 0 6px;
+            opacity: 0.4;
+        }
+        .footer .copyright {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            margin-top: 10px;
+        }
 
-    .legal-links a {
-        color: #ff6b09;
-        font-weight: 500;
-        text-decoration: none;
-    }
-
-    .legal-links a:hover {
-        text-decoration: underline;
-        opacity: 1;
-    }
-
-    .legal-links .divider {
-        margin: 0 6px;
-        opacity: 0.4;
-    }
-
-    /* COPYRIGHT */
-    .footer .copyright {
-        font-size: 0.75rem;
-        opacity: 0.5;
-        margin-top: 10px;
-    }
         /* TUTORIAL OVERLAY */
-    .tutorial-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.75);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-    }
+        .tutorial-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .tutorial-overlay.hidden {
+            display: none;
+        }
+        .tutorial-box {
+            background: #111;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        }
+        .tutorial-box h2 {
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .tutorial-box p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            opacity: 0.9;
+            white-space: pre-line;
+        }
+        .tutorial-box button {
+            margin-top: 20px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary-gradient);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-    .tutorial-overlay.hidden {
-        display: none;
-    }
-
-    .tutorial-box {
-        background: #111;
-        border-radius: 12px;
-        padding: 24px;
-        max-width: 420px;
-        width: 90%;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-
-    .tutorial-box h2 {
-        margin-bottom: 12px;
-        font-size: 1.2rem;
-    }
-
-    .tutorial-box p {
-        font-size: 0.95rem;
-        line-height: 1.4;
-        opacity: 0.9;
-        white-space: pre-line;
-    }
-
-    .tutorial-box button {
-        margin-top: 20px;
-        padding: 10px 16px;
-        border-radius: 8px;
-        border: none;
-        background: #ff6b09;
-        color: #000;
-        font-weight: bold;
-        cursor: pointer;
-    }
+        /* THEME BUTTONS */
         #themeOverlay button {
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: transform 0.2s;
-}
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        #themeOverlay button:hover {
+            transform: scale(1.1);
+        }
 
-#themeOverlay button:hover {
-    transform: scale(1.1);
-}
+        /* THEME ICON */
+        #themeIcon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            font-size: 20px;
+        }
+
+        /* THEME OVERLAY */
+        #themeOverlay {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
+    <!-- THEME ELEMENTS -->
+    <div id="themeIcon">🎨</div>
+    <div id="themeOverlay">
+        <button onclick="setTheme('orange')">🟧 Orange</button>
+        <button onclick="setTheme('gruen')">🟩 Grün</button>
+        <button onclick="setTheme('blau')">🟦 Blau</button>
+        <button onclick="setTheme('gelb')">🟨 Gelb</button>
+        <button onclick="setTheme('glas')">✨ Glas</button>
+    </div>
+
     <!-- MAIN CONTENT CONTAINER -->
     <div class="main-content">
         <!-- HAUPTTITEL -->
@@ -438,7 +485,6 @@
             <p style="font-size: 0.9rem; opacity: 0.9;">
                 Ein Jahr frei von negativen Gewohnheiten
             </p>
-
         </div>
 
         <!-- COUNTER KARTEN -->
@@ -467,12 +513,10 @@
 
     <!-- FOOTER - GANZ UNTEN -->
     <footer class="footer">
-
         <a class="support-link"
            href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">
             Probleme mit dem Tracker?
         </a>
-
         <div class="legal-links">
             <a href="https://angebote.thomasloewen.de/legal/271582326/contact"
                target="_blank" rel="noopener">
@@ -484,11 +528,9 @@
                 Datenschutz
             </a>
         </div>
-
         <div class="copyright">
             © 2025 FreiTracker · von Thomas "Döm" Löwen · thomasloewen.de
         </div>
-
     </footer>
 
     <!-- MOTIVIERTES POPUP -->
@@ -499,11 +541,20 @@
         </div>
     </div>
 
+    <!-- STEP-BY-STEP TUTORIAL -->
+    <div id="tutorialOverlay" class="tutorial-overlay hidden">
+        <div class="tutorial-box">
+            <h2 id="tutorialTitle"></h2>
+            <p id="tutorialText"></p>
+            <button id="tutorialNextBtn">Weiter</button>
+        </div>
+    </div>
+
     <script>
         let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+        let lastLevelShown = 1;
 
         const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
-
         const milestoneLabels = {
             7: "Eine Woche frei!",
             30: "Ein Monat frei!",
@@ -512,14 +563,12 @@
             275: "Neun Monate frei!",
             365: "1 Jahr frei!",
         };
-
         const levelTitles = {
             1: "🚀 Level 1", 2: "⭐ Level 2", 3: "⛓️‍💥 Level 3", 4: "🗡️ Level 4", 5: "⚓ Level 5",
             6: "🌟 Level 6", 7: "🔰 Level 7", 8: "🛡️ Level 8", 9: "⚔️ Level 9", 10: "🔥 Level 10",
             11: "💥 Level 11", 12: "⚡ Level 12", 13: "🪙 Level 13", 14: "🏅 Level 14", 15: "🥇 Level 15",
             16: "👑 Level 16", 17: "🦾 Level 17", 18: "🏆 Level 18"
         };
-
         const verses = [
             "„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29",
             "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
@@ -538,7 +587,6 @@
             "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
             "„Ihr seid mehr als Überwinder!“ – Römer 8:37"
         ];
-
         const motivationMessages = [
             { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
             { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
@@ -552,7 +600,38 @@
             { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
         ];
 
-        let lastLevelShown = 1;
+        // THEME FUNCTIONS
+        function setTheme(color) {
+            const root = document.documentElement;
+            let primary, secondary;
+            
+            switch(color) {
+                case 'orange':
+                    primary = 'linear-gradient(45deg,#ff6b09,#ff8e53)';
+                    secondary = 'linear-gradient(90deg,#ff6b09,#ff8e53)';
+                    break;
+                case 'gruen':
+                    primary = 'linear-gradient(45deg,#28a745,#71e27f)';
+                    secondary = 'linear-gradient(90deg,#28a745,#71e27f)';
+                    break;
+                case 'blau':
+                    primary = 'linear-gradient(45deg,#007bff,#53a0ff)';
+                    secondary = 'linear-gradient(90deg,#007bff,#53a0ff)';
+                    break;
+                case 'gelb':
+                    primary = 'linear-gradient(45deg,#ffc107,#ffe36e)';
+                    secondary = 'linear-gradient(90deg,#ffc107,#ffe36e)';
+                    break;
+                case 'glas':
+                    primary = 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))';
+                    secondary = 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))';
+                    break;
+            }
+            
+            root.style.setProperty('--primary-gradient', primary);
+            root.style.setProperty('--secondary-gradient', secondary);
+            document.getElementById('themeOverlay').style.display = 'none';
+        }
 
         function getRandomVerse() {
             return verses[Math.floor(Math.random() * verses.length)];
@@ -657,22 +736,18 @@
             `;
 
             const daysLeft = end - currentDays;
-                const label = milestoneLabels[end] || `${end} Tage`;
+            const label = milestoneLabels[end] || `${end} Tage`;
+            let daysLeftText;
+            if (daysLeft === 1) {
+                daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
+            } else {
+                daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
+            }
             
-                // SPEZIALTEXT: 1 TAG ÜBRIG
-                let daysLeftText;
-                if (daysLeft === 1) {
-                    daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
-                } else {
-                    daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
-                }
-            
-                html += `
-                    <div class="next-milestone">Nächstes Ziel: ${label}</div>
-                    <div class="days-left">${daysLeftText}</div>
-                `;
-
-
+            html += `
+                <div class="next-milestone">Nächstes Ziel: ${label}</div>
+                <div class="days-left">${daysLeftText}</div>
+            `;
             scaleEl.innerHTML = html;
         }
 
@@ -700,7 +775,6 @@
                 ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`
                 : 'Noch nie zurückgesetzt';
 
-            // Level bestimmen und anzeigen
             const level = getLevel(daysFree);
             const levelTitleText = levelTitles[level] || "🚀 Level 1";
             const levelTitleEl = document.getElementById('levelTitle');
@@ -751,191 +825,91 @@
             localStorage.setItem('freiTracker', JSON.stringify(data));
         }
 
-        // Popup mit ESC schließen
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeMotivationPopup();
+        // EVENT LISTENERS
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme functionality
+            const themeIcon = document.getElementById('themeIcon');
+            const themeOverlay = document.getElementById('themeOverlay');
+            
+            themeIcon.addEventListener('click', () => {
+                themeOverlay.style.display = themeOverlay.style.display === 'flex' ? 'none' : 'flex';
+            });
+            
+            // Initial theme
+            if (!getComputedStyle(document.documentElement).getPropertyValue('--primary-gradient').trim()) {
+                setTheme('orange');
             }
-        });
 
-        updateDisplay();
-        setInterval(updateDisplay, 60000);
-        const themeIcon = document.getElementById('themeIcon');
-        const themeOverlay = document.getElementById('themeOverlay');
+            // Tutorial
+            const tutorialSteps = [
+                {
+                    title: "Dein FreiTracker!",
+                    text: `Willkommen zu deinem Jahr der Freiheit!\nDer FreiTracker unterstützt dich dabei, ein Jahr lang schlechte Gewohnheiten abzulegen und geistlich zu wachsen.`
+                },
+                {
+                    title: "Wie der FreiTracker funktioniert",
+                    text: `• Keine Anmeldung erforderlich! Es werden keine Daten an Server gesendet.\n• Zähler und Notizen werden ausschließlich in diesem Browser auf diesem Gerät gespeichert.\n• Der Zähler zählt automatisch weiter, auch wenn du die Seite schließt.\n\nTipp: Richte dir diese Seite als Startseite für diesen Browser ein!`
+                },
+                {
+                    title: "Level-Anzeige",
+                    text: `Der FreiTracker hat insgesamt 18 Level. Jedes Level hat ein eigenes Etappenziel.`
+                },
+                {
+                    title: "Tageszähler",
+                    text: `Diese Zahl zeigt, wie viele Tage seit dem letzten Zurücksetzen des Counters vergangen sind.`
+                },
+                {
+                    title: "Fortschrittsanzeige",
+                    text: `Die Skala zeigt den Fortschritt bis zur nächsten Etappe und aktualisiert sich automatisch.`
+                },
+                {
+                    title: "Notizfeld",
+                    text: `Hier kannst du kurze Notizen speichern (Ziele, dein Warum, motivierende Sprüche...). Die zuletzt gespeicherte Notiz wird angezeigt.`
+                },
+                {
+                    title: "Counter zurücksetzen",
+                    text: `Setzt den Tageszähler auf null zurück. Achtung: Frühere Zählstände werden nicht gespeichert!`
+                }
+            ];
 
-        themeIcon.addEventListener('click', () => {
-            if(themeOverlay.style.display === 'flex') {
-                themeOverlay.style.display = 'none';
-            } else {
-                themeOverlay.style.display = 'flex';
+            let tutorialIndex = 0;
+            const overlay = document.getElementById("tutorialOverlay");
+            const titleEl = document.getElementById("tutorialTitle");
+            const textEl = document.getElementById("tutorialText");
+            const nextBtn = document.getElementById("tutorialNextBtn");
+
+            function showStep(index) {
+                titleEl.textContent = tutorialSteps[index].title;
+                textEl.textContent = tutorialSteps[index].text;
+                nextBtn.textContent = index === tutorialSteps.length - 1 ? "Verstanden – starten" : "Weiter";
             }
+
+            if (!localStorage.getItem("freiTrackerTutorialSeen")) {
+                overlay.classList.remove("hidden");
+                showStep(0);
+            }
+
+            nextBtn.addEventListener("click", () => {
+                tutorialIndex++;
+                if (tutorialIndex < tutorialSteps.length) {
+                    showStep(tutorialIndex);
+                } else {
+                    overlay.classList.add("hidden");
+                    localStorage.setItem("freiTrackerTutorialSeen", "true");
+                }
+            });
+
+            // ESC to close popup
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeMotivationPopup();
+                }
+            });
+
+            // Initial display
+            updateDisplay();
+            setInterval(updateDisplay, 60000);
         });
     </script>
-    <!-- STEP-BY-STEP TUTORIAL -->
-    <div id="tutorialOverlay" class="tutorial-overlay hidden">
-        <div class="tutorial-box">
-            <h2 id="tutorialTitle"></h2>
-            <p id="tutorialText"></p>
-            <button id="tutorialNextBtn">Weiter</button>
-        </div>
-    </div>
-<script>
-const tutorialSteps = [
-    {
-        title: "Dein FreiTracker!",
-        text:
-`Willkommen zu deinem Jahr der Freiheit!
-Der FreiTracker unterstützt dich dabei, ein Jahr lang schlechte Gewohnheiten abzulegen und geistlich zu wachsen.`
-    },
-    {
-        title: "Wie der FreiTracker funktioniert",
-        text:
-`• Keine Anmeldung erforderlich! Es werden keine Daten an Server gesendet.
-• Zähler und Notizen werden ausschließlich in diesem Browser auf diesem Gerät gespeichert.
-• Der Zähler zählt automatisch weiter, auch wenn du die Seite schließt.
-
-Tipp: Richte dir diese Seite als Startseite für diesen Browser ein!`
-    },
-    {
-        title: "Level-Anzeige",
-        text:
-`Der FreiTracker hat insgesamt 18 Level. Jedes Level hat ein eigenes Etappenziel.`
-    },
-    {
-        title: "Tageszähler",
-        text:
-`Diese Zahl zeigt, wie viele Tage seit dem letzten Zurücksetzen des Counters vergangen sind.`
-    },
-    {
-        title: "Fortschrittsanzeige",
-        text:
-`Die Skala zeigt den Fortschritt bis zur nächsten Etappe und aktualisiert sich automatisch.`
-    },
-    {
-        title: "Notizfeld",
-        text:
-`Hier kannst du kurze Notizen speichern (Ziele, dein Warum, motivierende Sprüche...). Die zuletzt gespeicherte Notiz wird angezeigt.`
-    },
-    {
-        title: "Counter zurücksetzen",
-        text:
-`Setzt den Tageszähler auf null zurück. Achtung: Frühere Zählstände werden nicht gespeichert!`
-    }
-];
-
-let tutorialIndex = 0;
-
-const overlay = document.getElementById("tutorialOverlay");
-const titleEl = document.getElementById("tutorialTitle");
-const textEl = document.getElementById("tutorialText");
-const nextBtn = document.getElementById("tutorialNextBtn");
-
-function showStep(index) {
-    titleEl.textContent = tutorialSteps[index].title;
-    textEl.textContent = tutorialSteps[index].text;
-
-    nextBtn.textContent =
-        index === tutorialSteps.length - 1
-            ? "Verstanden – starten"
-            : "Weiter";
-}
-
-if (!localStorage.getItem("freiTrackerTutorialSeen")) {
-    overlay.classList.remove("hidden");
-    showStep(0);
-}
-
-nextBtn.addEventListener("click", () => {
-    tutorialIndex++;
-
-    if (tutorialIndex < tutorialSteps.length) {
-        showStep(tutorialIndex);
-    } else {
-        overlay.classList.add("hidden");
-        localStorage.setItem("freiTrackerTutorialSeen", "true");
-    }
-});
-</script>
-<!-- Farb-Icon oben rechts (immer sichtbar) -->
-<div id="themeIcon" style="
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    background: var(--primary-gradient);
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-    z-index: 1000;
-    font-size: 20px;
-">🎨</div>
-
-<!-- Farb-Overlay -->
-<div id="themeOverlay" style="
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    background: rgba(0,0,0,0.8);
-    padding: 10px;
-    border-radius: 12px;
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 1000;
-">
-    <button onclick="setTheme('orange')">🟧 Orange</button>
-    <button onclick="setTheme('gruen')">🟩 Grün</button>
-    <button onclick="setTheme('blau')">🟦 Blau</button>
-    <button onclick="setTheme('gelb')">🟨 Gelb</button>
-    <button onclick="setTheme('glas')">✨ Glas</button>
-</div>
-<script>
-    const themeIcon = document.getElementById('themeIcon');
-    const themeOverlay = document.getElementById('themeOverlay');
-
-    themeIcon.addEventListener('click', () => {
-        themeOverlay.style.display = themeOverlay.style.display === 'flex' ? 'none' : 'flex';
-    });
-
-    function setTheme(color) {
-        const root = document.documentElement;
-
-        switch(color) {
-            case 'orange':
-                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#ff6b09,#ff8e53)');
-                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#ff6b09,#ff8e53)');
-                break;
-            case 'gruen':
-                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#28a745,#71e27f)');
-                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#28a745,#71e27f)');
-                break;
-            case 'blau':
-                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#007bff,#53a0ff)');
-                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#007bff,#53a0ff)');
-                break;
-            case 'gelb':
-                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#ffc107,#ffe36e)');
-                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#ffc107,#ffe36e)');
-                break;
-            case 'glas':
-                root.style.setProperty('--primary-gradient', 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))');
-                root.style.setProperty('--secondary-gradient', 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))');
-                break;
-        }
-
-        // Optional: Overlay schließen nach Auswahl
-        themeOverlay.style.display = 'none';
-    }
-
-    // Initiale Farben setzen, falls noch nicht gesetzt
-    if (!getComputedStyle(document.documentElement).getPropertyValue('--primary-gradient')) {
-        setTheme('orange');
-    }
-</script>
 </body>
 </html>
-
