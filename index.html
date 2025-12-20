@@ -761,15 +761,15 @@
         updateDisplay();
         setInterval(updateDisplay, 60000);
         const themeIcon = document.getElementById('themeIcon');
-const themeOverlay = document.getElementById('themeOverlay');
+        const themeOverlay = document.getElementById('themeOverlay');
 
-themeIcon.addEventListener('click', () => {
-    if(themeOverlay.style.display === 'flex') {
-        themeOverlay.style.display = 'none';
-    } else {
-        themeOverlay.style.display = 'flex';
-    }
-});
+        themeIcon.addEventListener('click', () => {
+            if(themeOverlay.style.display === 'flex') {
+                themeOverlay.style.display = 'none';
+            } else {
+                themeOverlay.style.display = 'flex';
+            }
+        });
     </script>
     <!-- STEP-BY-STEP TUTORIAL -->
     <div id="tutorialOverlay" class="tutorial-overlay hidden">
