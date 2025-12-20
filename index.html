@@ -553,222 +553,255 @@
     </div>
 
     <script>
-        let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
-        let lastLevelShown = 1;
+    let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+    let lastLevelShown = 1;
 
-        const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
-        const milestoneLabels = {
-            7: "Eine Woche frei!",
-            30: "Ein Monat frei!",
-            92: "Drei Monate frei!",
-            183: "Ein halbes Jahr frei!",
-            275: "Neun Monate frei!",
-            365: "1 Jahr frei!",
-        };
-        const levelTitles = {
-            1: "🚀 Level 1", 2: "⭐ Level 2", 3: "⛓️‍💥 Level 3", 4: "🗡️ Level 4", 5: "⚓ Level 5",
-            6: "🌟 Level 6", 7: "🔰 Level 7", 8: "🛡️ Level 8", 9: "⚔️ Level 9", 10: "🔥 Level 10",
-            11: "💥 Level 11", 12: "⚡ Level 12", 13: "🪙 Level 13", 14: "🏅 Level 14", 15: "🥇 Level 15",
-            16: "👑 Level 16", 17: "🦾 Level 17", 18: "🏆 Level 18"
-        };
-        const verses = [
-            "„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29",
-            "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
-            "„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
-            "„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
-            "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
-            "„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
-            "„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
-            "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25",
-            "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
-            "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
-            "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
-            "„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
-            "„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
-            "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
-            "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
-            "„Ihr seid mehr als Überwinder!“ – Römer 8:37"
-        ];
-        const motivationMessages = [
-            { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
-            { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
-            { title: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.", verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14" },
-            { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
-            { title: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!", verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1" },
-            { title: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.", verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5" },
-            { title: "Steh auf! Heute ist ein neuer Tag voller Gnade.", verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23" },
-            { title: "Du bist stärker, als du gerade glaubst.", verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13" },
-            { title: "Scham hält dich fest. Gnade macht dich frei.", verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17" },
-            { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
-        ];
+    const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
+    const milestoneLabels = {
+        7: "Eine Woche frei!",
+        30: "Ein Monat frei!",
+        92: "Drei Monate frei!",
+        183: "Ein halbes Jahr frei!",
+        275: "Neun Monate frei!",
+        365: "1 Jahr frei!",
+    };
+    const levelTitles = {
+        1: "🚀 Level 1", 2: "⭐ Level 2", 3: "⛓️‍💥 Level 3", 4: "🗡️ Level 4", 5: "⚓ Level 5",
+        6: "🌟 Level 6", 7: "🔰 Level 7", 8: "🛡️ Level 8", 9: "⚔️ Level 9", 10: "🔥 Level 10",
+        11: "💥 Level 11", 12: "⚡ Level 12", 13: "🪙 Level 13", 14: "🏅 Level 14", 15: "🥇 Level 15",
+        16: "👑 Level 16", 17: "🦾 Level 17", 18: "🏆 Level 18"
+    };
+    const verses = [
+        "„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29",
+        "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
+        "„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
+        "„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
+        "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
+        "„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
+        "„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
+        "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25",
+        "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
+        "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
+        "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
+        "„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
+        "„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
+        "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
+        "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
+        "„Ihr seid mehr als Überwinder!“ – Römer 8:37"
+    ];
+    const motivationMessages = [
+        { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
+        { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
+        { title: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.", verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14" },
+        { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
+        { title: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!", verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1" },
+        { title: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.", verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5" },
+        { title: "Steh auf! Heute ist ein neuer Tag voller Gnade.", verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23" },
+        { title: "Du bist stärker, als du gerade glaubst.", verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13" },
+        { title: "Scham hält dich fest. Gnade macht dich frei.", verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17" },
+        { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
+    ];
 
-        // THEME FUNCTIONS - ERWEITERT MIT 6 FARBTHEMEN
-        function setTheme(color) {
-            const root = document.documentElement;
-            let primary, secondary;
+    // THEME FUNCTIONS - KOMPLETT DYNAMISCH
+    function setTheme(color) {
+        const root = document.documentElement;
+        let primary, secondary, accentColor, accentBorder, noteBg, saveHoverShadow, popupHoverShadow;
         
-            switch(color) {
-                case 'orange':  // 🟧 STANDARD
-                    primary = 'linear-gradient(45deg, #ff6b09, #ff8e53)';
-                    secondary = 'linear-gradient(90deg, #ff6b09, #ff8e53)';
-                    break;
-                case 'gruen':   // 🟩 Grün
-                    primary = 'linear-gradient(45deg, #28a745, #20c997)';
-                    secondary = 'linear-gradient(90deg, #28a745, #20c997)';
-                    break;
-                case 'blau':    // 🟦 Blau
-                    primary = 'linear-gradient(45deg, #007bff, #00d4ff)';
-                    secondary = 'linear-gradient(90deg, #007bff, #00d4ff)';
-                    break;
-                case 'gelb':    // 🟨 Gelb
-                    primary = 'linear-gradient(45deg, #ffc107, #ffeb3b)';
-                    secondary = 'linear-gradient(90deg, #ffc107, #ffeb3b)';
-                    break;
-                case 'rot':     // 🟥 Rot
-                    primary = 'linear-gradient(45deg, #dc3545, #ff6b6b)';
-                    secondary = 'linear-gradient(90deg, #dc3545, #ff6b6b)';
-                    break;
-                case 'grau':    // ⬛️ Grau
-                    primary = 'linear-gradient(45deg, #6c757d, #adb5bd)';
-                    secondary = 'linear-gradient(90deg, #6c757d, #adb5bd)';
-                    break;
-            }
-        
-            root.style.setProperty('--primary-gradient', primary);
-            root.style.setProperty('--secondary-gradient', secondary);
-        
-            // Theme persistent speichern
-            localStorage.setItem('freiTrackerTheme', color);
-        
-            document.getElementById('themeOverlay').style.display = 'none';
+        switch(color) {
+            case 'orange':
+                primary = 'linear-gradient(45deg, #ff6b09, #ff8e53)';
+                secondary = 'linear-gradient(90deg, #ff6b09, #ff8e53)';
+                accentColor = '#ff6b09';
+                accentBorder = 'rgba(255,107,9,0.2)';
+                noteBg = 'rgba(255,142,83,0.15)';
+                saveHoverShadow = 'rgba(255,140,80,0.7)';
+                popupHoverShadow = 'rgba(255,107,9,0.6)';
+                break;
+            case 'gruen':
+                primary = 'linear-gradient(45deg, #28a745, #20c997)';
+                secondary = 'linear-gradient(90deg, #28a745, #20c997)';
+                accentColor = '#28a745';
+                accentBorder = 'rgba(40,167,69,0.2)';
+                noteBg = 'rgba(40,167,69,0.15)';
+                saveHoverShadow = 'rgba(40,200,100,0.7)';
+                popupHoverShadow = 'rgba(40,167,69,0.6)';
+                break;
+            case 'blau':
+                primary = 'linear-gradient(45deg, #007bff, #00d4ff)';
+                secondary = 'linear-gradient(90deg, #007bff, #00d4ff)';
+                accentColor = '#007bff';
+                accentBorder = 'rgba(0,123,255,0.2)';
+                noteBg = 'rgba(0,123,255,0.15)';
+                saveHoverShadow = 'rgba(0,160,255,0.7)';
+                popupHoverShadow = 'rgba(0,123,255,0.6)';
+                break;
+            case 'gelb':
+                primary = 'linear-gradient(45deg, #ffc107, #ffeb3b)';
+                secondary = 'linear-gradient(90deg, #ffc107, #ffeb3b)';
+                accentColor = '#ffc107';
+                accentBorder = 'rgba(255,193,7,0.2)';
+                noteBg = 'rgba(255,235,59,0.15)';
+                saveHoverShadow = 'rgba(255,235,59,0.7)';
+                popupHoverShadow = 'rgba(255,193,7,0.6)';
+                break;
+            case 'rot':
+                primary = 'linear-gradient(45deg, #dc3545, #ff6b6b)';
+                secondary = 'linear-gradient(90deg, #dc3545, #ff6b6b)';
+                accentColor = '#dc3545';
+                accentBorder = 'rgba(220,53,69,0.2)';
+                noteBg = 'rgba(255,107,107,0.15)';
+                saveHoverShadow = 'rgba(255,100,100,0.7)';
+                popupHoverShadow = 'rgba(220,53,69,0.6)';
+                break;
+            case 'grau':
+                primary = 'linear-gradient(45deg, #6c757d, #adb5bd)';
+                secondary = 'linear-gradient(90deg, #6c757d, #adb5bd)';
+                accentColor = '#6c757d';
+                accentBorder = 'rgba(108,117,125,0.2)';
+                noteBg = 'rgba(173,181,189,0.15)';
+                saveHoverShadow = 'rgba(173,181,189,0.7)';
+                popupHoverShadow = 'rgba(108,117,125,0.6)';
+                break;
         }
+        
+        root.style.setProperty('--primary-gradient', primary);
+        root.style.setProperty('--secondary-gradient', secondary);
+        root.style.setProperty('--accent-color', accentColor);
+        root.style.setProperty('--accent-border', accentBorder);
+        root.style.setProperty('--note-bg', noteBg);
+        root.style.setProperty('--save-hover-shadow', saveHoverShadow);
+        root.style.setProperty('--popup-hover-shadow', popupHoverShadow);
+        
+        localStorage.setItem('freiTrackerTheme', color);
+        document.getElementById('themeOverlay').style.display = 'none';
+    }
 
-        function loadSavedTheme() {
-            const savedTheme = localStorage.getItem('freiTrackerTheme');
-            if (savedTheme) {
-                setTheme(savedTheme);
+    function loadSavedTheme() {
+        const savedTheme = localStorage.getItem('freiTrackerTheme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            setTheme('orange');
+        }
+    }
+
+    function getRandomVerse() {
+        return verses[Math.floor(Math.random() * verses.length)];
+    }
+
+    function getRandomMotivationMessage() {
+        const randomIndex = Math.floor(Math.random() * motivationMessages.length);
+        return motivationMessages[randomIndex];
+    }
+
+    function showMotivationPopup() {
+        const message = getRandomMotivationMessage();
+        const popupMessageEl = document.getElementById('popupMessage');
+        popupMessageEl.innerHTML = `
+            <div class="popup-title">${message.title}</div>
+            <div class="popup-verse">${message.verse}</div>
+        `;
+        const popup = document.getElementById('motivationPopup');
+        popup.classList.add('show');
+    }
+
+    function closeMotivationPopup() {
+        const popup = document.getElementById('motivationPopup');
+        popup.classList.remove('show');
+    }
+
+    function getNextMilestone(currentDays) {
+        for (let milestone of milestones) {
+            if (currentDays < milestone) return milestone;
+        }
+        return 365;
+    }
+
+    function getLastMilestone(currentDays) {
+        let last = 0;
+        for (let i = 0; i < milestones.length; i++) {
+            if (milestones[i] <= currentDays) last = milestones[i];
+            else break;
+        }
+        return last;
+    }
+
+    function getLevel(currentDays) {
+        const bounds = [0, ...milestones];
+        for (let i = 0; i < bounds.length - 1; i++) {
+            const start = bounds[i];
+            const end = bounds[i + 1];
+            if (i === bounds.length - 2) {
+                if (currentDays >= start && currentDays <= end) return i + 1;
             } else {
-                setTheme('orange'); // Standard
+                if (currentDays >= start && currentDays < end) return i + 1;
             }
         }
+        return 1;
+    }
 
-        function getRandomVerse() {
-            return verses[Math.floor(Math.random() * verses.length)];
-        }
-
-        function getRandomMotivationMessage() {
-            const randomIndex = Math.floor(Math.random() * motivationMessages.length);
-            return motivationMessages[randomIndex];
-        }
-
-        function showMotivationPopup() {
-            const message = getRandomMotivationMessage();
-            const popupMessageEl = document.getElementById('popupMessage');
-            popupMessageEl.innerHTML = `
-                <div class="popup-title">${message.title}</div>
-                <div class="popup-verse">${message.verse}</div>
-            `;
-            const popup = document.getElementById('motivationPopup');
-            popup.classList.add('show');
-        }
-
-        function closeMotivationPopup() {
-            const popup = document.getElementById('motivationPopup');
-            popup.classList.remove('show');
-        }    
-
-        function getNextMilestone(currentDays) {
-            for (let milestone of milestones) {
-                if (currentDays < milestone) return milestone;
-            }
-            return 365;
-        }
-
-        function getLastMilestone(currentDays) {
-            let last = 0;
-            for (let i = 0; i < milestones.length; i++) {
-                if (milestones[i] <= currentDays) last = milestones[i];
-                else break;
-            }
-            return last;
-        }
-
-        function getLevel(currentDays) {
-            const bounds = [0, ...milestones];
-            for (let i = 0; i < bounds.length - 1; i++) {
-                const start = bounds[i];
-                const end = bounds[i + 1];
-                if (i === bounds.length - 2) {
-                    if (currentDays >= start && currentDays <= end) return i + 1;
-                } else {
-                    if (currentDays >= start && currentDays < end) return i + 1;
-                }
-            }
-            return 1;
-        }
-
-        function createMilestoneScale(currentDays) {
-            const scaleEl = document.getElementById('milestoneScale');
-            if (currentDays >= 366) {
-                const html = `
-                    <div class="simple-scale-container">
-                        <div class="simple-scale-line">
-                            <div class="simple-scale-fill" style="width:100%;"></div>
-                        </div>
-                        <div class="simple-scale-labels">
-                            <span>0</span><span>365</span>
-                        </div>
-                    </div>
-                    <div class="next-milestone">Nächstes Ziel: 365 Tage</div>
-                    <div class="days-left">Gratulation zu einem Jahr in Freiheit! 🎉 starte erneut für ein weiteres Jahr.</div>
-                `;
-                scaleEl.innerHTML = html;
-                return;
-            }
-
-            const nextMilestone = getNextMilestone(currentDays);
-            const lastMilestone = getLastMilestone(currentDays);
-            const start = lastMilestone;
-            const end = nextMilestone;
-            const totalRange = end - start;
-            const progressInRange = Math.max(0, Math.min(currentDays - start, totalRange));
-            const progressPercent = totalRange > 0 ? (progressInRange / totalRange) * 100 : 0;
-            const ticksCount = Math.max(0, totalRange - 1);
-
-            let html = `
+    function createMilestoneScale(currentDays) {
+        const scaleEl = document.getElementById('milestoneScale');
+        if (currentDays >= 366) {
+            const html = `
                 <div class="simple-scale-container">
                     <div class="simple-scale-line">
-                        <div class="simple-scale-fill" style="width:${progressPercent}%;"></div>
-                        <div class="simple-scale-ticks">
-            `;
-            for (let i = 1; i <= ticksCount; i++) {
-                const pos = (i / totalRange) * 100;
-                html += `<div class="simple-scale-tick" style="left:${pos}%;"></div>`;
-            }
-            html += `
-                        </div>
+                        <div class="simple-scale-fill" style="width:100%;"></div>
                     </div>
                     <div class="simple-scale-labels">
-                        <span>${start}</span><span>${end}</span>
+                        <span>0</span><span>365</span>
                     </div>
                 </div>
-            `;
-
-            const daysLeft = end - currentDays;
-            const label = milestoneLabels[end] || `${end} Tage`;
-            let daysLeftText;
-            if (daysLeft === 1) {
-                daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
-            } else {
-                daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
-            }
-        
-            html += `
-                <div class="next-milestone">Nächstes Ziel: ${label}</div>
-                <div class="days-left">${daysLeftText}</div>
+                <div class="next-milestone">Nächstes Ziel: 365 Tage</div>
+                <div class="days-left">Gratulation zu einem Jahr in Freiheit! 🎉 starte erneut für ein weiteres Jahr.</div>
             `;
             scaleEl.innerHTML = html;
+            return;
         }
+
+        const nextMilestone = getNextMilestone(currentDays);
+        const lastMilestone = getLastMilestone(currentDays);
+        const start = lastMilestone;
+        const end = nextMilestone;
+        const totalRange = end - start;
+        const progressInRange = Math.max(0, Math.min(currentDays - start, totalRange));
+        const progressPercent = totalRange > 0 ? (progressInRange / totalRange) * 100 : 0;
+        const ticksCount = Math.max(0, totalRange - 1);
+
+        let html = `
+            <div class="simple-scale-container">
+                <div class="simple-scale-line">
+                    <div class="simple-scale-fill" style="width:${progressPercent}%;"></div>
+                    <div class="simple-scale-ticks">
+        `;
+        for (let i = 1; i <= ticksCount; i++) {
+            const pos = (i / totalRange) * 100;
+            html += `<div class="simple-scale-tick" style="left:${pos}%;"></div>`;
+        }
+        html += `
+                    </div>
+                </div>
+                <div class="simple-scale-labels">
+                    <span>${start}</span><span>${end}</span>
+                </div>
+            </div>
+        `;
+
+        const daysLeft = end - currentDays;
+        const label = milestoneLabels[end] || `${end} Tage`;
+        let daysLeftText;
+        if (daysLeft === 1) {
+            daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
+        } else {
+            daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
+        }
+        
+        html += `
+            <div class="next-milestone">Nächstes Ziel: ${label}</div>
+            <div class="days-left">${daysLeftText}</div>
+        `;
+        scaleEl.innerHTML = html;
+    }
 
     function saveNote() {
         let note = document.getElementById('journal').value.trim();
@@ -846,7 +879,7 @@
 
     // EVENT LISTENERS
     document.addEventListener('DOMContentLoaded', function() {
-        // Theme functionality - ERWEITERT
+        // Theme functionality
         const themeIcon = document.getElementById('themeIcon');
         const themeOverlay = document.getElementById('themeOverlay');
         
@@ -861,7 +894,7 @@
             }
         });
         
-        // Lade gespeichertes Theme (Orange als Fallback/Standard)
+        // Lade gespeichertes Theme
         loadSavedTheme();
 
         // Tutorial
@@ -934,8 +967,9 @@
         // Initial display
         updateDisplay();
         setInterval(updateDisplay, 60000);
-        });
-    </script>
+    });
+</script>
+
 
 </body>
 </html>
