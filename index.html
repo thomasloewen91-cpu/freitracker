@@ -893,6 +893,49 @@ nextBtn.addEventListener("click", () => {
     <button onclick="setTheme('gelb')">🟨 Gelb</button>
     <button onclick="setTheme('glas')">✨ Glas</button>
 </div>
+<script>
+    const themeIcon = document.getElementById('themeIcon');
+    const themeOverlay = document.getElementById('themeOverlay');
+
+    themeIcon.addEventListener('click', () => {
+        themeOverlay.style.display = themeOverlay.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    function setTheme(color) {
+        const root = document.documentElement;
+
+        switch(color) {
+            case 'orange':
+                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#ff6b09,#ff8e53)');
+                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#ff6b09,#ff8e53)');
+                break;
+            case 'gruen':
+                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#28a745,#71e27f)');
+                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#28a745,#71e27f)');
+                break;
+            case 'blau':
+                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#007bff,#53a0ff)');
+                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#007bff,#53a0ff)');
+                break;
+            case 'gelb':
+                root.style.setProperty('--primary-gradient', 'linear-gradient(45deg,#ffc107,#ffe36e)');
+                root.style.setProperty('--secondary-gradient', 'linear-gradient(90deg,#ffc107,#ffe36e)');
+                break;
+            case 'glas':
+                root.style.setProperty('--primary-gradient', 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))');
+                root.style.setProperty('--secondary-gradient', 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))');
+                break;
+        }
+
+        // Optional: Overlay schließen nach Auswahl
+        themeOverlay.style.display = 'none';
+    }
+
+    // Initiale Farben setzen, falls noch nicht gesetzt
+    if (!getComputedStyle(document.documentElement).getPropertyValue('--primary-gradient')) {
+        setTheme('orange');
+    }
+</script>
 </body>
 </html>
 
