@@ -415,6 +415,18 @@
         font-weight: bold;
         cursor: pointer;
     }
+        #themeOverlay button {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+}
+
+#themeOverlay button:hover {
+    transform: scale(1.1);
+}
     </style>
 </head>
 <body>
@@ -748,6 +760,16 @@
 
         updateDisplay();
         setInterval(updateDisplay, 60000);
+        const themeIcon = document.getElementById('themeIcon');
+const themeOverlay = document.getElementById('themeOverlay');
+
+themeIcon.addEventListener('click', () => {
+    if(themeOverlay.style.display === 'flex') {
+        themeOverlay.style.display = 'none';
+    } else {
+        themeOverlay.style.display = 'flex';
+    }
+});
     </script>
     <!-- STEP-BY-STEP TUTORIAL -->
     <div id="tutorialOverlay" class="tutorial-overlay hidden">
@@ -834,6 +856,43 @@ nextBtn.addEventListener("click", () => {
     }
 });
 </script>
+<!-- Farb-Icon oben rechts (immer sichtbar) -->
+<div id="themeIcon" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    font-size: 20px;
+">🎨</div>
+
+<!-- Farb-Overlay -->
+<div id="themeOverlay" style="
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    padding: 10px;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+">
+    <button onclick="setTheme('orange')">🟧 Orange</button>
+    <button onclick="setTheme('gruen')">🟩 Grün</button>
+    <button onclick="setTheme('blau')">🟦 Blau</button>
+    <button onclick="setTheme('gelb')">🟨 Gelb</button>
+    <button onclick="setTheme('glas')">✨ Glas</button>
+</div>
 </body>
 </html>
 
