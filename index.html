@@ -325,13 +325,25 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255,107,9,0.6);
         }
-        /* DEZENTE LEGAL-LINKS */
+       /* SUPPORT-LINK – GUT SICHTBAR */
+    .support-link {
+        display: block;
+        margin-bottom: 14px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ff6b09;
+        text-decoration: none;
+    }
+
+    .support-link:hover {
+        text-decoration: underline;
+    }
+
+    /* DEZENTE LEGAL-LINKS */
     .legal-links {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         font-size: 0.8rem;
-        opacity: 0.7;
+        opacity: 0.6;
+        margin-bottom: 10px;
     }
 
     .legal-links a {
@@ -346,7 +358,15 @@
     }
 
     .legal-links .divider {
+        margin: 0 6px;
         opacity: 0.4;
+    }
+
+    /* COPYRIGHT */
+    .footer .copyright {
+        font-size: 0.75rem;
+        opacity: 0.5;
+        margin-top: 10px;
     }
     </style>
 </head>
@@ -388,23 +408,28 @@
 
     <!-- FOOTER - GANZ UNTEN -->
     <footer class="footer">
-        © 2025 FreiTracker · von Thomas "Döm" Löwen · thomasloewen.de<br>
 
-        <span class="legal-links">
-            <a href="https://angebote.thomasloewen.de/legal/271582326/contact" target="_blank" rel="noopener">
+        <a class="support-link"
+           href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">
+            Probleme mit dem Tracker?
+        </a>
+
+        <div class="legal-links">
+            <a href="https://angebote.thomasloewen.de/legal/271582326/contact"
+               target="_blank" rel="noopener">
                 Impressum
             </a>
             <span class="divider">|</span>
-            <a href="https://angebote.thomasloewen.de/legal/271582326/privacy" target="_blank" rel="noopener">
+            <a href="https://angebote.thomasloewen.de/legal/271582326/privacy"
+               target="_blank" rel="noopener">
                 Datenschutz
             </a>
-        </span>
+        </div>
 
-        <br><br>
+        <div class="copyright">
+            © 2025 FreiTracker · von Thomas "Döm" Löwen · thomasloewen.de
+        </div>
 
-        <a href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">
-            Probleme mit dem Tracker?
-        </a>
     </footer>
 
     <!-- MOTIVIERTES POPUP -->
