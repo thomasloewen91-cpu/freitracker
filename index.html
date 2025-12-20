@@ -325,6 +325,29 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(255,107,9,0.6);
         }
+        /* DEZENTE LEGAL-LINKS */
+    .legal-links {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+        opacity: 0.7;
+    }
+
+    .legal-links a {
+        color: #ff6b09;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .legal-links a:hover {
+        text-decoration: underline;
+        opacity: 1;
+    }
+
+    .legal-links .divider {
+        opacity: 0.4;
+    }
     </style>
 </head>
 <body>
@@ -366,6 +389,19 @@
     <!-- FOOTER - GANZ UNTEN -->
     <footer class="footer">
         © 2025 FreiTracker · von Thomas "Döm" Löwen · thomasloewen.de<br>
+
+        <span class="legal-links">
+            <a href="https://angebote.thomasloewen.de/legal/271582326/contact" target="_blank" rel="noopener">
+                Impressum
+            </a>
+            <span class="divider">|</span>
+            <a href="https://angebote.thomasloewen.de/legal/271582326/privacy" target="_blank" rel="noopener">
+                Datenschutz
+            </a>
+        </span>
+
+        <br><br>
+
         <a href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">
             Probleme mit dem Tracker?
         </a>
