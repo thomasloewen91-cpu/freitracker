@@ -190,12 +190,12 @@
     .last-note {
         font-size: 1.3rem;
         font-weight: 700;
-        color: var(--accent-color); /* DYNAMISCH */
+        color: var(--accent-color);
         margin-bottom: 15px;
         padding:12px;
-        background:rgba(255,142,83,0.15); /* WIRD DURCH JS überschrieben */
+        background: var(--note-bg); /* DYNAMISCH! ✅ */
         border-radius:12px;
-        border-left:5px solid var(--accent-color); /* DYNAMISCH */
+        border-left:5px solid var(--accent-color);
         word-wrap: break-word;
         max-height:10em;
         overflow-y:auto;
@@ -225,7 +225,7 @@
     }
     .save-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(255,140,80,0.7); /* WIRD DURCH JS überschrieben */
+        box-shadow: 0 10px 25px var(--save-hover-shadow); /* DYNAMISCH! ✅ */
     }
     .reset-btn {
         background: linear-gradient(45deg,#666,#888);
@@ -338,12 +338,12 @@
         color: white;
         border: none;
         font-size: 1.1rem;
-        box-shadow: 0 5px 15px rgba(255,107,9,0.4); /* WIRD DURCH JS überschrieben */
+        box-shadow: 0 5px 15px var(--save-hover-shadow); /* DYNAMISCH! ✅ */
         transition: all 0.3s;
     }
     .popup-close-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(255,107,9,0.6); /* WIRD DURCH JS überschrieben */
+        box-shadow: 0 10px 25px var(--popup-hover-shadow); /* DYNAMISCH! ✅ */
     }
 
     /* SUPPORT-LINK – GUT SICHTBAR */
