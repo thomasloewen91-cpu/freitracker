@@ -528,13 +528,13 @@
         transform: translateX(4px) !important;
     }
     .options-group {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 10px !important;
-        padding-left: 24px !important;
-        border-left: 2px solid var(--accent-color) !important;
-        margin-top: 8px !important;
-        animation: slideIn 0.3s ease !important;
+        display: none;  /* ← STANDARD: VERSTECKT */
+        flex-direction: column;
+        gap: 10px;
+        padding-left: 24px;
+        border-left: 2px solid var(--accent-color);
+        margin-top: 8px;
+        animation: slideIn 0.3s ease;
     }
     @keyframes slideIn {
         from { opacity: 0; transform: translateX(-10px); }
