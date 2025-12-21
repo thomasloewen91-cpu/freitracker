@@ -944,10 +944,16 @@
     // EVENT LISTENERS
     document.addEventListener('DOMContentLoaded', function() {
         // Theme functionality
-        const settingsIcon = document.getElementById('settingsIcon');
-        const settingsOverlay = document.getElementById('settingsOverlay');
-        settingsIcon.addEventListener('click', () => {
-            settingsOverlay.classList.toggle('show');
+        document.getElementById('settingsIcon').addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('settingsOverlay').classList.toggle('show');
+        });
+
+        // Klick außerhalb (korrigieren):
+        document.addEventListener('click', e => {
+            if (!document.getElementById('settingsOverlay').contains(e.target)) {
+                document.getElementById('settingsOverlay').classList.remove('show');
+            }
         });
         
         // Klick außerhalb schließt Overlay
