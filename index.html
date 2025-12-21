@@ -580,30 +580,12 @@
         from { opacity: 0; transform: translateX(-10px); }
         to { opacity: 1; transform: translateX(0); }
     }
-    /* 🔒 LOCKED BUTTONS - TOOLTIP */
-    .locked-btn {
+    /* DISABLED BUTTONS */
+    .options-group button:disabled {
+        opacity: 0.5 !important;
         cursor: not-allowed !important;
-        position: relative;
+        background: rgba(100,100,100,0.3) !important;
     }
-
-    .locked-btn:hover::after {
-        content: attr(title);
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,0.95);
-        color: #fff;
-        padding: 10px 14px;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        white-space: nowrap;
-        z-index: 1001;
-        margin-bottom: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-        pointer-events: none;
-    }
-
     
 </style>
 </head>
@@ -1081,42 +1063,39 @@ function updateDisplay() {
 function updateLockedButtons() {
     const currentLevel = getLevel(getCurrentDays());
     
-    // Themes sperren
+    // Themes
     Object.keys(levelLocks.themes).forEach(theme => {
         const btn = document.querySelector(`[onclick="setTheme('${theme}')"]`);
         if (btn) {
             if (currentLevel < levelLocks.themes[theme]) {
-                btn.style.opacity = '0.4';
-                btn.style.filter = 'grayscale(50%)';
-                btn.title = `🔒 ${theme.charAt(0).toUpperCase() + theme.slice(1)} ab Level ${levelLocks.themes[theme]}`;
-                btn.classList.add('locked-btn');
+                btn.innerHTML += ` 🔒ab Level ${levelLocks.themes[theme]}`;
+                btn.style.opacity = '0.5';
+                btn.disabled = true;
             } else {
+                btn.innerHTML = btn.innerHTML.replace(/ 🔒ab Level \d+/, '');
                 btn.style.opacity = '1';
-                btn.style.filter = 'none';
-                btn.title = '';
-                btn.classList.remove('locked-btn');
+                btn.disabled = false;
             }
         }
     });
     
-    // Fonts sperren
+    // Fonts
     Object.keys(levelLocks.fonts).forEach(font => {
         const btn = document.querySelector(`[onclick="setFont('${font}')"]`);
         if (btn) {
             if (currentLevel < levelLocks.fonts[font]) {
-                btn.style.opacity = '0.4';
-                btn.style.filter = 'grayscale(50%)';
-                btn.title = `🔒 ${font.charAt(0).toUpperCase() + font.slice(1)} ab Level ${levelLocks.fonts[font]}`;
-                btn.classList.add('locked-btn');
+                btn.innerHTML += ` 🔒ab Level ${levelLocks.fonts[font]}`;
+                btn.style.opacity = '0.5';
+                btn.disabled = true;
             } else {
+                btn.innerHTML = btn.innerHTML.replace(/ 🔒ab Level \d+/, '');
                 btn.style.opacity = '1';
-                btn.style.filter = 'none';
-                btn.title = '';
-                btn.classList.remove('locked-btn');
+                btn.disabled = false;
             }
         }
     });
 }
+
 
 
 function resetCounter() {
@@ -1172,6 +1151,9 @@ document.addEventListener('DOMContentLoaded', function() {
     loadSavedTheme();
     setFont(localStorage.getItem('freiTrackerFont') || 'montserrat');
 
+    // Initial Locks
+    updateLockedButtons();
+    
     // Tutorial
     const tutorialSteps = [
         {
