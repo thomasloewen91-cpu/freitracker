@@ -506,6 +506,40 @@
         box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
     #settingsOverlay.show { display: flex; }
+    .category-btn {
+        padding: 16px 20px !important;
+        border-radius: 12px !important;
+        border: none !important;
+        cursor: pointer !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        background: rgba(255,255,255,0.08) !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.15) !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        transition: all 0.3s !important;
+        text-align: left !important;
+        width: 100% !important;
+    }
+    .category-btn:hover {
+        background: rgba(255,255,255,0.15) !important;
+        transform: translateX(4px) !important;
+    }
+    .options-group {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding-left: 24px !important;
+        border-left: 2px solid var(--accent-color) !important;
+        margin-top: 8px !important;
+        animation: slideIn 0.3s ease !important;
+    }
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
 
     
 </style>
@@ -516,24 +550,33 @@
     
     <!-- NEUES SETTINGS-MENÜ -->
     <div id="settingsOverlay">
-        <div class="settings-category">🎨 Farbpalette</div>
-        <button onclick="setTheme('orange')">🟧 Orange</button>
-        <button onclick="setTheme('gruen')">🟩 Grün</button>
-        <button onclick="setTheme('blau')">🟦 Blau</button>
-        <button onclick="setTheme('gelb')">🟨 Gelb</button>
-        <button onclick="setTheme('rot')">🟥 Rot</button>
-        <button onclick="setTheme('grau')">⬛️ Grau</button>
-        
-        <div class="settings-category">🔤 Schriftart</div>
-        <button onclick="setFont('montserrat')">Montserrat (Standard)</button>
-        <button onclick="setFont('poppins')">Poppins</button>
-        <button onclick="setFont('inter')">Inter</button>
-        <button onclick="setFont('roboto')">Roboto</button>
-        <button onclick="setFont('open-sans')">Open Sans</button>
-        <button onclick="setFont('rajdhani')">Rajdhani</button>
-        <button onclick="setFont('orbitron')">Orbitron</button>
-        <button onclick="setFont('bungee')">Bungee</button>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--accent-color);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);">Einstellungen</div>
+    
+        <!-- 1. FARBE KATEGORIE -->
+        <button id="colorCategory" class="category-btn">🎨 Farbpalette</button>
+        <div id="colorOptions" class="options-group" style="display:none;">
+            <button onclick="setTheme('orange')">🟧 Orange</button>
+            <button onclick="setTheme('gruen')">🟩 Grün</button>
+            <button onclick="setTheme('blau')">🟦 Blau</button>
+            <button onclick="setTheme('gelb')">🟨 Gelb</button>
+            <button onclick="setTheme('rot')">🟥 Rot</button>
+            <button onclick="setTheme('grau')">⬛️ Grau</button>
+        </div>
+    
+        <!-- 2. SCHRIFT KATEGORIE -->
+        <button id="fontCategory" class="category-btn">🔤 Schriftart</button>
+        <div id="fontOptions" class="options-group" style="display:none;">
+            <button onclick="setFont('montserrat')">Montserrat (Standard)</button>
+            <button onclick="setFont('poppins')">Poppins</button>
+            <button onclick="setFont('inter')">Inter</button>
+            <button onclick="setFont('roboto')">Roboto</button>
+            <button onclick="setFont('open-sans')">Open Sans</button>
+            <button onclick="setFont('rajdhani')">Rajdhani</button>
+            <button onclick="setFont('orbitron')">Orbitron</button>
+            <button onclick="setFont('bungee')">Bungee</button>
+        </div>
     </div>
+
 
 
     <!-- MAIN CONTENT CONTAINER -->
@@ -731,6 +774,8 @@ function setTheme(color) {
     
     localStorage.setItem('freiTrackerTheme', color);
     document.getElementById('settingsOverlay').classList.remove('show');
+    document.getElementById('colorOptions').style.display = 'none'; // Farben verstecken
+
 }
 
 // 🔤 FONT FUNCTION (NEU!)
@@ -739,6 +784,8 @@ function setFont(fontName) {
     root.style.setProperty('--current-font', `'${fontName}', sans-serif`);
     localStorage.setItem('freiTrackerFont', fontName);
     document.getElementById('settingsOverlay').classList.remove('show');
+    document.getElementById('fontOptions').style.display = 'none'; // Schriften verstecken
+
 }
 
 function loadSavedTheme() {
@@ -947,6 +994,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsOverlay = document.getElementById('settingsOverlay');
     
     settingsIcon.addEventListener('click', (e) => {
+        // 🎨 Farben Kategorie Toggle
+        document.getElementById('colorCategory').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const colorOptions = document.getElementById('colorOptions');
+            const fontOptions = document.getElementById('fontOptions');
+    
+            if (colorOptions.style.display === 'block') {
+                colorOptions.style.display = 'none';
+            } else {
+                colorOptions.style.display = 'block';
+                fontOptions.style.display = 'none'; // Schriften verstecken
+            }
+        });
+
+        // 🔤 Schriften Kategorie Toggle
+        document.getElementById('fontCategory').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const fontOptions = document.getElementById('fontOptions');
+            const colorOptions = document.getElementById('colorOptions');
+    
+            if (fontOptions.style.display === 'block') {
+                fontOptions.style.display = 'none';
+            } else {
+                fontOptions.style.display = 'block';
+                colorOptions.style.display = 'none'; // Farben verstecken
+            }
+        });
+
         e.stopPropagation();
         settingsOverlay.classList.toggle('show');
     });
