@@ -989,41 +989,31 @@ function saveData() {
 
 // EVENT LISTENERS - KOMPLETT KORRIGIERT!
 document.addEventListener('DOMContentLoaded', function() {
-    // ⚙️ SETTINGS MENU - PERFEKT!
     const settingsIcon = document.getElementById('settingsIcon');
     const settingsOverlay = document.getElementById('settingsOverlay');
     
+    // ⚙️ Öffnet Menü
     settingsIcon.addEventListener('click', (e) => {
-        // 🎨 Farben Kategorie Toggle
-        document.getElementById('colorCategory').addEventListener('click', (e) => {
-            e.stopPropagation();
-            const colorOptions = document.getElementById('colorOptions');
-            const fontOptions = document.getElementById('fontOptions');
-    
-            if (colorOptions.style.display === 'block') {
-                colorOptions.style.display = 'none';
-            } else {
-                colorOptions.style.display = 'block';
-                fontOptions.style.display = 'none'; // Schriften verstecken
-            }
-        });
-
-        // 🔤 Schriften Kategorie Toggle
-        document.getElementById('fontCategory').addEventListener('click', (e) => {
-            e.stopPropagation();
-            const fontOptions = document.getElementById('fontOptions');
-            const colorOptions = document.getElementById('colorOptions');
-    
-            if (fontOptions.style.display === 'block') {
-                fontOptions.style.display = 'none';
-            } else {
-                fontOptions.style.display = 'block';
-                colorOptions.style.display = 'none'; // Farben verstecken
-            }
-        });
-
         e.stopPropagation();
         settingsOverlay.classList.toggle('show');
+    });
+    
+    // 🎨 Farben Toggle
+    document.getElementById('colorCategory').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const colorOptions = document.getElementById('colorOptions');
+        const fontOptions = document.getElementById('fontOptions');
+        colorOptions.style.display = colorOptions.style.display === 'block' ? 'none' : 'block';
+        fontOptions.style.display = 'none';
+    });
+    
+    // 🔤 Schriften Toggle
+    document.getElementById('fontCategory').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const fontOptions = document.getElementById('fontOptions');
+        const colorOptions = document.getElementById('colorOptions');
+        fontOptions.style.display = fontOptions.style.display === 'block' ? 'none' : 'block';
+        colorOptions.style.display = 'none';
     });
     
     // Klick außerhalb schließt
@@ -1033,7 +1023,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Lade gespeicherte Settings
+    // Lade Settings
     loadSavedTheme();
     setFont(localStorage.getItem('freiTrackerFont') || 'montserrat');
 
