@@ -720,9 +720,44 @@ const motivationMessages = [
     { title: "Scham hält dich fest. Gnade macht dich frei.", verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17" },
     { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
 ];
+// 🔒 LEVEL LOCKS
+const levelLocks = {
+    themes: {
+        'gruen': 2,
+        'blau': 5, 
+        'gelb': 8,
+        'rot': 11
+    },
+    fonts: {
+        'poppins': 4,
+        'inter': 7,
+        'tinos': 10,
+        'open-sans': 13,
+        'rajdhani': 14,
+        'orbitron': 16,
+        'bungee': 17
+    }
+};
+function isUnlocked(type, name) {
+    const currentLevel = getLevel(getCurrentDays());
+    const requiredLevel = levelLocks[type][name];
+    return !requiredLevel || currentLevel >= requiredLevel;
+}
+
+function getCurrentDays() {
+    const now = new Date();
+    return data.lastReset 
+        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
+        : 0;
+}
 
 // 🎨 THEME FUNCTION
 function setTheme(color) {
+    if (!isUnlocked('themes', color)) {
+        alert(`🔒 ${color.charAt(0).toUpperCase() + color.slice(1)} freigeschaltet ab Level ${levelLocks.themes[color]}!`);
+        return;
+    }
+    
     const root = document.documentElement;
     let primary, secondary, accentColor, accentBorder, noteBg, saveHoverShadow, popupHoverShadow;
     
@@ -793,18 +828,21 @@ function setTheme(color) {
     
     localStorage.setItem('freiTrackerTheme', color);
     document.getElementById('settingsOverlay').classList.remove('show');
-    document.getElementById('colorOptions').style.display = 'none'; // Farben verstecken
-
+    document.getElementById('colorOptions').style.display = 'none';
 }
 
 // 🔤 FONT FUNCTION (NEU!)
 function setFont(fontName) {
+    if (!isUnlocked('fonts', fontName)) {
+        alert(`🔒 ${fontName.charAt(0).toUpperCase() + fontName.slice(1)} freigeschaltet ab Level ${levelLocks.fonts[fontName]}!`);
+        return;
+    }
+    
     const root = document.documentElement;
     root.style.setProperty('--current-font', `'${fontName}', sans-serif`);
     localStorage.setItem('freiTrackerFont', fontName);
     document.getElementById('settingsOverlay').classList.remove('show');
-    document.getElementById('fontOptions').style.display = 'none'; // Schriften verstecken
-
+    document.getElementById('fontOptions').style.display = 'none';
 }
 
 function loadSavedTheme() {
@@ -991,6 +1029,9 @@ function updateDisplay() {
     } else {
         milestone.style.display = 'none';
     }
+
+    // 🔒 LEVEL-LOCKED BUTTONS UPDATEN
+    updateLockedButtons();
 }
 
 function resetCounter() {
