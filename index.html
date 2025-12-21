@@ -555,6 +555,27 @@
         background: rgba(255,255,255,0.15) !important;
         transform: translateX(4px) !important;
     }
+        /* LOCKED BUTTONS - TOOLTIP */
+    .options-group button {
+        position: relative; /* Für Tooltip */
+    }
+    .options-group button[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.9);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        z-index: 1001;
+        margin-bottom: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
     @keyframes slideIn {
         from { opacity: 0; transform: translateX(-10px); }
         to { opacity: 1; transform: translateX(0); }
@@ -1033,7 +1054,7 @@ function updateDisplay() {
     // 🔒 LEVEL-LOCKED BUTTONS UPDATEN
     updateLockedButtons();
 }
-// 🔒 Level-locked Buttons updaten
+// 🔒 Level-locked Buttons updaten (TOOLTIP + CLICK!)
 function updateLockedButtons() {
     const currentLevel = getLevel(getCurrentDays());
     
@@ -1043,12 +1064,12 @@ function updateLockedButtons() {
         if (btn) {
             if (currentLevel < levelLocks.themes[theme]) {
                 btn.style.opacity = '0.4';
-                btn.style.cursor = 'not-allowed';
-                btn.disabled = true;
+                btn.style.pointerEvents = 'none'; // ← KEIN disabled!
+                btn.title = `🔒 ${theme.charAt(0).toUpperCase() + theme.slice(1)} ab Level ${levelLocks.themes[theme]}`;
             } else {
                 btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-                btn.disabled = false;
+                btn.style.pointerEvents = 'auto';
+                btn.title = '';
             }
         }
     });
@@ -1059,12 +1080,12 @@ function updateLockedButtons() {
         if (btn) {
             if (currentLevel < levelLocks.fonts[font]) {
                 btn.style.opacity = '0.4';
-                btn.style.cursor = 'not-allowed';
-                btn.disabled = true;
+                btn.style.pointerEvents = 'none'; // ← KEIN disabled!
+                btn.title = `🔒 ${font.charAt(0).toUpperCase() + font.slice(1)} ab Level ${levelLocks.fonts[font]}`;
             } else {
                 btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-                btn.disabled = false;
+                btn.style.pointerEvents = 'auto';
+                btn.title = '';
             }
         }
     });
