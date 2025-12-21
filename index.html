@@ -305,6 +305,63 @@
         opacity: 1;
         visibility: visible;
     }
+    /* HELP POPUP */
+    .help-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    .help-popup.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    .help-popup h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .help-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 25px 0;
+        max-width: 500px;
+        width: 90%;
+    }
+    .help-option {
+        display: block;
+        padding: 16px 20px;
+        background: rgba(255,255,255,0.08);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        border: 1px solid var(--accent-border);
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.4;
+        transition: all 0.3s;
+        font-family: var(--current-font);
+    }
+    .help-option:hover {
+        background: rgba(255,255,255,0.15);
+        transform: translateX(5px);
+        box-shadow: 0 5px 20px var(--popup-hover-shadow);
+        color: white;
+    }
+
+    
     .popup-content {
         background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
         backdrop-filter: blur(20px);
@@ -645,7 +702,7 @@
     <div id="settingsIcon">⚙️</div>
     
     <!-- NEUER HELP-BUTTON -->
-    <div id="helpIcon">🛟</div>
+    <div id="helpIcon" onclick="showHelpPopup()">🛟</div>
 
     <!-- NEUES SETTINGS-MENÜ -->
     <div id="settingsOverlay">
@@ -743,6 +800,25 @@
         </div>
     </div>
 
+    <!-- HELP POPUP MIT 3 OPTIONEN -->
+    <div id="helpPopup" class="help-popup">
+        <div class="popup-content">
+            <h3>Welche negative Gewohnheit belastet dich?</h3>
+            <div class="help-buttons">
+                <a href="https://3s-test.de" target="_blank" class="help-option" data-close="true">
+                    Charakterschwächen belasten meine Beziehungen ❤️‍🩹
+                </a>
+                <a href="https://angebote.thomasloewen.de/p/0acFGJ" target="_blank" class="help-option" data-close="true">
+                    Pornokonsum raubt mir die Freiheit 🔞
+                </a>
+                <a href="https://21.thomasloewen.de" target="_blank" class="help-option" data-close="true">
+                    Digitale Ablenkungen zerstören meine Produktivität 📱
+                </a>
+            </div>
+        </div>
+    </div>
+
+    
     <!-- STEP-BY-STEP TUTORIAL -->
     <div id="tutorialOverlay" class="tutorial-overlay hidden">
         <div class="tutorial-box">
@@ -957,6 +1033,22 @@ function closeMotivationPopup() {
     const popup = document.getElementById('motivationPopup');
     popup.classList.remove('show');
 }
+// 🛟 HELP POPUP FUNCTIONS
+function showHelpPopup() {
+    document.getElementById('helpPopup').classList.add('show');
+}
+
+function closeHelpPopup() {
+    document.getElementById('helpPopup').classList.remove('show');
+}
+
+// Help Links auto-close + neue Fenster
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('help-option')) {
+        setTimeout(() => closeHelpPopup(), 200);
+    }
+});
+
 
 function getNextMilestone(currentDays) {
     for (let milestone of milestones) {
