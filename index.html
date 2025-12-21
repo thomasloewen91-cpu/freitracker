@@ -509,6 +509,30 @@
         transform: scale(1.1) rotate(90deg);
         box-shadow: 0 12px 35px rgba(0,0,0,0.6);
     }
+    #helpIcon {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        width: 55px;
+        height: 55px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+         z-index: 1000;
+        font-size: 24px;
+        border: 2px solid rgba(255,255,255,0.3);
+        transition: all 0.3s ease;
+    }
+
+    #helpIcon:hover {
+        background: rgba(255,255,255,0.25);
+        transform: scale(1.1) rotate(180deg);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+    }
 
 
     /* THEME OVERLAY */
@@ -620,6 +644,9 @@
     <!-- NEUES SETTINGS-ICON -->
     <div id="settingsIcon">⚙️</div>
     
+    <!-- NEUER HELP-BUTTON -->
+    <div id="helpIcon">🛟</div>
+
     <!-- NEUES SETTINGS-MENÜ -->
     <div id="settingsOverlay">
         <div style="font-size:1.1rem;font-weight:700;color:var(--accent-color);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);">Einstellungen</div>
@@ -1176,6 +1203,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const colorOptions = document.getElementById('colorOptions');
         fontOptions.style.display = fontOptions.style.display === 'block' ? 'none' : 'block';
         colorOptions.style.display = 'none';
+    });
+
+    // 🛟 Help Button Click  ← HIER EINFÜGEN
+    document.getElementById('helpIcon').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open('https://angebote.thomasloewen.de', '_blank');
     });
     
     // Klick außerhalb schließt
