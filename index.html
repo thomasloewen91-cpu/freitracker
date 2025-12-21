@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dein FreiTracker – Ein Jahr frei von negativen Gewohnheiten</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&family=Inter:wght@400;600;700&family=Roboto:wght@400;700&family=Open+Sans:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Bungee:wght@400&display=swap" rel="stylesheet" />
     <style>
     :root {
         --primary-gradient: linear-gradient(45deg, #ff6b09, #ff8e53);
@@ -14,6 +14,7 @@
         --note-bg: rgba(255,142,83,0.15); /* NEU! */
         --save-hover-shadow: rgba(255,140,80,0.7); /* NEU! */
         --popup-hover-shadow: rgba(255,107,9,0.6); /* NEU! */
+        --current-font: 'Montserrat', sans-serif;
     }
 
 
@@ -23,7 +24,7 @@
         width: 100%;
         background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
         color: white;
-        font-family: 'Montserrat', sans-serif;
+        font-family: var(--current-font);
         overflow-y: auto;
         scroll-behavior: smooth;
     }
@@ -214,7 +215,7 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s;
-        font-family: inherit;
+        font-family: var(--current-font);
         font-size: 1rem;
         border: none;
         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -244,7 +245,7 @@
         border:1px solid var(--accent-border); /* DYNAMISCH */
         background:rgba(255,255,255,0.05);
         color:white;
-        font-family:inherit;
+        font-family: var(--current-font);
         resize:vertical;
     }
     @media (max-width: 480px) {
@@ -462,32 +463,76 @@
         font-size: 20px;
         border: 1px solid rgba(255,255,255,0.2);
     }
+     #settingsIcon {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 55px;
+        height: 55px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        z-index: 1000;
+        font-size: 24px;
+        border: 2px solid rgba(255,255,255,0.3);
+        transition: all 0.3s ease;
+    }
+    #settingsIcon:hover {
+        background: rgba(255,255,255,0.25);
+        transform: scale(1.1) rotate(90deg);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+    }
+
 
     /* THEME OVERLAY */
-    #themeOverlay {
+    #settingsOverlay {
         position: fixed;
-        top: 70px;
-        right: 20px;
-        background: rgba(0,0,0,0.9);
-        padding: 15px;
-        border-radius: 12px;
+        bottom: 95px;
+        right: 25px;
+        background: rgba(20,20,20,0.98);
+        backdrop-filter: blur(25px);
+        padding: 25px;
+        border-radius: 20px;
         display: none;
         flex-direction: column;
-        gap: 8px;
+        gap: 15px;
         z-index: 1000;
+        min-width: 280px;
+        border: 1px solid var(--accent-border);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
+    #settingsOverlay.show { display: flex; }
+
+    
 </style>
 </head>
 <body>
-    <!-- THEME ELEMENTS -->
-    <div id="themeIcon">🎨</div>
-    <div id="themeOverlay">
+    <!-- NEUES SETTINGS-ICON -->
+    <div id="settingsIcon">⚙️</div>
+    
+    <!-- NEUES SETTINGS-MENÜ -->
+    <div id="settingsOverlay">
+        <div class="settings-category">🎨 Farbpalette</div>
         <button onclick="setTheme('orange')">🟧 Orange</button>
         <button onclick="setTheme('gruen')">🟩 Grün</button>
         <button onclick="setTheme('blau')">🟦 Blau</button>
         <button onclick="setTheme('gelb')">🟨 Gelb</button>
         <button onclick="setTheme('rot')">🟥 Rot</button>
         <button onclick="setTheme('grau')">⬛️ Grau</button>
+        
+        <div class="settings-category">🔤 Schriftart</div>
+        <button onclick="setFont('montserrat')">Montserrat (Standard)</button>
+        <button onclick="setFont('poppins')">Poppins</button>
+        <button onclick="setFont('inter')">Inter</button>
+        <button onclick="setFont('roboto')">Roboto</button>
+        <button onclick="setFont('open-sans')">Open Sans</button>
+        <button onclick="setFont('rajdhani')">Rajdhani</button>
+        <button onclick="setFont('orbitron')">Orbitron</button>
+        <button onclick="setFont('bungee')">Bungee</button>
     </div>
 
 
@@ -693,7 +738,7 @@
         if (savedTheme) {
             setTheme(savedTheme);
         } else {
-            setTheme('orange');
+            loadSavedSettings();
         }
     }
 
@@ -905,6 +950,17 @@
                 themeOverlay.style.display = 'none';
             }
         });
+        document.getElementById('settingsIcon').addEventListener('click', toggleSettings);
+        document.addEventListener('click', e => {
+            if (!document.getElementById('settingsOverlay').contains(e.target)) {
+                document.getElementById('settingsOverlay').classList.remove('show');
+            }
+        });
+        function loadSavedSettings() {
+            loadSavedTheme();
+            setFont(data.font || 'montserrat');
+        }
+
         
         // Lade gespeichertes Theme
         loadSavedTheme();
