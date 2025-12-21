@@ -1067,12 +1067,17 @@ function updateLockedButtons() {
     Object.keys(levelLocks.themes).forEach(theme => {
         const btn = document.querySelector(`[onclick="setTheme('${theme}')"]`);
         if (btn) {
+            const originalText = ['orange','gruen','blau','gelb','rot','grau'].includes(theme) ? 
+                btn.innerHTML.replace(/ 🔒ab Level \d+/g, '').trim() : btn.textContent.replace(/ 🔒ab Level \d+/g, '').trim();
+                
             if (currentLevel < levelLocks.themes[theme]) {
-                btn.innerHTML += ` 🔒ab Level ${levelLocks.themes[theme]}`;
+                if (!btn.innerHTML.includes('🔒ab Level')) {
+                    btn.innerHTML = originalText + ` 🔒ab Level ${levelLocks.themes[theme]}`;
+                }
                 btn.style.opacity = '0.5';
                 btn.disabled = true;
             } else {
-                btn.innerHTML = btn.innerHTML.replace(/ 🔒ab Level \d+/, '');
+                btn.innerHTML = originalText;
                 btn.style.opacity = '1';
                 btn.disabled = false;
             }
@@ -1083,18 +1088,23 @@ function updateLockedButtons() {
     Object.keys(levelLocks.fonts).forEach(font => {
         const btn = document.querySelector(`[onclick="setFont('${font}')"]`);
         if (btn) {
+            const originalText = btn.textContent.replace(/ 🔒ab Level \d+/g, '').trim();
+            
             if (currentLevel < levelLocks.fonts[font]) {
-                btn.innerHTML += ` 🔒ab Level ${levelLocks.fonts[font]}`;
+                if (!btn.innerHTML.includes('🔒ab Level')) {
+                    btn.innerHTML = originalText + ` 🔒ab Level ${levelLocks.fonts[font]}`;
+                }
                 btn.style.opacity = '0.5';
                 btn.disabled = true;
             } else {
-                btn.innerHTML = btn.innerHTML.replace(/ 🔒ab Level \d+/, '');
+                btn.innerHTML = originalText;
                 btn.style.opacity = '1';
                 btn.disabled = false;
             }
         }
     });
 }
+
 
 
 
