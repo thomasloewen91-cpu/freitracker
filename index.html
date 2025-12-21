@@ -1033,6 +1033,42 @@ function updateDisplay() {
     // 🔒 LEVEL-LOCKED BUTTONS UPDATEN
     updateLockedButtons();
 }
+// 🔒 Level-locked Buttons updaten
+function updateLockedButtons() {
+    const currentLevel = getLevel(getCurrentDays());
+    
+    // Themes sperren
+    Object.keys(levelLocks.themes).forEach(theme => {
+        const btn = document.querySelector(`[onclick="setTheme('${theme}')"]`);
+        if (btn) {
+            if (currentLevel < levelLocks.themes[theme]) {
+                btn.style.opacity = '0.4';
+                btn.style.cursor = 'not-allowed';
+                btn.disabled = true;
+            } else {
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btn.disabled = false;
+            }
+        }
+    });
+    
+    // Fonts sperren
+    Object.keys(levelLocks.fonts).forEach(font => {
+        const btn = document.querySelector(`[onclick="setFont('${font}')"]`);
+        if (btn) {
+            if (currentLevel < levelLocks.fonts[font]) {
+                btn.style.opacity = '0.4';
+                btn.style.cursor = 'not-allowed';
+                btn.disabled = true;
+            } else {
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btn.disabled = false;
+            }
+        }
+    });
+}
 
 function resetCounter() {
     if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
@@ -1153,6 +1189,9 @@ document.addEventListener('DOMContentLoaded', function() {
             settingsOverlay.classList.remove('show');
         }
     });
+    
+    // Initial Level-Locks setzen
+    updateLockedButtons();
 
     // Initial display
     updateDisplay();
