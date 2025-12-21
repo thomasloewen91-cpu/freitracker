@@ -491,38 +491,41 @@
     /* THEME OVERLAY */
     #settingsOverlay {
         position: fixed;
-        bottom: 95px;
+         bottom: 95px;
         right: 25px;
         background: rgba(20,20,20,0.98);
         backdrop-filter: blur(25px);
-        padding: 25px;
+        padding: 20px;
         border-radius: 20px;
         display: none;
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;  /* Reduziert */
         z-index: 1000;
-        min-width: 280px;
+        width: 260px;  /* Fixe kompakte Breite */
+        max-width: 90vw; /* Mobile */
         border: 1px solid var(--accent-border);
         box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
+
     #settingsOverlay.show { display: flex; }
     .category-btn {
-        padding: 16px 20px !important;
+        padding: 12px 16px !important;  /* Kompakter */
         border-radius: 12px !important;
         border: none !important;
         cursor: pointer !important;
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;  /* Kleiner */
         font-weight: 600 !important;
         background: rgba(255,255,255,0.08) !important;
         color: white !important;
         border: 1px solid rgba(255,255,255,0.15) !important;
         display: flex !important;
         align-items: center !important;
-        gap: 12px !important;
+        gap: 10px !important;  /* Weniger Gap */
         transition: all 0.3s !important;
         text-align: left !important;
         width: 100% !important;
     }
+
     .category-btn:hover {
         background: rgba(255,255,255,0.15) !important;
         transform: translateX(4px) !important;
@@ -539,11 +542,11 @@
     /* OPTIONS BUTTONS - UNTEREINANDER + VOLLBREITE */
     .options-group button {
         width: 100% !important;
-        padding: 12px 16px !important;
-        border-radius: 12px !important;
+        padding: 10px 14px !important;  /* Noch kompakter */
+        border-radius: 10px !important;
         border: none !important;
         cursor: pointer !important;
-        font-size: 0.95rem !important;
+        font-size: 0.9rem !important;   /* Kleiner */
         font-weight: 600 !important;
         background: rgba(255,255,255,0.08) !important;
         color: white !important;
@@ -551,6 +554,7 @@
         text-align: left !important;
         transition: all 0.3s !important;
     }
+
     .options-group button:hover {
         background: rgba(255,255,255,0.15) !important;
         transform: translateX(4px) !important;
