@@ -732,6 +732,13 @@
         localStorage.setItem('freiTrackerTheme', color);
         document.getElementById('themeOverlay').style.display = 'none';
     }
+        // 🔤 FONT FUNCTION
+        function setFont(fontName) {
+            const root = document.documentElement;
+            root.style.setProperty('--current-font', `'${fontName}', sans-serif`);
+            localStorage.setItem('freiTrackerFont', fontName);
+            document.getElementById('settingsOverlay').classList.remove('show');
+        }
 
     function loadSavedTheme() {
         const savedTheme = localStorage.getItem('freiTrackerTheme');
@@ -937,11 +944,10 @@
     // EVENT LISTENERS
     document.addEventListener('DOMContentLoaded', function() {
         // Theme functionality
-        const themeIcon = document.getElementById('themeIcon');
-        const themeOverlay = document.getElementById('themeOverlay');
-        
-        themeIcon.addEventListener('click', () => {
-            themeOverlay.style.display = themeOverlay.style.display === 'flex' ? 'none' : 'flex';
+        const settingsIcon = document.getElementById('settingsIcon');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        settingsIcon.addEventListener('click', () => {
+            settingsOverlay.classList.toggle('show');
         });
         
         // Klick außerhalb schließt Overlay
@@ -964,7 +970,8 @@
         
         // Lade gespeichertes Theme
         loadSavedTheme();
-
+        setFont(localStorage.getItem('freiTrackerFont') || 'montserrat');
+        
         // Tutorial
         const tutorialSteps = [
             {
