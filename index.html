@@ -409,11 +409,12 @@
         padding: 10px 24px;
         border-radius: 25px;
         font-weight: 600;
-        text-decoration: none;
+        text-decoration: none; /* Bleibt für Konsistenz */
         font-size: 1rem;
         background: rgba(255,255,255,0.1);
         color: white;
         border: 1px solid var(--accent-border);
+        cursor: pointer; /* ← WICHTIG: Für Button-Verhalten */
         transition: all 0.3s;
         font-family: var(--current-font);
     }
@@ -796,7 +797,7 @@
         <div class="popup-content">
             <div id="popupMessage"></div>
             <button class="popup-close-btn" onclick="closeMotivationPopup()">Verstanden 💪</button>
-            <a href="https://angebote.thomasloewen.de" target="_blank" class="help-btn">Hilfe 🛟</a>
+            <button class="help-btn" onclick="showHelpPopup()">Hilfe 🛟</button>
         </div>
     </div>
 
