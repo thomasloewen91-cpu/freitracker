@@ -1274,9 +1274,15 @@ function saveNote() {
     if (!note) return alert('Bitte eine Notiz eingeben.');
     if (note.length > 140) {
         note = note.substring(0, 140);
-        alert('Notiz auf 140 Zeichen gekürzt.');
+        alert('Notiz auf 140 Zeichen begrenzt.');
     }
-    data.journal.push(note);
+
+    // Speichere jetzt als Objekt mit Datum
+    data.journal.push({
+        text: note,
+        date: new Date().toLocaleDateString('de-DE') // deutsches Datum
+    });
+
     saveData();
     document.getElementById('journal').value = '';
     updateDisplay();
@@ -1531,21 +1537,15 @@ function renderJournalList() {
     countEl.textContent = `(${data.journal.length})`;
 
     listEl.innerHTML = data.journal.map((entry) => {
-        let displayDate, displayText;
-        if (typeof entry === 'string') {
-            displayDate = `Unbekanntes Datum`;
-            displayText = entry;
-        } else {
-            displayDate = entry.date;
-            displayText = entry.text;
-        }
+        let displayDate = entry.date;
+        let displayText = entry.text;
         return `
             <div class="journal-item">
                 <strong>${displayDate}</strong><br>
                 ${displayText}
             </div>
         `;
-    }).reverse().join(''); // Neueste zuerst
+    }).reverse().join('');
 }
 
 </script>
