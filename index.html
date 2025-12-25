@@ -209,6 +209,18 @@
         flex-wrap:wrap;
         justify-content:center;
     }
+
+    /* DESKTOP: Buttons nebeneinander */
+    @media (min-width: 900px) {
+        .action-section {
+            justify-content: flex-start;
+            gap: 20px;
+        }
+        .journal-btn {
+            order: 3; /* Rechts */
+        }
+    }
+        
     .save-btn, .reset-btn {
         padding: 12px 28px;
         border-radius: 25px;
@@ -261,91 +273,114 @@
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
     }
-    /* JOURNAL DROPDOWN - UNTER NOTIZFELD */
-.journal-dropdown {
-    position: absolute !important;
-    top: 100%; /* Direkt unter action-section */
-    left: 0;
-    right: 0;
-    width: 100% !important; /* Volle Breite */
-    max-height: 400px; /* Begrenzte Höhe */
-    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-    backdrop-filter: blur(20px);
-    border-radius: 0 0 25px 25px; /* Nur unten abgerundet */
-    padding: 0;
-    border: 1px solid var(--accent-border);
-    border-top: none; /* Nahtlos */
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    z-index: 100; /* Unter Popups */
-    overflow: hidden;
-    margin-top: 10px; /* Kleiner Abstand */
-}
+   
+    /* JOURNAL DROPDOWN - VOLLE BREITE + ZENTRIERT */
+    .journal-dropdown {
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: fixed !important;
+        top: 60vh; /* Unter beiden Containern */
+        left: 0;
+        right: 0;
+        width: 100vw !important; /* VOLLE BILDSCHIRMBREITE */
+        max-height: 35vh; /* Kompakt */
+        background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+        backdrop-filter: blur(25px);
+        border-radius: 0 0 25px 25px;
+        padding: 0;
+        border: 1px solid var(--accent-border);
+        border-top: none;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        z-index: 999; /* Über allem */
+        overflow: hidden;
+        transform: none; /* Kein Translate mehr */
+    }
 
-.journal-header {
-    background: var(--primary-gradient);
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-}
+    .journal-header {
+        background: var(--primary-gradient);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
 
-.journal-header h3 {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 700;
-}
+    .journal-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-#journalCount {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    font-weight: 400;
-}
+    #journalCount {
+        font-size: 1rem;
+        opacity: 0.9;
+        font-weight: 400;
+        background: rgba(255,255,255,0.2);
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
 
-.journal-close {
-    font-size: 1.8rem;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    transition: all 0.3s;
-    line-height: 1;
-}
+    .journal-close {
+        font-size: 2rem;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 50%;
+        transition: all 0.3s;
+        line-height: 1;
+    }
 
-.journal-close:hover {
-    background: rgba(255,255,255,0.3);
-    transform: rotate(90deg) scale(1.1);
-}
+    .journal-close:hover {
+        background: rgba(255,255,255,0.3);
+        transform: rotate(90deg) scale(1.1);
+    }
 
-.journal-list {
-    max-height: 320px;
-    overflow-y: auto;
-    padding: 25px;
-    padding-bottom: 15px;
-}
+    .journal-list {
+        max-height: calc(35vh - 80px);
+        overflow-y: auto;
+        padding: 30px 40px 40px;
+    }
 
-.journal-item {
-    background: var(--note-bg);
-    padding: 16px 20px;
-    margin-bottom: 14px;
-    border-radius: 12px;
-    border-left: 4px solid var(--accent-color);
-    font-size: 0.95rem;
-    line-height: 1.5;
-    word-wrap: break-word;
-}
+    .journal-item {
+        background: var(--note-bg);
+        padding: 18px 25px;
+        margin-bottom: 16px;
+        border-radius: 15px;
+        border-left: 5px solid var(--accent-color);
+        font-size: 1rem;
+        line-height: 1.6;
+        word-wrap: break-word;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
 
-.journal-item:last-child {
-    margin-bottom: 0;
-}
+    .journal-item:last-child {
+        margin-bottom: 0;
+    }
 
-.journal-empty {
-    text-align: center;
-    color: rgba(255,255,255,0.5);
-    font-style: italic;
-    padding: 50px 20px;
-    font-size: 1rem;
-}
+    .journal-empty {
+        text-align: center;
+        color: rgba(255,255,255,0.5);
+        font-style: italic;
+        padding: 60px 40px;
+        font-size: 1.1rem;
+    }
 
+    /* MOBILE: Noch breiter + höher */
+    @media (max-width: 899px) {
+        .journal-dropdown {
+            top: 55vh;
+            max-height: 40vh;
+        }
+        .journal-list {
+            padding: 25px 30px 30px;
+        }
+    }
 
         
 
@@ -1491,8 +1526,18 @@ document.addEventListener('DOMContentLoaded', function() {
 // JOURNAL FUNCTIONS
 function toggleJournal() {
     const dropdown = document.getElementById('journalDropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     if (dropdown.style.display === 'block') {
+        dropdown.style.opacity = '0';
+        dropdown.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            dropdown.style.display = 'none';
+        }, 200);
+    } else {
+        dropdown.style.display = 'block';
+        setTimeout(() => {
+            dropdown.style.opacity = '1';
+            dropdown.style.transform = 'translateY(0)';
+        }, 10);
         renderJournalList();
     }
 }
