@@ -1582,9 +1582,10 @@ function renderJournalList() {
 // Notiz löschen
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('delete-note')) {
-        const index = parseInt(e.target.closest('.journal-item').dataset.index);
+        const displayedIndex = parseInt(e.target.closest('.journal-item').dataset.index);
+        const realIndex = data.journal.length - 1 - displayedIndex; // Korrigiert für die Reihenfolge
         if (confirm('Diese Notiz löschen?')) {
-            data.journal.splice(data.journal.length - 1 - index, 1); // reverse order beachten
+            data.journal.splice(realIndex, 1);
             saveData();
             renderJournalList();
         }
