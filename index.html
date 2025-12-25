@@ -307,6 +307,33 @@
     .delete-note:hover {
         transform: scale(1.2);
     }
+
+    .mood-options {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+
+    .mood-btn {
+        padding: 6px 10px;
+        border-radius: 12px;
+        border: 1px solid var(--accent-border);
+        background: rgba(255,255,255,0.05);
+        color: white;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+    }
+
+    .mood-btn:hover {
+        background: var(--primary-gradient);
+        transform: translateY(-1px);
+    }
+
+    .mood-btn.selected {
+        background: var(--primary-gradient);
+    }
         
     @media (max-width: 480px) {
         .main-content { padding: 10px; }
@@ -897,7 +924,15 @@
                     <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
                 </div>
                 <div class="journal">
-                    <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
+                    <p style="font-size:0.95rem; margin-bottom:6px;">Wie fühlst du dich gerade beim Dranbleiben an deiner Gewohnheit?</p>
+                    <div class="mood-options">
+                        <button class="mood-btn" data-mood="sehr schwer">😞 Sehr schwer</button>
+                        <button class="mood-btn" data-mood="herausfordernd">😐 Herausfordernd</button>
+                        <button class="mood-btn" data-mood="normal">😌 Normal</button>
+                        <button class="mood-btn" data-mood="leicht">🙂 Leicht</button>
+                        <button class="mood-btn" data-mood="super easy">😎 Super easy</button>
+                    </div>
+                    <textarea id="journal" placeholder="Optionale Notiz... (max. 140 Zeichen)" maxlength="140"></textarea>
                 </div>
                 <div class="action-section">
                     <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
@@ -978,8 +1013,18 @@
     </div>
 
 <script>
+document.querySelectorAll('.mood-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Alle Buttons deselecten
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+        // Diesen Button auswählen
+        btn.classList.add('selected');
+        selectedMood = btn.dataset.mood;
+    });
+});
+
 let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
-let lastLevelShown = 1;
+let lastLevelShown = null;
 
 const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
 const milestoneLabels = {
@@ -1302,22 +1347,20 @@ function createMilestoneScale(currentDays) {
 
 function saveNote() {
     let note = document.getElementById('journal').value.trim();
-    if (!note) return alert('Bitte eine Notiz eingeben.');
-    if (note.length > 140) {
-        note = note.substring(0, 140);
-        alert('Notiz auf 140 Zeichen begrenzt.');
-    }
+    if (!note && !selectedMood) return alert('Bitte eine Notiz eingeben oder einen Mood auswählen.');
 
-    // Speichere jetzt als Objekt mit Datum
-    data.journal.push({
+    let entry = {
         text: note,
-        date: new Date().toLocaleDateString('de-DE') // deutsches Datum
-    });
+        mood: selectedMood || null,
+        date: new Date().toLocaleDateString('de-DE')
+    };
 
+    data.journal.push(entry);
     saveData();
     document.getElementById('journal').value = '';
+    selectedMood = null;
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
     updateDisplay();
-}
 
 function updateDisplay() {
     const now = new Date();
@@ -1570,9 +1613,19 @@ function renderJournalList() {
     // Neueste Notiz oben
     listEl.innerHTML = data.journal
         .map((entry, index) => {
-            let displayDate = entry.date;
-            let displayText = entry.text;
-            // index wird als Array-Index direkt verwendet
+            let displayDate = entry.date || 'Unbekanntes Datum';
+            let displayText = entry.text || '';
+            let moodEmoji = '';
+            
+            // Emoji für Mood
+            switch(entry.mood) {
+                case 'sehr schwer': moodEmoji = '😞'; break;
+                case 'herausfordernd': moodEmoji = '😐'; break;
+                case 'normal': moodEmoji = '😌'; break;
+                case 'leicht': moodEmoji = '🙂'; break;
+                case 'super easy': moodEmoji = '😎'; break;
+            }
+
             return `
                 <div class="journal-item" data-index="${index}">
                     <strong>${displayDate}</strong>
@@ -1585,7 +1638,7 @@ function renderJournalList() {
                             <path d="M9 6V4h6v2"></path>
                         </svg>
                     </span>
-                    ${displayText}
+                    ${moodEmoji ? moodEmoji + ' ' : ''}${displayText}
                 </div>
             `;
         })
