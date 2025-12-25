@@ -1567,25 +1567,31 @@ function renderJournalList() {
 
     countEl.textContent = `(${data.journal.length})`;
 
-    listEl.innerHTML = data.journal.map((entry, index) => {
-        let displayDate = entry.date;
-        let displayText = entry.text;
-        return `
-            <div class="journal-item" data-index="${index}">
-                <strong>${displayDate}</strong>
-                <span class="delete-note" title="Notiz löschen">🗑️</span><br>
-                ${displayText}
-            </div>
-        `;
-    }).reverse().join('');
+    // Neueste Notiz oben
+    listEl.innerHTML = data.journal
+        .map((entry, index) => {
+            let displayDate = entry.date;
+            let displayText = entry.text;
+            // index wird als Array-Index direkt verwendet
+            return `
+                <div class="journal-item" data-index="${index}">
+                    <strong>${displayDate}</strong>
+                    <span class="delete-note" title="Notiz löschen">🗑️</span><br>
+                    ${displayText}
+                </div>
+            `;
+        })
+        .reverse() // Anzeige: neueste oben
+        .join('');
 }
 // Notiz löschen
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('delete-note')) {
-        const displayedIndex = parseInt(e.target.closest('.journal-item').dataset.index);
-        const realIndex = data.journal.length - 1 - displayedIndex; // Korrigiert für die Reihenfolge
+        const displayedItem = e.target.closest('.journal-item');
+        const displayedIndex = parseInt(displayedItem.dataset.index);
+
         if (confirm('Diese Notiz löschen?')) {
-            data.journal.splice(realIndex, 1);
+            data.journal.splice(displayedIndex, 1); // löscht die korrekte Notiz
             saveData();
             renderJournalList();
         }
