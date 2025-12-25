@@ -261,99 +261,91 @@
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
     }
-        /* JOURNAL DROPDOWN */
-    .journal-dropdown {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        padding: 0;
-        max-width: 90vw;
-        max-height: 70vh;
-        width: 500px;
-        border: 1px solid var(--accent-border);
-        box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-        z-index: 1002;
-        overflow: hidden;
-    }
+    /* JOURNAL DROPDOWN - UNTER NOTIZFELD */
+.journal-dropdown {
+    position: absolute !important;
+    top: 100%; /* Direkt unter action-section */
+    left: 0;
+    right: 0;
+    width: 100% !important; /* Volle Breite */
+    max-height: 400px; /* Begrenzte Höhe */
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    backdrop-filter: blur(20px);
+    border-radius: 0 0 25px 25px; /* Nur unten abgerundet */
+    padding: 0;
+    border: 1px solid var(--accent-border);
+    border-top: none; /* Nahtlos */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    z-index: 100; /* Unter Popups */
+    overflow: hidden;
+    margin-top: 10px; /* Kleiner Abstand */
+}
 
-    .journal-header {
-        background: var(--primary-gradient);
-        padding: 20px 25px;
-        border-radius: 25px 25px 0 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: white;
-    }
+.journal-header {
+    background: var(--primary-gradient);
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
 
-    .journal-header h3 {
-        margin: 0;
-        font-size: 1.4rem;
-        font-weight: 700;
-    }
+.journal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
 
-    .journal-close {
-        font-size: 2rem;
-        cursor: pointer;
-        padding: 5px 10px;
-        border-radius: 50%;
-        transition: all 0.3s;
-    }
+#journalCount {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
 
-    .journal-close:hover {
-        background: rgba(255,255,255,0.2);
-        transform: rotate(90deg);
-    }
+.journal-close {
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    line-height: 1;
+}
 
-    .journal-list {
-        max-height: 50vh;
-        overflow-y: auto;
-        padding: 25px;
-    }
+.journal-close:hover {
+    background: rgba(255,255,255,0.3);
+    transform: rotate(90deg) scale(1.1);
+}
 
-    .journal-item {
-        background: var(--note-bg);
-        padding: 15px 20px;
-        margin-bottom: 12px;
-        border-radius: 15px;
-        border-left: 4px solid var(--accent-color);
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-    
-    .journal-item:last-child {
-        margin-bottom: 0;
-    }
+.journal-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 25px;
+    padding-bottom: 15px;
+}
 
-    .journal-empty {
-        text-align: center;
-        color: rgba(255,255,255,0.6);
-        font-style: italic;
-        padding: 40px 20px;
-    }
+.journal-item {
+    background: var(--note-bg);
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-color);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
 
-    .journal-btn {
-        padding: 12px 24px;
-        border-radius: 25px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-family: var(--current-font);
-        font-size: 1rem;
-        border: none;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        background: linear-gradient(45deg, #6c757d, #adb5bd);
-        color: white;
-    }
+.journal-item:last-child {
+    margin-bottom: 0;
+}
 
-    .journal-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(173,181,189,0.7);
-    }
+.journal-empty {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+    padding: 50px 20px;
+    font-size: 1rem;
+}
+
 
         
 
@@ -865,10 +857,10 @@
                 <button class="journal-btn" onclick="toggleJournal()" id="journalBtn">Journal 📖</button>
             </div>
 
-            <!-- NEU: Journal Dropdown -->
+            <!-- NEU: Journal Dropdown - UNTER Notizfeld -->
             <div id="journalDropdown" class="journal-dropdown" style="display: none;">
                 <div class="journal-header">
-                    <h3>Mein Journal</h3>
+                    <h3>Mein Journal <span id="journalCount">(0)</span></h3>
                     <span class="journal-close" onclick="toggleJournal()">&times;</span>
                 </div>
                 <div id="journalList" class="journal-list">
@@ -1505,18 +1497,21 @@ function toggleJournal() {
     }
 }
 
-// Journal rendern
 function renderJournalList() {
     const listEl = document.getElementById('journalList');
+    const countEl = document.getElementById('journalCount');
+    
     if (!Array.isArray(data.journal) || data.journal.length === 0) {
         listEl.innerHTML = '<div class="journal-empty">Noch keine Notizen gespeichert.<br>Deine erste Reise wird hier dokumentiert.</div>';
+        countEl.textContent = '(0)';
         return;
     }
 
+    countEl.textContent = `(${data.journal.length})`;
+    
     listEl.innerHTML = data.journal.map((entry, index) => {
         let displayDate, displayText;
         if (typeof entry === 'string') {
-            // Alte Notizen
             displayDate = `Unbekanntes Datum`;
             displayText = entry;
         } else {
@@ -1531,6 +1526,7 @@ function renderJournalList() {
         `;
     }).reverse().join(''); // Neueste zuerst
 }
+
 
 // Journal bei Klick außen schließen
 document.addEventListener('click', function(e) {
