@@ -80,9 +80,10 @@
     /* DESKTOP: Mehr Abstand, Titel fixiert */
     @media (min-width: 900px) {
         .main-content { 
-            flex-direction: row; 
-            justify-content: center; 
-            gap: 40px; 
+            flex-direction: column;   /* WICHTIG: Journal darunter */
+            align-items: center;      /* zentriert alle Kinder */
+            justify-content: flex-start;
+            gap: 40px;
             padding-top: 170px;
         }
         .site-title {
@@ -107,6 +108,14 @@
         width: 100%;
         max-width: 450px;
         border: 1px solid var(--accent-border); /* DYNAMISCH */
+    }
+
+    .counter-row {
+        display: flex;        /* Cards nebeneinander */
+        gap: 40px;            /* Abstand zwischen Cards */
+        justify-content: center;
+        flex-wrap: wrap;      /* mobile Ansicht: Cards untereinander */
+        width: 100%;
     }
 
     /* Level-Titel */
@@ -832,6 +841,7 @@
 
     <!-- MAIN CONTENT CONTAINER -->
     <div class="main-content">
+        
         <!-- HAUPTTITEL -->
         <div class="site-title">
             <h1>Dein FreiTracker</h1>
@@ -874,6 +884,7 @@
             </div>
             <div id="journalList" class="journal-list"></div>
         </div>
+        
     </div>
 
     <!-- FOOTER - GANZ UNTEN -->
