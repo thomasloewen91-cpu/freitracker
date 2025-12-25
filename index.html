@@ -1592,14 +1592,15 @@ function renderJournalList() {
         .reverse() // Anzeige: neueste oben
         .join('');
 }
-// Notiz löschen
+// Notiz löschen – funktioniert auch mit SVG-Icon
 document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('delete-note')) {
-        const displayedItem = e.target.closest('.journal-item');
+    let span = e.target.closest('.delete-note');
+    if (span) {
+        const displayedItem = span.closest('.journal-item');
         const displayedIndex = parseInt(displayedItem.dataset.index);
 
         if (confirm('Diese Notiz löschen?')) {
-            data.journal.splice(displayedIndex, 1); // löscht die korrekte Notiz
+            data.journal.splice(displayedIndex, 1); // löscht die angeklickte Notiz
             saveData();
             renderJournalList();
         }
