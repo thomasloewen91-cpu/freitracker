@@ -1045,9 +1045,17 @@ function closeHelpPopup() {
 
 // Help Links auto-close + neue Fenster
 document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('help-option')) {
-        setTimeout(() => closeHelpPopup(), 200);
-    }
+  if (e.target.classList.contains('help-option')) {
+    setTimeout(closeHelpPopup, 200);
+  }
+  // NEU: Help-Popup schließen bei Klick auf grauen Hintergrund
+  if (e.target.id === 'helpPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
+    closeHelpPopup();
+  }
+  // NEU: Motivation-Popup schließen bei Klick auf grauen Hintergrund  
+  if (e.target.id === 'motivationPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
+    closeMotivationPopup();
+  }
 });
 
 
