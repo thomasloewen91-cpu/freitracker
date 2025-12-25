@@ -81,21 +81,21 @@
     @media (min-width: 900px) {
         .main-content { 
             flex-direction: column;   /* WICHTIG: Journal darunter */
-            align-items: center;      /* zentriert alle Kinder */
+            align-items: center;      /* zentriert alle Karten */
             justify-content: flex-start;
             gap: 40px;
             padding-top: 170px;
         }
+    
         .site-title {
-            position: absolute;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: auto;
+            position: static;      /* normales Verhalten */
+            transform: none;       /* kein verschieben nötig */
+            width: 100%;
             max-width: 800px;
-            z-index: 10;
-            margin: 0 !important;
+            margin: 20px 0 60px 0; /* optionaler Abstand */
+            text-align: center;    /* zentriert */
         }
+}
     }
 
     .counter-card {
