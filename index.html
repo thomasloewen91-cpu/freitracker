@@ -40,6 +40,14 @@
         gap: 30px;
         flex: 1;
     }
+
+    .counter-row {
+        display: flex;
+        gap: 40px;       /* Abstand zwischen den Cards */
+        justify-content: center;
+        flex-wrap: wrap;  /* sorgt dafür, dass mobile Ansicht untereinander fällt */
+        width: 100%;
+    }
     
     /* HAUPTTITEL - PERFEKT ZENTRIERT MOBILE + DESKTOP */
     .site-title {
@@ -278,11 +286,10 @@
     .journal-container {
         width: 100%;
         max-width: 900px;
-        margin: 30px auto 0;
+        margin: 20px auto 0;
         background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
         backdrop-filter: blur(25px);
         border-radius: 25px;
-        padding: 0;
         border: 1px solid var(--accent-border);
         box-shadow: 0 20px 50px rgba(0,0,0,0.7);
         overflow: hidden;
@@ -834,27 +841,29 @@
         </div>
 
         <!-- COUNTER KARTEN -->
-        <div class="counter-card">
-            <h1 id="levelTitle">🚀 Level 1</h1>
-            <div class="days" id="days">0</div>
-            <div class="milestone-scale" id="milestoneScale"></div>
-            <div class="last-view" id="lastView"></div>
-            <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
-            <div class="bible" id="bibleVerse">Lade...</div>
-        </div>
+        <div class="counter-row">
+            <div class="counter-card">
+                <h1 id="levelTitle">🚀 Level 1</h1>
+                <div class="days" id="days">0</div>
+                <div class="milestone-scale" id="milestoneScale"></div>
+                <div class="last-view" id="lastView"></div>
+                <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
+                <div class="bible" id="bibleVerse">Lade...</div>
+            </div>
 
-        <div class="counter-card">
-            <div id="lastNoteContainer">
-                <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
-            </div>
-            <div class="journal">
-                <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
-            </div>
-            <div class="action-section">
-                <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
-                <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
-                <!-- NEU: Journal Button -->
-                <button class="journal-btn" onclick="toggleJournal()" id="journalBtn">Journal 📖</button>
+            <div class="counter-card">
+                <div id="lastNoteContainer">
+                    <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
+                </div>
+                <div class="journal">
+                    <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
+                </div>
+                <div class="action-section">
+                    <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
+                    <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
+                    <!-- NEU: Journal Button -->
+                    <button class="journal-btn" onclick="toggleJournal()" id="journalBtn">Journal 📖</button>
+                </div>
             </div>
         </div>
         
@@ -1485,22 +1494,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('helpPopup').classList.add('show');
     }
 
-// JOURNAL FUNCTIONS
+// TOGGLE FÜR DAS JOURNAL (mittig unter den beiden Counter-Cards)
 function toggleJournal() {
     const container = document.getElementById('journalContainer');
+    // öffnen / schließen
+    container.style.display = container.style.display === 'block' ? 'none' : 'block';
+    // bei Öffnen Inhalte rendern & scrollen
     if (container.style.display === 'block') {
-        container.style.display = 'none';
-    } else {
-        container.style.display = 'block';
         renderJournalList();
         container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
+// RENDER-FUNKTION bleibt unverändert
 function renderJournalList() {
     const listEl = document.getElementById('journalList');
     const countEl = document.getElementById('journalCount');
-    
+
     if (!Array.isArray(data.journal) || data.journal.length === 0) {
         listEl.innerHTML = '<div class="journal-empty">Noch keine Notizen gespeichert.<br>Deine erste Reise wird hier dokumentiert.</div>';
         countEl.textContent = '(0)';
@@ -1508,8 +1518,8 @@ function renderJournalList() {
     }
 
     countEl.textContent = `(${data.journal.length})`;
-    
-    listEl.innerHTML = data.journal.map((entry, index) => {
+
+    listEl.innerHTML = data.journal.map((entry) => {
         let displayDate, displayText;
         if (typeof entry === 'string') {
             displayDate = `Unbekanntes Datum`;
