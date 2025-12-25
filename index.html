@@ -1383,23 +1383,29 @@ function updateDisplay() {
     const daysFree = data.lastReset
         ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
         : 0;
+
+    // Tage und letzte Ansicht aktualisieren
     document.getElementById('days').textContent = daysFree;
     document.getElementById('lastView').textContent = data.lastReset
         ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`
         : 'Noch nie zurückgesetzt';
+
+    // Highscore prüfen und aktualisieren
     let highscore = parseInt(localStorage.getItem('freiTrackerHighscore')) || 0;
     if (daysFree > highscore) {
         highscore = daysFree;
         localStorage.setItem('freiTrackerHighscore', highscore);
     }
     document.getElementById('highscore').textContent = highscore;
+
+    // Level berechnen und anzeigen
     const level = getLevel(daysFree);
     const levelTitleText = levelTitles[level] || "🚀 Level 1";
     const levelTitleEl = document.getElementById('levelTitle');
 
     if (level !== lastLevelShown) {
         levelTitleEl.classList.remove('level-fade');
-        void levelTitleEl.offsetWidth;
+        void levelTitleEl.offsetWidth; // Trigger Reflow für Animation
         levelTitleEl.textContent = levelTitleText;
         levelTitleEl.classList.add('level-fade');
         lastLevelShown = level;
@@ -1407,9 +1413,13 @@ function updateDisplay() {
         levelTitleEl.textContent = levelTitleText;
     }
 
+    // Meilensteinskala aktualisieren
     createMilestoneScale(daysFree);
+
+    // Zufälligen Bibelvers anzeigen
     document.getElementById('bibleVerse').textContent = getRandomVerse();
 
+    // Milestone Popup für erreichte Meilensteine
     const milestone = document.getElementById('milestone');
     if (milestones.includes(daysFree)) {
         milestone.style.display = 'block';
@@ -1417,6 +1427,7 @@ function updateDisplay() {
     } else {
         milestone.style.display = 'none';
     }
+}
 
     // 🔒 LEVEL-LOCKED BUTTONS UPDATEN
     updateLockedButtons();
