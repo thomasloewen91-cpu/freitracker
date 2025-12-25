@@ -80,20 +80,21 @@
     /* DESKTOP: Mehr Abstand, Titel fixiert */
     @media (min-width: 900px) {
         .main-content { 
-            flex-direction: column;   /* WICHTIG: Journal darunter */
-            align-items: center;      /* zentriert alle Karten */
+            flex-direction: column;   /* Container untereinander */
+            align-items: center;      /* zentriert Cards + Journal */
             justify-content: flex-start;
             gap: 40px;
-            padding-top: 170px;
+            padding-top: 20px;        /* Abstand oben, nicht zu groß */
+            min-height: 100vh;        /* Content sichtbar */
         }
-    
+
         .site-title {
-            position: static;      /* normales Verhalten */
-            transform: none;       /* kein verschieben nötig */
+            position: static;         /* scrollt normal */
+            transform: none;
             width: 100%;
             max-width: 800px;
-            margin: 20px 0 60px 0; /* optionaler Abstand */
-            text-align: center;    /* zentriert */
+            margin: 20px 0 60px 0;
+            text-align: center;
         }
     }
 
