@@ -1,1407 +1,748 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dein FreiTracker – Ein Jahr frei von negativen Gewohnheiten</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&family=Inter:wght@400;600;700&family=Tinos:wght@400;700&family=Open+Sans:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Bungee:wght@400&display=swap" rel="stylesheet" />
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dein FreiTracker - Ein Jahr frei von negativen Gewohnheiten</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&family=Inter:wght@400;600;700&family=Tinos:wght@400;700&family=Open+Sans:wght@400;600;700&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&family=Bungee:wght@400&display=swap" rel="stylesheet">
+  <style>
     :root {
-        --primary-gradient: linear-gradient(45deg, #ff6b09, #ff8e53);
-        --secondary-gradient: linear-gradient(90deg, #ff6b09, #ff8e53);
-        --accent-color: #ff6b09;
-        --accent-border: rgba(255,107,9,0.2);
-        --note-bg: rgba(255,142,83,0.15); /* NEU! */
-        --save-hover-shadow: rgba(255,140,80,0.7); /* NEU! */
-        --popup-hover-shadow: rgba(255,107,9,0.6); /* NEU! */
-        --current-font: 'Montserrat', sans-serif;
+      --primary-gradient: linear-gradient(45deg, #ff6b09, #ff8e53);
+      --secondary-gradient: linear-gradient(90deg, #ff6b09, #ff8e53);
+      --accent-color: #ff6b09;
+      --accent-border: rgba(255,107,9,0.2);
+      --note-bg: rgba(255,142,83,0.15);
+      --save-hover-shadow: rgba(255,140,80,0.7);
+      --popup-hover-shadow: rgba(255,107,9,0.6);
+      --current-font: 'Montserrat', sans-serif;
     }
 
-        
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-        height: 100%;
-        width: 100%;
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
-        color: white;
-        font-family: var(--current-font);
-        overflow-y: auto;
-        scroll-behavior: smooth;
-    }
-    
-    /* MAIN CONTAINER FÜR CONTENT */
-    .main-content {
-        min-height: calc(100vh - 120px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 20px;
-        gap: 30px;
-        flex: 1;
-    }
-    
-    /* HAUPTTITEL - PERFEKT ZENTRIERT MOBILE + DESKTOP */
-    .site-title {
-        width: 100%;
-        text-align: center;
-        margin: 20px 0 60px 0;
-        padding: 0 20px;
-    }
-    .site-title h1 {
-        font-size: clamp(2rem, 6vw, 3.5rem);
-        font-weight: 700;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 1px;
-        margin: 0;
-        display: block;
-    }
-    
-    /* MOBILE: Weniger Abstand */
-    @media (max-width: 899px) {
-        .site-title {
-            margin: 30px 0 15px 0 !important;
-        }
-        .main-content {
-            padding-top: 20px;
-        }
-    }
+    html, body { height: 100%; width: 100%; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%); color: white; font-family: var(--current-font); overflow-y: auto; scroll-behavior: smooth; }
 
-    /* DESKTOP: Mehr Abstand, Titel fixiert */
-    @media (min-width: 900px) {
-        .main-content { 
-            flex-direction: row; 
-            justify-content: center; 
-            gap: 40px; 
-            padding-top: 170px;
-        }
-        .site-title {
-            position: absolute;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: auto;
-            max-width: 800px;
-            z-index: 10;
-            margin: 0 !important;
-        }
-    }
+    .main-content { min-height: calc(100vh - 120px); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; gap: 30px; flex: 1; }
 
-    .counter-card {
-        background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-        backdrop-filter: blur(20px);
-        border-radius: 30px;
-        padding: 40px 30px;
-        text-align: center;
-        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        width: 100%;
-        max-width: 450px;
-        border: 1px solid var(--accent-border); /* DYNAMISCH */
-    }
+    .site-title { width: 100%; text-align: center; margin: 20px 0 60px 0; padding: 0 20px; }
+    .site-title h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin: 0; display: block; }
 
-    /* Level-Titel */
-    h1#levelTitle {
-        font-size: clamp(1.4rem, 4vw, 2rem);
-        margin-bottom: 10px;
-    }
+    @media (max-width: 899px) { .site-title { margin: 30px 0 15px 0 !important; } .main-content { padding-top: 20px; } }
+    @media (min-width: 900px) { .main-content { flex-direction: row; justify-content: center; gap: 40px; padding-top: 170px; } .site-title { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: auto; max-width: 800px; z-index: 10; margin: 0 !important; } }
 
-    .days {
-        font-size: clamp(3rem, 10vw, 5rem);
-        font-weight: 700;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin: 10px 0 20px;
-    }
+    .counter-card { background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 30px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); width: 100%; max-width: 450px; border: 1px solid var(--accent-border); }
+    #levelTitle { font-size: clamp(1.4rem, 4vw, 2rem); margin-bottom: 10px; }
+    .days { font-size: clamp(3rem, 10vw, 5rem); font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0 20px; }
     .last-view { font-size: 1.1rem; opacity: 0.8; margin-top: 10px; }
-    .milestone { 
-        font-size: 1.2rem; 
-        color: var(--accent-color);
-        margin-top: 10px; 
-        animation: pulse 2s infinite; 
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
+    .milestone { font-size: 1.2rem; color: var(--accent-color); margin-top: 10px; animation: pulse 2s infinite; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
     .bible { font-style: italic; opacity: 0.9; margin-top: 10px; font-size: 0.95rem; min-height: 2.5em; }
 
-    /* EINFACHE TAGES-SKALA - DYNAMISCH */
     .milestone-scale { margin: 25px 0; }
     .simple-scale-container { width: 100%; }
-    .simple-scale-line {
-        position: relative;
-        width: 100%;
-        height: 6px;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.15);
-        overflow: visible;
-    }
-    .simple-scale-fill {
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        border-radius: 999px;
-        background: var(--secondary-gradient);
-        width: 0%;
-        transition: width 0.4s ease;
-    }
-    .simple-scale-ticks {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 100%;
-        height: 1px;
-        transform: translateY(-50%);
-        pointer-events: none;
-    }
-    .simple-scale-tick {
-        position: absolute;
-        width: 2px;
-        height: 10px;
-        background: rgba(255,255,255,0.7);
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 1px;
-    }
-    .simple-scale-labels {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 8px;
-        font-size: 0.85rem;
-        opacity: 0.8;
-    }
-    .next-milestone {
-        font-weight: 700;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 1.2rem;
-        margin-top: 15px;
-    }
-    .days-left { 
-        font-size: 1.5rem; 
-        color: var(--accent-color); /* DYNAMISCH */
-        font-weight: 600; 
-    }
+    .simple-scale-line { position: relative; width: 100%; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: visible; }
+    .simple-scale-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 999px; background: var(--secondary-gradient); width: 0; transition: width 0.4s ease; }
+    .simple-scale-ticks { position: absolute; left: 0; top: 50%; width: 100%; height: 1px; transform: translateY(-50%); pointer-events: none; }
+    .simple-scale-tick { position: absolute; width: 2px; height: 10px; background: rgba(255,255,255,0.7); top: 50%; transform: translate(-50%, -50%); border-radius: 1px; }
+    .simple-scale-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85rem; opacity: 0.8; }
+    .next-milestone { font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.2rem; margin-top: 15px; }
+    .days-left { font-size: 1.5rem; color: var(--accent-color); font-weight: 600; }
 
-    .last-note {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: var(--accent-color);
-        margin-bottom: 15px;
-        padding:12px;
-        background: var(--note-bg); /* DYNAMISCH! ✅ */
-        border-radius:12px;
-        border-left:5px solid var(--accent-color);
-        word-wrap: break-word;
-        max-height:10em;
-        overflow-y:auto;
-        white-space:pre-wrap;
-    }
-    .action-section {
-        margin-top:20px;
-        display:flex;
-        gap:15px;
-        flex-wrap:wrap;
-        justify-content:center;
-    }
-    .save-btn, .reset-btn {
-        padding: 12px 28px;
-        border-radius: 25px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-family: var(--current-font);
-        font-size: 1rem;
-        border: none;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-    .save-btn {
-        background: var(--primary-gradient);
-        color: white;
-    }
-    .save-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px var(--save-hover-shadow); /* DYNAMISCH! ✅ */
-    }
-    .reset-btn {
-        background: linear-gradient(45deg,#666,#888);
-        color: white;
-    }
-    .reset-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(100,100,100,0.6);
-    }
-    .journal { margin-top:10px; }
-    textarea {
-        width:100%;
-        min-height:100px;
-        padding:15px;
-        border-radius:15px;
-        border:1px solid var(--accent-border); /* DYNAMISCH */
-        background:rgba(255,255,255,0.05);
-        color:white;
-        font-family: var(--current-font);
-        resize:vertical;
-    }
-    @media (max-width: 480px) {
-        .main-content { padding: 10px; }
-        .counter-card { padding: 30px 20px; max-width: 100vw; }
-    }
+    #lastEntryContainer { margin-top: 20px; }
+    .last-entry { font-size: 1.2rem; font-weight: 700; color: var(--accent-color); padding: 12px; background: var(--note-bg); border-radius: 12px; border-left: 5px solid var(--accent-color); display: flex; align-items: center; gap: 10px; word-wrap: break-word; max-height: 10em; overflow-y: auto; white-space: pre-wrap; }
 
-    /* kleines Level-Fade */
-    .level-fade {
-        animation: levelFade 0.5s ease;
-    }
-    @keyframes levelFade {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
+    .mood-selector { margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .mood-btn { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--accent-border); background: rgba(255,255,255,0.1); color: white; font-size: 24px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+    .mood-btn:hover { background: var(--primary-gradient); transform: scale(1.1); }
+    .mood-btn.selected { background: var(--primary-gradient); box-shadow: 0 0 20px var(--accent-color); transform: scale(1.1); }
 
-    /* FOOTER - IMMER GANZ UNTEN - DYNAMISCH */
-    .footer {
-        width: 100%;
-        margin-top: 40px;
-        text-align: center;
-        padding: 30px 20px;
-        font-size: 0.85rem;
-        opacity: 0.8;
-        color: white;
-        background: rgba(255,255,255,0.03);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid var(--accent-border); /* DYNAMISCH */
-        flex-shrink: 0;
-    }
-    .footer a {
-        color: var(--accent-color); /* DYNAMISCH */
-        text-decoration: none;
-        font-weight: 600;
-    }
-    .footer a:hover {
-        text-decoration: underline;
-    }
+    .journal { margin-top: 10px; }
+    .journal textarea { width: 100%; min-height: 100px; padding: 15px; border-radius: 15px; border: 1px solid var(--accent-border); background: rgba(255,255,255,0.05); color: white; font-family: var(--current-font); resize: vertical; }
 
-    /* MOTIVIERTES POPUP - DYNAMISCH */
-    .motivation-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-    .motivation-popup.show {
-        opacity: 1;
-        visibility: visible;
-    }
-    /* HELP POPUP */
-    .help-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1001;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-    .help-popup.show {
-        opacity: 1;
-        visibility: visible;
-    }
-    .help-popup h3 {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--accent-color);
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    .help-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin: 25px 0;
-        max-width: 500px;
-        width: 90%;
-    }
-    .help-option {
-        display: block;
-        padding: 16px 20px;
-        background: rgba(255,255,255,0.08);
-        color: white;
-        text-decoration: none;
-        border-radius: 12px;
-        border: 1px solid var(--accent-border);
-        font-size: 1rem;
-        font-weight: 500;
-        line-height: 1.4;
-        transition: all 0.3s;
-        font-family: var(--current-font);
-    }
-    .help-option:hover {
-        background: rgba(255,255,255,0.15);
-        transform: translateX(5px);
-        box-shadow: 0 5px 20px var(--popup-hover-shadow);
-        color: white;
-    }
+    .action-section { margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+    .save-btn, .reset-btn { padding: 12px 28px; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: var(--current-font); font-size: 1rem; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .save-btn { background: var(--primary-gradient); color: white; }
+    .save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px var(--save-hover-shadow); }
+    .reset-btn { background: linear-gradient(45deg, #666, #888); color: white; }
+    .reset-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(100,100,100,0.6); }
 
-    
-    .popup-content {
-        background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        padding: 40px 30px;
-        text-align: center;
-        max-width: 90%;
-        max-height: 80%;
-        overflow-y: auto;
-        border: 1px solid var(--accent-border); /* DYNAMISCH */
-        box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-    }
-    .popup-title {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--accent-color); /* DYNAMISCH */
-        margin-bottom: 15px;
-        line-height: 1.3;
-    }
-    .popup-verse {
-        font-size: 1.1rem;
-        opacity: 0.9;
-        margin-bottom: 25px;
-        line-height: 1.4;
-    }
-    .popup-close-btn {
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-weight: 600;
-        cursor: pointer;
-        background: var(--primary-gradient);
-        color: white;
-        border: none;
-        font-size: 1.1rem;
-        box-shadow: 0 5px 15px var(--save-hover-shadow); /* DYNAMISCH! ✅ */
-        transition: all 0.3s;
-    }
-    .popup-close-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px var(--popup-hover-shadow); /* DYNAMISCH! ✅ */
-    }
-    .help-btn {
-        display: inline-block;
-        margin-top: 15px;
-        padding: 10px 24px;
-        border-radius: 25px;
-        font-weight: 600;
-        text-decoration: none; /* Bleibt für Konsistenz */
-        font-size: 1rem;
-        background: rgba(255,255,255,0.1);
-        color: white;
-        border: 1px solid var(--accent-border);
-        cursor: pointer; /* ← WICHTIG: Für Button-Verhalten */
-        transition: all 0.3s;
-        font-family: var(--current-font);
-    }
+    .history-btn { padding: 8px 20px; border-radius: 20px; background: var(--secondary-gradient); color: white; border: none; font-weight: 600; cursor: pointer; margin-top: 15px; }
 
-    .help-btn:hover {
-        background: rgba(255,255,255,0.2);
-        transform: translateY(-1px);
-        box-shadow: 0 5px 15px var(--popup-hover-shadow);
-        color: white;
-        text-decoration: none;
-    }
+    @media (max-width: 480px) { .main-content { padding: 10px; } .counter-card { padding: 30px 20px; max-width: 100vw; } }
 
+    .level-fade { animation: levelFade 0.5s ease; }
+    @keyframes levelFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-    /* SUPPORT-LINK – GUT SICHTBAR */
-    .support-link {
-        display: block;
-        margin-bottom: 14px;
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--accent-color); /* DYNAMISCH */
-        text-decoration: none;
-    }
-    .support-link:hover {
-        text-decoration: underline;
-    }
+    .footer { width: 100%; margin-top: 40px; text-align: center; padding: 30px 20px; font-size: 0.85rem; opacity: 0.8; color: white; background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border-top: 1px solid var(--accent-border); flex-shrink: 0; }
+    .footer a { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+    .footer a:hover { text-decoration: underline; }
 
-    /* DEZENTE LEGAL-LINKS */
-    .legal-links {
-        font-size: 0.8rem;
-        opacity: 0.6;
-        margin-bottom: 10px;
-    }
-    .legal-links a {
-        color: var(--accent-color); /* DYNAMISCH */
-        font-weight: 500;
-        text-decoration: none;
-    }
-    .legal-links a:hover {
-        text-decoration: underline;
-        opacity: 1;
-    }
-    .legal-links .divider {
-        margin: 0 6px;
-        opacity: 0.4;
-    }
-    .footer .copyright {
-        font-size: 0.75rem;
-        opacity: 0.5;
-        margin-top: 10px;
-    }
+    .motivation-popup, .help-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+    .motivation-popup.show, .help-popup.show { opacity: 1; visibility: visible; }
+    .help-popup { z-index: 1001; }
+    .help-popup h3 { font-size: 1.4rem; font-weight: 700; color: var(--accent-color); margin-bottom: 20px; text-align: center; }
+    .help-buttons { display: flex; flex-direction: column; gap: 12px; margin: 25px 0; max-width: 500px; width: 90%; }
+    .help-option { display: block; padding: 16px 20px; background: rgba(255,255,255,0.08); color: white; text-decoration: none; border-radius: 12px; border: 1px solid var(--accent-border); font-size: 1rem; font-weight: 500; line-height: 1.4; transition: all 0.3s; font-family: var(--current-font); }
+    .help-option:hover { background: rgba(255,255,255,0.15); transform: translateX(5px); box-shadow: 0 5px 20px var(--popup-hover-shadow); color: white; }
 
-    /* TUTORIAL OVERLAY */
-    .tutorial-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.75);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-    }
-    .tutorial-overlay.hidden {
-        display: none;
-    }
-    .tutorial-box {
-        background: #111;
-        border-radius: 12px;
-        padding: 24px;
-        max-width: 420px;
-        width: 90%;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-    .tutorial-box h2 {
-        margin-bottom: 12px;
-        font-size: 1.2rem;
-    }
-    .tutorial-box p {
-        font-size: 0.95rem;
-        line-height: 1.4;
-        opacity: 0.9;
-        white-space: pre-line;
-    }
-    .tutorial-box button {
-        margin-top: 20px;
-        padding: 10px 16px;
-        border-radius: 8px;
-        border: none;
-        background: var(--primary-gradient);
-        color: #000;
-        font-weight: bold;
-        cursor: pointer;
-    }
+    .popup-content { background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); backdrop-filter: blur(20px); border-radius: 25px; padding: 40px 30px; text-align: center; max-width: 90%; max-height: 80%; overflow-y: auto; border: 1px solid var(--accent-border); box-shadow: 0 25px 50px rgba(0,0,0,0.7); }
+    .popup-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-color); margin-bottom: 15px; line-height: 1.3; }
+    .popup-verse { font-size: 1.1rem; opacity: 0.9; margin-bottom: 25px; line-height: 1.4; }
+    .popup-close-btn { padding: 12px 30px; border-radius: 25px; font-weight: 600; cursor: pointer; background: var(--primary-gradient); color: white; border: none; font-size: 1.1rem; box-shadow: 0 5px 15px var(--save-hover-shadow); transition: all 0.3s; }
+    .popup-close-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px var(--popup-hover-shadow); }
+    .help-btn { display: inline-block; margin-top: 15px; padding: 10px 24px; border-radius: 25px; font-weight: 600; text-decoration: none; font-size: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--accent-border); cursor: pointer; transition: all 0.3s; font-family: var(--current-font); }
+    .help-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); box-shadow: 0 5px 15px var(--popup-hover-shadow); color: white; text-decoration: none; }
 
-    /* THEME BUTTONS - IMMER GRAU */
-    #themeOverlay button {
-        padding: 5px 10px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: transform 0.2s;
-        background: rgba(255,255,255,0.1) !important; /* IMMER GRAU */
-        color: white;
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-    #themeOverlay button:hover {
-        transform: scale(1.1);
-        background: rgba(255,255,255,0.2) !important;
-    }
+    .support-link { display: block; margin-bottom: 14px; font-size: 1rem; font-weight: 700; color: var(--accent-color); text-decoration: none; }
+    .support-link:hover { text-decoration: underline; }
+    .legal-links { font-size: 0.8rem; opacity: 0.6; margin-bottom: 10px; }
+    .legal-links a { color: var(--accent-color); font-weight: 500; text-decoration: none; }
+    .legal-links a:hover { text-decoration: underline; opacity: 1; }
+    .legal-links .divider { margin: 0 6px; opacity: 0.4; }
+    .footer .copyright { font-size: 0.75rem; opacity: 0.5; margin-top: 10px; }
 
-    /* THEME ICON - IMMER GRAU */
-    #themeIcon {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        background: rgba(255,255,255,0.1) !important; /* IMMER GRAU */
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-        z-index: 1000;
-        font-size: 20px;
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-     #settingsIcon {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 55px;
-        height: 55px;
-        background: rgba(255,255,255,0.15);
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        z-index: 1000;
-        font-size: 24px;
-        border: 2px solid rgba(255,255,255,0.3);
-        transition: all 0.3s ease;
-    }
-    #settingsIcon:hover {
-        background: rgba(255,255,255,0.25);
-        transform: scale(1.1) rotate(90deg);
-        box-shadow: 0 12px 35px rgba(0,0,0,0.6);
-    }
-    #helpIcon {
-        position: fixed;
-        bottom: 25px;
-        left: 25px;
-        width: 55px;
-        height: 55px;
-        background: rgba(255,255,255,0.15);
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-         z-index: 1000;
-        font-size: 24px;
-        border: 2px solid rgba(255,255,255,0.3);
-        transition: all 0.3s ease;
-    }
+    .tutorial-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    .tutorial-overlay.hidden { display: none; }
+    .tutorial-box { background: #111; border-radius: 12px; padding: 24px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
+    .tutorial-box h2 { margin-bottom: 12px; font-size: 1.2rem; }
+    .tutorial-box p { font-size: 0.95rem; line-height: 1.4; opacity: 0.9; white-space: pre-line; }
+    .tutorial-box button { margin-top: 20px; padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary-gradient); color: #000; font-weight: bold; cursor: pointer; }
 
-    #helpIcon:hover {
-        background: rgba(255,255,255,0.25);
-        transform: scale(1.1) rotate(180deg);
-        box-shadow: 0 12px 35px rgba(0,0,0,0.6);
-    }
+    #settingsIcon, #helpIcon { position: fixed; bottom: 25px; width: 55px; height: 55px; background: rgba(255,255,255,0.15); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.4); z-index: 1000; font-size: 24px; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s ease; }
+    #settingsIcon { right: 25px; }
+    #helpIcon { left: 25px; }
+    #settingsIcon:hover, #helpIcon:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); box-shadow: 0 12px 35px rgba(0,0,0,0.6); }
+    #settingsIcon:hover { rotate: 90deg; }
+    #helpIcon:hover { rotate: 180deg; }
 
-
-    /* THEME OVERLAY */
-    #settingsOverlay {
-        position: fixed;
-         bottom: 95px;
-        right: 25px;
-        background: rgba(20,20,20,0.98);
-        backdrop-filter: blur(25px);
-        padding: 20px;
-        border-radius: 20px;
-        display: none;
-        flex-direction: column;
-        gap: 12px;  /* Reduziert */
-        z-index: 1000;
-        width: 260px;  /* Fixe kompakte Breite */
-        max-width: 90vw; /* Mobile */
-        border: 1px solid var(--accent-border);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    }
-
+    #settingsOverlay { position: fixed; bottom: 95px; right: 25px; background: rgba(20,20,20,0.98); backdrop-filter: blur(25px); padding: 20px; border-radius: 20px; display: none; flex-direction: column; gap: 12px; z-index: 1000; width: 260px; max-width: 90vw; border: 1px solid var(--accent-border); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
     #settingsOverlay.show { display: flex; }
-    .category-btn {
-        padding: 12px 16px !important;  /* Kompakter */
-        border-radius: 12px !important;
-        border: none !important;
-        cursor: pointer !important;
-        font-size: 0.95rem !important;  /* Kleiner */
-        font-weight: 600 !important;
-        background: rgba(255,255,255,0.08) !important;
-        color: white !important;
-        border: 1px solid rgba(255,255,255,0.15) !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;  /* Weniger Gap */
-        transition: all 0.3s !important;
-        text-align: left !important;
-        width: 100% !important;
-    }
+    .category-btn { padding: 12px 16px !important; border-radius: 12px !important; border: none !important; cursor: pointer !important; font-size: 0.95rem !important; font-weight: 600 !important; background: rgba(255,255,255,0.08) !important; color: white !important; border: 1px solid rgba(255,255,255,0.15) !important; display: flex !important; align-items: center !important; gap: 10px !important; transition: all 0.3s !important; text-align: left !important; width: 100% !important; }
+    .category-btn:hover { background: rgba(255,255,255,0.15) !important; transform: translateX(4px) !important; }
+    .options-group { display: none; flex-direction: column; gap: 10px; padding-left: 24px; border-left: 2px solid var(--accent-color); margin-top: 8px; animation: slideIn 0.3s ease; }
+    .options-group button { width: 100% !important; padding: 10px 14px !important; border-radius: 10px !important; border: none !important; cursor: pointer !important; font-size: 0.9rem !important; font-weight: 600 !important; background: rgba(255,255,255,0.08) !important; color: white !important; border: 1px solid rgba(255,255,255,0.15) !important; text-align: left !important; transition: all 0.3s !important; }
+    .options-group button:hover { background: rgba(255,255,255,0.15) !important; transform: translateX(4px) !important; }
+    .options-group button:disabled { opacity: 0.5 !important; cursor: not-allowed !important; background: rgba(100,100,100,0.3) !important; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
 
-    .category-btn:hover {
-        background: rgba(255,255,255,0.15) !important;
-        transform: translateX(4px) !important;
-    }
-    .options-group {
-        display: none;  /* ← STANDARD: VERSTECKT */
-        flex-direction: column;
-        gap: 10px;
-        padding-left: 24px;
-        border-left: 2px solid var(--accent-color);
-        margin-top: 8px;
-        animation: slideIn 0.3s ease;
-    }
-    /* OPTIONS BUTTONS - UNTEREINANDER + VOLLBREITE */
-    .options-group button {
-        width: 100% !important;
-        padding: 10px 14px !important;  /* Noch kompakter */
-        border-radius: 10px !important;
-        border: none !important;
-        cursor: pointer !important;
-        font-size: 0.9rem !important;   /* Kleiner */
-        font-weight: 600 !important;
-        background: rgba(255,255,255,0.08) !important;
-        color: white !important;
-        border: 1px solid rgba(255,255,255,0.15) !important;
-        text-align: left !important;
-        transition: all 0.3s !important;
-    }
-
-    .options-group button:hover {
-        background: rgba(255,255,255,0.15) !important;
-        transform: translateX(4px) !important;
-    }
-        /* LOCKED BUTTONS - TOOLTIP */
-    .options-group button {
-        position: relative; /* Für Tooltip */
-    }
-    .options-group button[title]:hover::after {
-        content: attr(title);
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        z-index: 1001;
-        margin-bottom: 5px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateX(-10px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    /* DISABLED BUTTONS */
-    .options-group button:disabled {
-        opacity: 0.5 !important;
-        cursor: not-allowed !important;
-        background: rgba(100,100,100,0.3) !important;
-    }
-    
-</style>
+    .history-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1002; }
+    .history-content { background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); backdrop-filter: blur(20px); border-radius: 25px; padding: 30px; max-width: 90%; max-height: 80%; overflow-y: auto; border: 1px solid var(--accent-border); max-width: 500px; }
+    .history-entry { display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; background: rgba(255,255,255,0.08); border-radius: 12px; border-left: 4px solid var(--accent-color); }
+    .history-close { padding: 12px 24px; background: var(--primary-gradient); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; margin-top: 20px; width: 100%; }
+  </style>
 </head>
 <body>
-    <!-- NEUES SETTINGS-ICON -->
-    <div id="settingsIcon">⚙️</div>
-    
-    <!-- NEUER HELP-BUTTON -->
-    <div id="helpIcon" onclick="showHelpPopup()">🛟</div>
+  <!-- SETTINGS-ICON -->
+  <div id="settingsIcon">⚙️</div>
+  <!-- HELP-BUTTON -->
+  <div id="helpIcon" onclick="showHelpPopup()">❓</div>
 
-    <!-- NEUES SETTINGS-MENÜ -->
-    <div id="settingsOverlay">
-        <div style="font-size:1.1rem;font-weight:700;color:var(--accent-color);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);">Einstellungen</div>
-    
-        <!-- 1. FARBE KATEGORIE -->
-        <button id="colorCategory" class="category-btn">🎨 Farbpalette</button>
-        <div id="colorOptions" class="options-group" style="display:none;">
-            <button onclick="setTheme('orange')">🟧 Orange</button>
-            <button onclick="setTheme('gruen')">🟩 Grün</button>
-            <button onclick="setTheme('blau')">🟦 Blau</button>
-            <button onclick="setTheme('gelb')">🟨 Gelb</button>
-            <button onclick="setTheme('rot')">🟥 Rot</button>
-            <button onclick="setTheme('grau')">⬛️ Grau</button>
-        </div>
-    
-        <!-- 2. SCHRIFT KATEGORIE -->
-        <button id="fontCategory" class="category-btn">🔤 Schriftart</button>
-        <div id="fontOptions" class="options-group" style="display:none;">
-            <button onclick="setFont('montserrat')">Montserrat (Standard)</button>
-            <button onclick="setFont('poppins')">Poppins</button>
-            <button onclick="setFont('inter')">Inter</button>
-            <button onclick="setFont('tinos')">Tinos</button>
-            <button onclick="setFont('open-sans')">Open Sans</button>
-            <button onclick="setFont('rajdhani')">Rajdhani</button>
-            <button onclick="setFont('orbitron')">Orbitron</button>
-            <button onclick="setFont('bungee')">Bungee</button>
-        </div>
+  <!-- SETTINGS-MENU -->
+  <div id="settingsOverlay">
+    <div style="font-size:1.1rem;font-weight:700;color:var(--accent-color);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1)">Einstellungen</div>
+    <!-- 1. FARBE KATEGORIE -->
+    <button id="colorCategory" class="category-btn">🎨 Farbpalette</button>
+    <div id="colorOptions" class="options-group" style="display:none">
+      <button onclick="setTheme('orange')">Orange</button>
+      <button onclick="setTheme('gruen')">Grün</button>
+      <button onclick="setTheme('blau')">Blau</button>
+      <button onclick="setTheme('gelb')">Gelb</button>
+      <button onclick="setTheme('rot')">Rot</button>
+      <button onclick="setTheme('grau')">Grau</button>
+    </div>
+    <!-- 2. SCHRIFT KATEGORIE -->
+    <button id="fontCategory" class="category-btn">✍️ Schriftart</button>
+    <div id="fontOptions" class="options-group" style="display:none">
+      <button onclick="setFont('montserrat')">Montserrat (Standard)</button>
+      <button onclick="setFont('poppins')">Poppins</button>
+      <button onclick="setFont('inter')">Inter</button>
+      <button onclick="setFont('tinos')">Tinos</button>
+      <button onclick="setFont('open-sans')">Open Sans</button>
+      <button onclick="setFont('rajdhani')">Rajdhani</button>
+      <button onclick="setFont('orbitron')">Orbitron</button>
+      <button onclick="setFont('bungee')">Bungee</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <div class="main-content">
+    <!-- HAUPTTITEL -->
+    <div class="site-title">
+      <h1>Dein FreiTracker</h1>
+      <p style="font-size: 0.9rem; opacity: 0.9;">Ein Jahr frei von negativen Gewohnheiten</p>
     </div>
 
+    <!-- COUNTER KARTEN -->
+    <div class="counter-card">
+      <h1 id="levelTitle">Level 1</h1>
+      <div class="days" id="days">0</div>
+      <div class="milestone-scale" id="milestoneScale"></div>
+      <div class="last-view" id="lastView"></div>
+      <div class="milestone" id="milestone" style="display:none">Milestone erreicht!</div>
+      <div class="bible" id="bibleVerse">Lade...</div>
 
-
-    <!-- MAIN CONTENT CONTAINER -->
-    <div class="main-content">
-        <!-- HAUPTTITEL -->
-        <div class="site-title">
-            <h1>Dein FreiTracker</h1>
-            <p style="font-size: 0.9rem; opacity: 0.9;">
-                Ein Jahr frei von negativen Gewohnheiten
-            </p>
+      <!-- MOOD TRACKER + JOURNAL -->
+      <div id="lastEntryContainer">
+        <div class="last-entry" id="lastEntry" style="display:none">
+          <span id="lastMoodEmoji"></span> 
+          <span id="lastMoodText"></span> 
+          <span id="lastMoodDate" style="font-size:0.85rem; opacity:0.7;"></span>
         </div>
+      </div>
 
-        <!-- COUNTER KARTEN -->
-        <div class="counter-card">
-            <h1 id="levelTitle">🚀 Level 1</h1>
-            <div class="days" id="days">0</div>
-            <div class="milestone-scale" id="milestoneScale"></div>
-            <div class="last-view" id="lastView"></div>
-            <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
-            <div class="bible" id="bibleVerse">Lade...</div>
-        </div>
+      <!-- MOOD SELECTION -->
+      <div class="mood-selector">
+        <button class="mood-btn" data-mood="super-easy" title="Super easy 😎">😎</button>
+        <button class="mood-btn" data-mood="easy" title="Leicht 🙂">🙂</button>
+        <button class="mood-btn" data-mood="normal" title="Normal 😐">😐</button>
+        <button class="mood-btn" data-mood="hard" title="Herausfordernd 😟">😟</button>
+        <button class="mood-btn" data-mood="super-hard" title="Super schwer 😩">😩</button>
+      </div>
 
-        <div class="counter-card">
-            <div id="lastNoteContainer">
-                <div class="last-note" id="lastNote" style="display:none;">Noch keine Notiz</div>
-            </div>
-            <div class="journal">
-                <textarea id="journal" placeholder="Neue Notiz eingeben... (max. 140 Zeichen)" maxlength="140"></textarea>
-            </div>
-            <div class="action-section">
-                <button class="save-btn" onclick="saveNote()">Notiz speichern 💾</button>
-                <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen 😔</button>
-            </div>
-        </div>
+      <!-- JOURNAL TEXT (optional) -->
+      <div class="journal">
+        <textarea id="journal" placeholder="Optionale Notiz zum Mood... (max. 140 Zeichen)" maxlength="140"></textarea>
+      </div>
+
+      <!-- HISTORY BUTTON + ACTION SECTION -->
+      <div style="margin-top:15px; text-align:center;">
+        <button class="history-btn" onclick="showHistory()">📋 Journal ansehen</button>
+      </div>
+      <div class="action-section">
+        <button class="save-btn" onclick="saveMoodEntry()">Mood speichern</button>
+        <button class="reset-btn" onclick="resetCounter()">Counter zurücksetzen</button>
+      </div>
     </div>
+  </div>
 
-    <!-- FOOTER - GANZ UNTEN -->
-    <footer class="footer">
-        <a class="support-link"
-           href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">
-            Probleme mit dem Tracker?
-        </a>
-        <div class="legal-links">
-            <a href="https://angebote.thomasloewen.de/legal/271582326/contact"
-               target="_blank" rel="noopener">
-                Impressum
-            </a>
-            <span class="divider">|</span>
-            <a href="https://angebote.thomasloewen.de/legal/271582326/privacy"
-               target="_blank" rel="noopener">
-                Datenschutz
-            </a>
-        </div>
-        <div class="copyright">
-            © 2025 FreiTracker<br>von Thomas "Döm" Löwen<br>thomasloewen.de
-        </div>
-    </footer>
-
-    <!-- MOTIVIERTES POPUP -->
-    <div id="motivationPopup" class="motivation-popup">
-        <div class="popup-content">
-            <div id="popupMessage"></div>
-            <button class="popup-close-btn" onclick="closeMotivationPopup()">Verstanden 💪</button>
-            <button class="help-btn" onclick="switchToHelpPopup()">Hilfe 🛟</button>
-        </div>
+  <!-- FOOTER - GANZ UNTEN -->
+  <footer class="footer">
+    <a class="support-link" href="mailto:thomas.doem.loewen@gmail.com?subject=Problem%20mit%20dem%20FreiTracker">Probleme mit dem Tracker?</a>
+    <div class="legal-links">
+      <a href="https://angebote.thomasloewen.de/legal/271582326/contact" target="_blank" rel="noopener">Impressum</a>
+      <span class="divider">|</span>
+      <a href="https://angebote.thomasloewen.de/legal/271582326/privacy" target="_blank" rel="noopener">Datenschutz</a>
     </div>
+    <div class="copyright">© 2025 FreiTracker<br>von Thomas "Döm" Löwen<br>thomasloewen.de</div>
+  </footer>
 
-    <!-- HELP POPUP MIT 3 OPTIONEN -->
-    <div id="helpPopup" class="help-popup">
-        <div class="popup-content">
-            <h3>Welche negative Gewohnheit belastet dich?</h3>
-            <div class="help-buttons">
-                <a href="https://angebote.thomasloewen.de/p/leUReH" target="_blank" class="help-option" data-close="true">
-                    Charakterschwächen kosten mich meine Beziehungen<br>❤️‍🩹
-                </a>
-                <a href="https://angebote.thomasloewen.de/p/pornofrei-warteliste" target="_blank" class="help-option" data-close="true">
-                    Pornokonsum raubt mir meine Freiheit und mein Selbstwertgefühl<br>🔞
-                </a>
-                <a href="https://21.thomasloewen.de" target="_blank" class="help-option" data-close="true">
-                    Digitale Ablenkungen zerstören meine Produktivität<br>📱
-                </a>
-            </div>
-        </div>
+  <!-- MOTIVIERTES POPUP -->
+  <div id="motivationPopup" class="motivation-popup">
+    <div class="popup-content">
+      <div id="popupMessage"></div>
+      <button class="popup-close-btn" onclick="closeMotivationPopup()">Verstanden</button>
+      <button class="help-btn" onclick="switchToHelpPopup()">Hilfe</button>
     </div>
+  </div>
 
-    
-    <!-- STEP-BY-STEP TUTORIAL -->
-    <div id="tutorialOverlay" class="tutorial-overlay hidden">
-        <div class="tutorial-box">
-            <h2 id="tutorialTitle"></h2>
-            <p id="tutorialText"></p>
-            <button id="tutorialNextBtn">Weiter</button>
-        </div>
+  <!-- HELP POPUP MIT 3 OPTIONEN -->
+  <div id="helpPopup" class="help-popup">
+    <div class="popup-content">
+      <h3>Welche negative Gewohnheit belastet dich?</h3>
+      <div class="help-buttons">
+        <a href="https://angebote.thomasloewen.de/pleUReH" target="_blank" class="help-option" data-close="true">Charakterschwächen kosten mich meine Beziehungen</a>
+        <a href="https://angebote.thomasloewen.de/ppornofrei-warteliste" target="_blank" class="help-option" data-close="true">Pornokonsum raubt mir meine Freiheit und mein Selbstwertgefühl</a>
+        <a href="https://21.thomasloewen.de" target="_blank" class="help-option" data-close="true">Digitale Ablenkungen zerstören meine Produktivität</a>
+      </div>
     </div>
+  </div>
 
-<script>
-let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
-let lastLevelShown = 1;
+  <!-- HISTORY OVERLAY -->
+  <div id="historyOverlay" class="history-overlay" style="display:none">
+    <div class="history-content">
+      <h3 style="color:var(--accent-color); margin-bottom:20px;">Dein Mood Journal 📊</h3>
+      <div id="historyList"></div>
+      <button class="history-close" onclick="closeHistory()">Schließen</button>
+    </div>
+  </div>
 
-const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
-const milestoneLabels = {
-    7: "Eine Woche frei!",
-    30: "Ein Monat frei!",
-    92: "Drei Monate frei!",
-    183: "Ein halbes Jahr frei!",
-    275: "Neun Monate frei!",
-    365: "1 Jahr frei!",
-};
-const levelTitles = {
-    1: "🚀 Level 1", 2: "⭐ Level 2", 3: "⛓️‍💥 Level 3", 4: "🗡️ Level 4", 5: "⚓ Level 5",
-    6: "🌟 Level 6", 7: "🔰 Level 7", 8: "🛡️ Level 8", 9: "⚔️ Level 9", 10: "🔥 Level 10",
-    11: "💥 Level 11", 12: "⚡ Level 12", 13: "🪙 Level 13", 14: "🏅 Level 14", 15: "🥇 Level 15",
-    16: "👑 Level 16", 17: "🦾 Level 17", 18: "🏆 Level 18"
-};
-const verses = [
-    "„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29",
-    "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
-    "„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
-    "„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
-    "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
-    "„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
-    "„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
-    "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25",
-    "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
-    "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
-    "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
-    "„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
-    "„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
-    "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
-    "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
-    "„Ihr seid mehr als Überwinder!“ – Römer 8:37"
-];
-const motivationMessages = [
-    { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
-    { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
-    { title: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.", verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14" },
-    { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
-    { title: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!", verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1" },
-    { title: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.", verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5" },
-    { title: "Steh auf! Heute ist ein neuer Tag voller Gnade.", verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23" },
-    { title: "Du bist stärker, als du gerade glaubst.", verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13" },
-    { title: "Scham hält dich fest. Gnade macht dich frei.", verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17" },
-    { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
-];
-// 🔒 LEVEL LOCKS
-const levelLocks = {
-    themes: {
-        'gruen': 2,
-        'blau': 5, 
-        'gelb': 8,
-        'rot': 11
-    },
-    fonts: {
-        'poppins': 4,
-        'inter': 7,
-        'tinos': 10,
-        'open-sans': 13,
-        'rajdhani': 14,
-        'orbitron': 16,
-        'bungee': 17
+  <!-- STEP-BY-STEP TUTORIAL -->
+  <div id="tutorialOverlay" class="tutorial-overlay hidden">
+    <div class="tutorial-box">
+      <h2 id="tutorialTitle"></h2>
+      <p id="tutorialText"></p>
+      <button id="tutorialNextBtn">Weiter</button>
+    </div>
+  </div>
+
+  <script>
+    // DATA INITIALISIERUNG (MIT MOOD JOURNAL)
+    let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+    let lastLevelShown = 1;
+
+    // MEILENSTEINE & LEVEL
+    const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
+    const milestoneLabels = {
+      7: 'Eine Woche frei!',
+      30: 'Ein Monat frei!',
+      92: 'Drei Monate frei!',
+      183: 'Ein halbes Jahr frei!',
+      275: 'Neun Monate frei!',
+      365: '1 Jahr frei!'
+    };
+    const levelTitles = ['Level 1','Level 2','Level 3','Level 4','Level 5','Level 6','Level 7','Level 8','Level 9','Level 10','Level 11','Level 12','Level 13','Level 14','Level 15','Level 16','Level 17','Level 18'];
+
+    // BIBLE VERSE & MOTIVATION
+    const verses = [
+      'Durch Christus können wir alles schaffen. Philipper 4:13',
+      'Er gibt Kraft den Müden. Jesaja 40:29',
+      'Gott ist treu und wird nicht zulassen. 1. Kor 10:13',
+      'Fürchte dich nicht, ich bin bei dir! Jesaja 41:10',
+      'Meine Gnade genügt dir. 2. Korinther 12:9',
+      'Die auf den Herrn harren, kriegen neue Kraft. Jesaja 40:31',
+      'Seid stark und mutig! Josua 1:9',
+      'Der Herr ist mein Licht und mein Heil. Psalm 27:1',
+      'Wo der Geist des Herrn ist, da ist Freiheit. 2. Kor 3:17',
+      'Zur Freiheit hat uns Christus befreit! Galater 5:1'
+    ];
+    const motivationMessages = [
+      { title: 'Ein Neustart ist kein Game Over!', verse: 'Denn der Gerechte fällt siebenmal und steht wieder auf. Sprüche 24:16' },
+      { title: 'Gott ist gütiger zu dir, als du zu dir selbst!', verse: 'Meine Gnade ist alles, was du brauchst. 2. Korinther 12:9' },
+      { title: 'Wichtig ist nicht, dass du gefallen bist sondern dass du wieder aufstehst.', verse: 'Der Herr stützt alle, die fallen. Psalm 145:14' }
+    ];
+
+    // LEVEL LOCKS
+    const levelLocks = {
+      themes: { gruen: 2, blau: 5, gelb: 8, rot: 11 },
+      fonts: { poppins: 4, inter: 7, tinos: 10, 'open-sans': 13, rajdhani: 14, orbitron: 16, bungee: 17 }
+    };
+
+    // MOOD DEFINITIONEN
+    const moodConfig = {
+      'super-easy': { emoji: '😎', label: 'Super easy', color: '#28a745' },
+      'easy': { emoji: '🙂', label: 'Leicht', color: '#20c997' },
+      'normal': { emoji: '😐', label: 'Normal', color: '#ffc107' },
+      'hard': { emoji: '😟', label: 'Herausfordernd', color: '#fd7e14' },
+      'super-hard': { emoji: '😩', label: 'Super schwer', color: '#dc3545' }
+    };
+
+    // UTILITY FUNCTIONS
+    function isUnlocked(type, name) {
+      const currentLevel = getLevel(getCurrentDays());
+      const requiredLevel = levelLocks[type][name];
+      return !requiredLevel || currentLevel >= requiredLevel;
     }
-};
-function isUnlocked(type, name) {
-    const currentLevel = getLevel(getCurrentDays());
-    const requiredLevel = levelLocks[type][name];
-    return !requiredLevel || currentLevel >= requiredLevel;
-}
 
-function getCurrentDays() {
-    const now = new Date();
-    return data.lastReset 
-        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
-        : 0;
-}
+    function getCurrentDays() {
+      const now = new Date();
+      return data.lastReset ? Math.floor((now - new Date(data.lastReset)) / 1000 / 60 / 60 / 24) : 0;
+    }
 
-// 🎨 THEME FUNCTION
-function setTheme(color) {
-    if (!isUnlocked('themes', color)) {
-        alert(`🔒 ${color.charAt(0).toUpperCase() + color.slice(1)} freigeschaltet ab Level ${levelLocks.themes[color]}!`);
+    // THEME FUNCTION
+    function setTheme(color) {
+      if (!isUnlocked('themes', color)) {
+        alert(color.charAt(0).toUpperCase() + color.slice(1) + ' freigeschaltet ab Level ' + levelLocks.themes[color] + '!');
         return;
-    }
-    
-    const root = document.documentElement;
-    let primary, secondary, accentColor, accentBorder, noteBg, saveHoverShadow, popupHoverShadow;
-    
-    switch(color) {
+      }
+      const root = document.documentElement;
+      let primary, secondary, accentColor, accentBorder, noteBg, saveHoverShadow, popupHoverShadow;
+      switch(color) {
         case 'orange':
-            primary = 'linear-gradient(45deg, #ff6b09, #ff8e53)';
-            secondary = 'linear-gradient(90deg, #ff6b09, #ff8e53)';
-            accentColor = '#ff6b09';
-            accentBorder = 'rgba(255,107,9,0.2)';
-            noteBg = 'rgba(255,142,83,0.15)';
-            saveHoverShadow = 'rgba(255,140,80,0.7)';
-            popupHoverShadow = 'rgba(255,107,9,0.6)';
-            break;
+          primary = 'linear-gradient(45deg, #ff6b09, #ff8e53)';
+          secondary = 'linear-gradient(90deg, #ff6b09, #ff8e53)';
+          accentColor = '#ff6b09'; accentBorder = 'rgba(255,107,9,0.2)'; noteBg = 'rgba(255,142,83,0.15)';
+          saveHoverShadow = 'rgba(255,140,80,0.7)'; popupHoverShadow = 'rgba(255,107,9,0.6)'; break;
         case 'gruen':
-            primary = 'linear-gradient(45deg, #28a745, #20c997)';
-            secondary = 'linear-gradient(90deg, #28a745, #20c997)';
-            accentColor = '#28a745';
-            accentBorder = 'rgba(40,167,69,0.2)';
-            noteBg = 'rgba(40,167,69,0.15)';
-            saveHoverShadow = 'rgba(40,200,100,0.7)';
-            popupHoverShadow = 'rgba(40,167,69,0.6)';
-            break;
+          primary = 'linear-gradient(45deg, #28a745, #20c997)'; secondary = 'linear-gradient(90deg, #28a745, #20c997)';
+          accentColor = '#28a745'; accentBorder = 'rgba(40,167,69,0.2)'; noteBg = 'rgba(40,167,69,0.15)';
+          saveHoverShadow = 'rgba(40,200,100,0.7)'; popupHoverShadow = 'rgba(40,167,69,0.6)'; break;
         case 'blau':
-            primary = 'linear-gradient(45deg, #007bff, #00d4ff)';
-            secondary = 'linear-gradient(90deg, #007bff, #00d4ff)';
-            accentColor = '#007bff';
-            accentBorder = 'rgba(0,123,255,0.2)';
-            noteBg = 'rgba(0,123,255,0.15)';
-            saveHoverShadow = 'rgba(0,160,255,0.7)';
-            popupHoverShadow = 'rgba(0,123,255,0.6)';
-            break;
+          primary = 'linear-gradient(45deg, #007bff, #00d4ff)'; secondary = 'linear-gradient(90deg, #007bff, #00d4ff)';
+          accentColor = '#007bff'; accentBorder = 'rgba(0,123,255,0.2)'; noteBg = 'rgba(0,123,255,0.15)';
+          saveHoverShadow = 'rgba(0,160,255,0.7)'; popupHoverShadow = 'rgba(0,123,255,0.6)'; break;
         case 'gelb':
-            primary = 'linear-gradient(45deg, #ffc107, #ffeb3b)';
-            secondary = 'linear-gradient(90deg, #ffc107, #ffeb3b)';
-            accentColor = '#ffc107';
-            accentBorder = 'rgba(255,193,7,0.2)';
-            noteBg = 'rgba(255,235,59,0.15)';
-            saveHoverShadow = 'rgba(255,235,59,0.7)';
-            popupHoverShadow = 'rgba(255,193,7,0.6)';
-            break;
+          primary = 'linear-gradient(45deg, #ffc107, #ffeb3b)'; secondary = 'linear-gradient(90deg, #ffc107, #ffeb3b)';
+          accentColor = '#ffc107'; accentBorder = 'rgba(255,193,7,0.2)'; noteBg = 'rgba(255,235,59,0.15)';
+          saveHoverShadow = 'rgba(255,235,59,0.7)'; popupHoverShadow = 'rgba(255,193,7,0.6)'; break;
         case 'rot':
-            primary = 'linear-gradient(45deg, #dc3545, #ff6b6b)';
-            secondary = 'linear-gradient(90deg, #dc3545, #ff6b6b)';
-            accentColor = '#dc3545';
-            accentBorder = 'rgba(220,53,69,0.2)';
-            noteBg = 'rgba(255,107,107,0.15)';
-            saveHoverShadow = 'rgba(255,100,100,0.7)';
-            popupHoverShadow = 'rgba(220,53,69,0.6)';
-            break;
+          primary = 'linear-gradient(45deg, #dc3545, #ff6b6b)'; secondary = 'linear-gradient(90deg, #dc3545, #ff6b6b)';
+          accentColor = '#dc3545'; accentBorder = 'rgba(220,53,69,0.2)'; noteBg = 'rgba(255,107,107,0.15)';
+          saveHoverShadow = 'rgba(255,100,100,0.7)'; popupHoverShadow = 'rgba(220,53,69,0.6)'; break;
         case 'grau':
-            primary = 'linear-gradient(45deg, #6c757d, #adb5bd)';
-            secondary = 'linear-gradient(90deg, #6c757d, #adb5bd)';
-            accentColor = '#6c757d';
-            accentBorder = 'rgba(108,117,125,0.2)';
-            noteBg = 'rgba(173,181,189,0.15)';
-            saveHoverShadow = 'rgba(173,181,189,0.7)';
-            popupHoverShadow = 'rgba(108,117,125,0.6)';
-            break;
+          primary = 'linear-gradient(45deg, #6c757d, #adb5bd)'; secondary = 'linear-gradient(90deg, #6c757d, #adb5bd)';
+          accentColor = '#6c757d'; accentBorder = 'rgba(108,117,125,0.2)'; noteBg = 'rgba(173,181,189,0.15)';
+          saveHoverShadow = 'rgba(173,181,189,0.7)'; popupHoverShadow = 'rgba(108,117,125,0.6)'; break;
+      }
+      root.style.setProperty('--primary-gradient', primary);
+      root.style.setProperty('--secondary-gradient', secondary);
+      root.style.setProperty('--accent-color', accentColor);
+      root.style.setProperty('--accent-border', accentBorder);
+      root.style.setProperty('--note-bg', noteBg);
+      root.style.setProperty('--save-hover-shadow', saveHoverShadow);
+      root.style.setProperty('--popup-hover-shadow', popupHoverShadow);
+      localStorage.setItem('freiTrackerTheme', color);
+      document.getElementById('settingsOverlay').classList.remove('show');
+      document.getElementById('colorOptions').style.display = 'none';
     }
-    
-    root.style.setProperty('--primary-gradient', primary);
-    root.style.setProperty('--secondary-gradient', secondary);
-    root.style.setProperty('--accent-color', accentColor);
-    root.style.setProperty('--accent-border', accentBorder);
-    root.style.setProperty('--note-bg', noteBg);
-    root.style.setProperty('--save-hover-shadow', saveHoverShadow);
-    root.style.setProperty('--popup-hover-shadow', popupHoverShadow);
-    
-    localStorage.setItem('freiTrackerTheme', color);
-    document.getElementById('settingsOverlay').classList.remove('show');
-    document.getElementById('colorOptions').style.display = 'none';
-}
 
-// 🔤 FONT FUNCTION (NEU!)
-function setFont(fontName) {
-    if (!isUnlocked('fonts', fontName)) {
-        alert(`🔒 ${fontName.charAt(0).toUpperCase() + fontName.slice(1)} freigeschaltet ab Level ${levelLocks.fonts[fontName]}!`);
+    // FONT FUNCTION
+    function setFont(fontName) {
+      if (!isUnlocked('fonts', fontName)) {
+        alert(fontName.charAt(0).toUpperCase() + fontName.slice(1) + ' freigeschaltet ab Level ' + levelLocks.fonts[fontName] + '!');
         return;
+      }
+      const root = document.documentElement;
+      root.style.setProperty('--current-font', fontName + ', sans-serif');
+      localStorage.setItem('freiTrackerFont', fontName);
+      document.getElementById('settingsOverlay').classList.remove('show');
+      document.getElementById('fontOptions').style.display = 'none';
     }
-    
-    const root = document.documentElement;
-    root.style.setProperty('--current-font', `'${fontName}', sans-serif`);
-    localStorage.setItem('freiTrackerFont', fontName);
-    document.getElementById('settingsOverlay').classList.remove('show');
-    document.getElementById('fontOptions').style.display = 'none';
-}
 
-function loadSavedTheme() {
-    const savedTheme = localStorage.getItem('freiTrackerTheme');
-    if (savedTheme) {
-        setTheme(savedTheme);
+    function loadSavedTheme() {
+      const savedTheme = localStorage.getItem('freiTrackerTheme');
+      if (savedTheme) setTheme(savedTheme);
     }
-}
 
-function getRandomVerse() {
-    return verses[Math.floor(Math.random() * verses.length)];
-}
-
-function getRandomMotivationMessage() {
-    const randomIndex = Math.floor(Math.random() * motivationMessages.length);
-    return motivationMessages[randomIndex];
-}
-
-function showMotivationPopup() {
-    const message = getRandomMotivationMessage();
-    const popupMessageEl = document.getElementById('popupMessage');
-    popupMessageEl.innerHTML = `
-        <div class="popup-title">${message.title}</div>
-        <div class="popup-verse">${message.verse}</div>
-    `;
-    const popup = document.getElementById('motivationPopup');
-    popup.classList.add('show');
-}
-
-function closeMotivationPopup() {
-    const popup = document.getElementById('motivationPopup');
-    popup.classList.remove('show');
-}
-// 🛟 HELP POPUP FUNCTIONS
-function showHelpPopup() {
-    document.getElementById('helpPopup').classList.add('show');
-}
-
-function closeHelpPopup() {
-    document.getElementById('helpPopup').classList.remove('show');
-}
-
-// Help Links auto-close + neue Fenster
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('help-option')) {
-    setTimeout(closeHelpPopup, 200);
-  }
-  // NEU: Help-Popup schließen bei Klick auf grauen Hintergrund
-  if (e.target.id === 'helpPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
-    closeHelpPopup();
-  }
-  // NEU: Motivation-Popup schließen bei Klick auf grauen Hintergrund  
-  if (e.target.id === 'motivationPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
-    closeMotivationPopup();
-  }
-});
-
-
-function getNextMilestone(currentDays) {
-    for (let milestone of milestones) {
-        if (currentDays < milestone) return milestone;
+    function getRandomVerse() { return verses[Math.floor(Math.random() * verses.length)]; }
+    function getRandomMotivationMessage() {
+      const randomIndex = Math.floor(Math.random() * motivationMessages.length);
+      return motivationMessages[randomIndex];
     }
-    return 365;
-}
 
-function getLastMilestone(currentDays) {
-    let last = 0;
-    for (let i = 0; i < milestones.length; i++) {
-        if (milestones[i] <= currentDays) last = milestones[i];
-        else break;
+    // POPUP FUNCTIONS
+    function showMotivationPopup() {
+      const message = getRandomMotivationMessage();
+      const popupMessageEl = document.getElementById('popupMessage');
+      popupMessageEl.innerHTML = `<div class="popup-title">${message.title}</div><div class="popup-verse">${message.verse}</div>`;
+      const popup = document.getElementById('motivationPopup');
+      popup.classList.add('show');
     }
-    return last;
-}
+    function closeMotivationPopup() { document.getElementById('motivationPopup').classList.remove('show'); }
+    function showHelpPopup() { document.getElementById('helpPopup').classList.add('show'); }
+    function closeHelpPopup() { document.getElementById('helpPopup').classList.remove('show'); }
+    function switchToHelpPopup() {
+      document.getElementById('motivationPopup').classList.remove('show');
+      document.getElementById('helpPopup').classList.add('show');
+    }
 
-function getLevel(currentDays) {
-    const bounds = [0, ...milestones];
-    for (let i = 0; i < bounds.length - 1; i++) {
+    // MILESTONE FUNCTIONS
+    function getNextMilestone(currentDays) {
+      for (let milestone of milestones) if (currentDays < milestone) return milestone;
+      return 365;
+    }
+    function getLastMilestone(currentDays) {
+      let last = 0;
+      for (let i = 0; i < milestones.length; i++) {
+        if (milestones[i] > currentDays) break;
+        last = milestones[i];
+      }
+      return last;
+    }
+    function getLevel(currentDays) {
+      const bounds = [0, ...milestones];
+      for (let i = 0; i < bounds.length - 1; i++) {
         const start = bounds[i];
         const end = bounds[i + 1];
         if (i === bounds.length - 2) {
-            if (currentDays >= start && currentDays <= end) return i + 1;
-        } else {
-            if (currentDays >= start && currentDays < end) return i + 1;
-        }
+          if (currentDays >= start && currentDays < end) return i + 1;
+        } else if (currentDays >= start && currentDays < end) return i + 1;
+      }
+      return 1;
     }
-    return 1;
-}
 
-function createMilestoneScale(currentDays) {
-    const scaleEl = document.getElementById('milestoneScale');
-    if (currentDays >= 366) {
+    function createMilestoneScale(currentDays) {
+      const scaleEl = document.getElementById('milestoneScale');
+      if (currentDays >= 366) {
         const html = `
-            <div class="simple-scale-container">
-                <div class="simple-scale-line">
-                    <div class="simple-scale-fill" style="width:100%;"></div>
-                </div>
-                <div class="simple-scale-labels">
-                    <span>0</span><span>365</span>
-                </div>
-            </div>
-            <div class="next-milestone">Nächstes Ziel: 365 Tage</div>
-            <div class="days-left">Gratulation zu einem Jahr in Freiheit! 🎉 starte erneut für ein weiteres Jahr.</div>
+          <div class="simple-scale-container">
+            <div class="simple-scale-line"><div class="simple-scale-fill" style="width:100%"></div></div>
+            <div class="simple-scale-labels"><span>0</span><span>365</span></div>
+          </div>
+          <div class="next-milestone">Nächstes Ziel: 365 Tage</div>
+          <div class="days-left">Gratulation zu einem Jahr in Freiheit! Starte erneut für ein weiteres Jahr.</div>
         `;
         scaleEl.innerHTML = html;
         return;
-    }
+      }
 
-    const nextMilestone = getNextMilestone(currentDays);
-    const lastMilestone = getLastMilestone(currentDays);
-    const start = lastMilestone;
-    const end = nextMilestone;
-    const totalRange = end - start;
-    const progressInRange = Math.max(0, Math.min(currentDays - start, totalRange));
-    const progressPercent = totalRange > 0 ? (progressInRange / totalRange) * 100 : 0;
-    const ticksCount = Math.max(0, totalRange - 1);
+      const nextMilestone = getNextMilestone(currentDays);
+      const lastMilestone = getLastMilestone(currentDays);
+      const start = lastMilestone;
+      const end = nextMilestone;
+      const totalRange = end - start;
+      const progressInRange = Math.max(0, Math.min(currentDays - start, totalRange));
+      const progressPercent = totalRange > 0 ? (progressInRange / totalRange) * 100 : 0;
+      const ticksCount = Math.max(0, totalRange - 1);
 
-    let html = `
+      let html = `
         <div class="simple-scale-container">
-            <div class="simple-scale-line">
-                <div class="simple-scale-fill" style="width:${progressPercent}%;"></div>
-                <div class="simple-scale-ticks">
-    `;
-    for (let i = 1; i <= ticksCount; i++) {
+          <div class="simple-scale-line"><div class="simple-scale-fill" style="width:${progressPercent}%"></div></div>
+          <div class="simple-scale-ticks">`;
+      for (let i = 1; i < ticksCount; i++) {
         const pos = (i / totalRange) * 100;
-        html += `<div class="simple-scale-tick" style="left:${pos}%;"></div>`;
-    }
-    html += `
-                </div>
-            </div>
-            <div class="simple-scale-labels">
-                <span>${start}</span><span>${end}</span>
-            </div>
-        </div>
-    `;
+        html += `<div class="simple-scale-tick" style="left:${pos}%"></div>`;
+      }
+      html += `
+          </div>
+          <div class="simple-scale-labels"><span>${start}</span><span>${end}</span></div>
+        </div>`;
 
-    const daysLeft = end - currentDays;
-    const label = milestoneLabels[end] || `${end} Tage`;
-    let daysLeftText;
-    if (daysLeft === 1) {
-        daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
-    } else {
-        daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
-    }
-    
-    html += `
+      const daysLeft = end - currentDays;
+      const label = milestoneLabels[end] ? milestoneLabels[end] : end + ' Tage';
+      let daysLeftText = daysLeft === 1 ? 'Nur noch ein Tag, zieh durch!' : daysLeft + ' Tage fehlen';
+      html += `
         <div class="next-milestone">Nächstes Ziel: ${label}</div>
-        <div class="days-left">${daysLeftText}</div>
-    `;
-    scaleEl.innerHTML = html;
-}
-
-function saveNote() {
-    let note = document.getElementById('journal').value.trim();
-    if (!note) return alert('Bitte eine Notiz eingeben.');
-    if (note.length > 140) {
-        note = note.substring(0, 140);
-        alert('Notiz auf 140 Zeichen gekürzt.');
+        <div class="days-left">${daysLeftText}</div>`;
+      scaleEl.innerHTML = html;
     }
-    data.journal.push(note);
-    saveData();
-    document.getElementById('journal').value = '';
-    updateDisplay();
-}
 
-function updateDisplay() {
-    const now = new Date();
-    const daysFree = data.lastReset
-        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
-        : 0;
+    // MOOD JOURNAL FUNCTIONS
+    function saveMoodEntry() {
+      const selectedMoodBtn = document.querySelector('.mood-btn.selected');
+      if (!selectedMoodBtn) return alert('Bitte wähle zuerst deinen Mood aus!');
+      
+      const mood = selectedMoodBtn.dataset.mood;
+      const note = document.getElementById('journal').value.trim();
+      
+      const entry = {
+        mood: mood,
+        note: note || '',
+        date: new Date().toLocaleDateString('de-DE')
+      };
+      
+      data.journal.push(entry);
+      saveData();
+      document.getElementById('journal').value = '';
+      updateDisplay();
+      selectedMoodBtn.classList.remove('selected');
+      alert('Mood gespeichert! ✅');
+    }
 
-    document.getElementById('days').textContent = daysFree;
-    document.getElementById('lastView').textContent = data.lastReset
-        ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`
-        : 'Noch nie zurückgesetzt';
+    function showHistory() {
+      const historyEl = document.getElementById('historyOverlay');
+      const content = historyEl.querySelector('.history-content');
+      content.innerHTML = `
+        <h3 style="color:var(--accent-color); margin-bottom:20px;">Dein Mood Journal 📊</h3>
+        <div id="historyList">${
+          data.journal.length ? 
+          data.journal.slice(-20).reverse().map(entry => 
+            `<div class="history-entry">
+              <span style="font-size:28px;">${moodConfig[entry.mood].emoji}</span>
+              <div>
+                <strong>${moodConfig[entry.mood].label}</strong><br>
+                <small>${entry.date}</small>
+                ${entry.note ? `<br><small style="opacity:0.8;">${entry.note}</small>` : ''}
+              </div>
+            </div>`
+          ).join('') : 
+          '<p style="text-align:center; opacity:0.7;">Noch keine Einträge...</p>'
+        }</div>
+        <button class="history-close" onclick="closeHistory()">Schließen</button>
+      `;
+      historyEl.style.display = 'flex';
+    }
 
-    const level = getLevel(daysFree);
-    const levelTitleText = levelTitles[level] || "🚀 Level 1";
-    const levelTitleEl = document.getElementById('levelTitle');
+    function closeHistory() {
+      document.getElementById('historyOverlay').style.display = 'none';
+    }
 
-    if (level !== lastLevelShown) {
+    // UPDATE DISPLAY (MIT MOOD SUPPORT)
+    function updateDisplay() {
+      const now = new Date();
+      const daysFree = data.lastReset ? Math.floor((now - new Date(data.lastReset)) / 1000 / 60 / 60 / 24) : 0;
+      document.getElementById('days').textContent = daysFree;
+      document.getElementById('lastView').textContent = data.lastReset ? 'Seit ' + new Date(data.lastReset).toLocaleDateString('de-DE') : 'Noch nie zurückgesetzt';
+
+      const level = getLevel(daysFree);
+      const levelTitleText = levelTitles[level - 1] || 'Level ' + level;
+      const levelTitleEl = document.getElementById('levelTitle');
+      if (level !== lastLevelShown) {
         levelTitleEl.classList.remove('level-fade');
         void levelTitleEl.offsetWidth;
         levelTitleEl.textContent = levelTitleText;
         levelTitleEl.classList.add('level-fade');
         lastLevelShown = level;
-    } else {
+      } else {
         levelTitleEl.textContent = levelTitleText;
-    }
+      }
 
-    createMilestoneScale(daysFree);
-    document.getElementById('bibleVerse').textContent = getRandomVerse();
+      createMilestoneScale(daysFree);
+      document.getElementById('bibleVerse').textContent = getRandomVerse();
 
-    const lastNoteEl = document.getElementById('lastNote');
-    const lastNoteContainer = document.getElementById('lastNoteContainer');
-    if (data.journal.length > 0) {
-        lastNoteEl.textContent = data.journal[data.journal.length - 1];
-        lastNoteEl.style.display = 'block';
-        lastNoteContainer.style.display = 'block';
-    } else {
-        lastNoteEl.style.display = 'none';
-        lastNoteContainer.style.display = 'block';
-    }
+      // LETZTEN MOOD ENTRY ANZEIGEN
+      const lastEntryEl = document.getElementById('lastEntry');
+      const lastEntryContainer = document.getElementById('lastEntryContainer');
+      if (data.journal.length > 0) {
+        const last = data.journal[data.journal.length - 1];
+        document.getElementById('lastMoodEmoji').textContent = moodConfig[last.mood].emoji;
+        document.getElementById('lastMoodText').textContent = moodConfig[last.mood].label;
+        document.getElementById('lastMoodDate').textContent = last.date;
+        lastEntryEl.style.display = 'flex';
+        lastEntryContainer.style.display = 'block';
+      } else {
+        lastEntryEl.style.display = 'none';
+        lastEntryContainer.style.display = 'block';
+      }
 
-    const milestone = document.getElementById('milestone');
-    if (milestones.includes(daysFree)) {
+      const milestone = document.getElementById('milestone');
+      if (milestones.includes(daysFree)) {
         milestone.style.display = 'block';
         setTimeout(() => milestone.style.display = 'none', 3000);
-    } else {
+      } else {
         milestone.style.display = 'none';
+      }
     }
 
-    // 🔒 LEVEL-LOCKED BUTTONS UPDATEN
-    updateLockedButtons();
-}
-// 🔒 Level-locked Buttons updaten (TOOLTIP + CLICK!)
-function updateLockedButtons() {
-    const currentLevel = getLevel(getCurrentDays());
-    
-    // Themes
-    Object.keys(levelLocks.themes).forEach(theme => {
+    // LEVEL-LOCKED BUTTONS UPDATEN
+    function updateLockedButtons() {
+      const currentLevel = getLevel(getCurrentDays());
+      // Themes
+      Object.keys(levelLocks.themes).forEach(theme => {
         const btn = document.querySelector(`[onclick="setTheme('${theme}')"]`);
         if (btn) {
-            const originalText = ['orange','gruen','blau','gelb','rot','grau'].includes(theme) ? 
-                btn.innerHTML.replace(/ 🔒ab Level \d+/g, '').trim() : btn.textContent.replace(/ 🔒ab Level \d+/g, '').trim();
-                
-            if (currentLevel < levelLocks.themes[theme]) {
-                if (!btn.innerHTML.includes('🔒ab Level')) {
-                    btn.innerHTML = originalText + ` 🔒ab Level ${levelLocks.themes[theme]}`;
-                }
-                btn.style.opacity = '0.5';
-                btn.disabled = true;
-            } else {
-                btn.innerHTML = originalText;
-                btn.style.opacity = '1';
-                btn.disabled = false;
-            }
+          const originalText = ['orange','gruen','blau','gelb','rot','grau'].includes(theme) ? btn.innerHTML.replace(/ ab Level.*/g, '').trim() : btn.textContent.replace(/ ab Level.*/g, '').trim();
+          if (currentLevel < levelLocks.themes[theme]) {
+            if (!btn.innerHTML.includes('ab Level')) btn.innerHTML = originalText + ' (ab Level ' + levelLocks.themes[theme] + ')';
+            btn.style.opacity = '0.5';
+            btn.disabled = true;
+          } else {
+            btn.innerHTML = originalText;
+            btn.style.opacity = '1';
+            btn.disabled = false;
+          }
         }
-    });
-    
-    // Fonts
-    Object.keys(levelLocks.fonts).forEach(font => {
+      });
+      // Fonts
+      Object.keys(levelLocks.fonts).forEach(font => {
         const btn = document.querySelector(`[onclick="setFont('${font}')"]`);
         if (btn) {
-            const originalText = btn.textContent.replace(/ 🔒ab Level \d+/g, '').trim();
-            
-            if (currentLevel < levelLocks.fonts[font]) {
-                if (!btn.innerHTML.includes('🔒ab Level')) {
-                    btn.innerHTML = originalText + ` 🔒ab Level ${levelLocks.fonts[font]}`;
-                }
-                btn.style.opacity = '0.5';
-                btn.disabled = true;
-            } else {
-                btn.innerHTML = originalText;
-                btn.style.opacity = '1';
-                btn.disabled = false;
-            }
+          const originalText = btn.textContent.replace(/ ab Level.*/g, '').trim();
+          if (currentLevel < levelLocks.fonts[font]) {
+            if (!btn.innerHTML.includes('ab Level')) btn.innerHTML = originalText + ' (ab Level ' + levelLocks.fonts[font] + ')';
+            btn.style.opacity = '0.5';
+            btn.disabled = true;
+          } else {
+            btn.innerHTML = originalText;
+            btn.style.opacity = '1';
+            btn.disabled = false;
+          }
         }
-    });
-}
+      });
+    }
 
-
-
-
-function resetCounter() {
-    if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
+    function resetCounter() {
+      if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
         data.lastReset = new Date().toISOString();
         saveData();
         updateDisplay();
         showMotivationPopup();
+      }
     }
-}
 
-function saveData() {
-    localStorage.setItem('freiTracker', JSON.stringify(data));
-}
+    function saveData() {
+      localStorage.setItem('freiTracker', JSON.stringify(data));
+    }
 
-// EVENT LISTENERS - KOMPLETT KORRIGIERT!
-document.addEventListener('DOMContentLoaded', function() {
-    const settingsIcon = document.getElementById('settingsIcon');
-    const settingsOverlay = document.getElementById('settingsOverlay');
-    
-    // ⚙️ Öffnet Menü
-    settingsIcon.addEventListener('click', (e) => {
+    // EVENT LISTENERS
+    document.addEventListener('DOMContentLoaded', function() {
+      // Settings Icon
+      const settingsIcon = document.getElementById('settingsIcon');
+      const settingsOverlay = document.getElementById('settingsOverlay');
+      settingsIcon.addEventListener('click', e => {
         e.stopPropagation();
         settingsOverlay.classList.toggle('show');
-    });
-    
-    // 🎨 Farben Toggle
-    document.getElementById('colorCategory').addEventListener('click', (e) => {
+      });
+
+      // Farben Toggle
+      document.getElementById('colorCategory').addEventListener('click', e => {
         e.stopPropagation();
         const colorOptions = document.getElementById('colorOptions');
         const fontOptions = document.getElementById('fontOptions');
         colorOptions.style.display = colorOptions.style.display === 'block' ? 'none' : 'block';
         fontOptions.style.display = 'none';
-    });
-    
-    // 🔤 Schriften Toggle
-    document.getElementById('fontCategory').addEventListener('click', (e) => {
+      });
+
+      // Schriften Toggle
+      document.getElementById('fontCategory').addEventListener('click', e => {
         e.stopPropagation();
         const fontOptions = document.getElementById('fontOptions');
         const colorOptions = document.getElementById('colorOptions');
         fontOptions.style.display = fontOptions.style.display === 'block' ? 'none' : 'block';
         colorOptions.style.display = 'none';
-    });
-    
-    // Klick außerhalb schließt
-    document.addEventListener('click', e => {
+      });
+
+      // Klick außerhalb schließt
+      document.addEventListener('click', e => {
         if (!settingsOverlay.contains(e.target) && e.target !== settingsIcon) {
-            settingsOverlay.classList.remove('show');
+          settingsOverlay.classList.remove('show');
         }
-    });
-    
-    // Lade Settings
-    loadSavedTheme();
-    setFont(localStorage.getItem('freiTrackerFont') || 'montserrat');
-
-    // Initial Locks
-    updateLockedButtons();
-    
-    // Tutorial
-    const tutorialSteps = [
-        {
-            title: "Dein FreiTracker!",
-            text: `Willkommen zu deinem Jahr der Freiheit!\nDer FreiTracker unterstützt dich dabei, ein Jahr lang schlechte Gewohnheiten abzulegen und geistlich zu wachsen.`
-        },
-        {
-            title: "Wie der FreiTracker funktioniert",
-            text: `• Keine Anmeldung erforderlich! Es werden keine Daten an Server gesendet.\n• Zähler und Notizen werden ausschließlich in diesem Browser auf diesem Gerät gespeichert.\n• Der Zähler zählt automatisch weiter, auch wenn du die Seite schließt.\n\nTipp: Richte dir diese Seite als Startseite für diesen Browser ein!`
-        },
-        {
-            title: "Level-Anzeige",
-            text: `Der FreiTracker hat insgesamt 18 Level. Jedes Level hat ein eigenes Etappenziel.`
-        },
-        {
-            title: "Tageszähler",
-            text: `Diese Zahl zeigt, wie viele Tage seit dem letzten Zurücksetzen des Counters vergangen sind.`
-        },
-        {
-            title: "Fortschrittsanzeige",
-            text: `Die Skala zeigt den Fortschritt bis zur nächsten Etappe und aktualisiert sich automatisch.`
-        },
-        {
-            title: "Notizfeld",
-            text: `Hier kannst du kurze Notizen speichern (Ziele, dein Warum, motivierende Sprüche...). Die zuletzt gespeicherte Notiz wird angezeigt.`
-        },
-        {
-            title: "Counter zurücksetzen",
-            text: `Setzt den Tageszähler auf null zurück. Achtung: Frühere Zählstände werden nicht gespeichert!`
+        // POPUP BACKGROUND CLICK ZU SCHLIESSEN
+        if (e.target.id === 'helpPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
+          closeHelpPopup();
         }
-    ];
+        if (e.target.id === 'motivationPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
+          closeMotivationPopup();
+        }
+        if (e.target.classList.contains('help-option')) {
+          setTimeout(closeHelpPopup, 200);
+        }
+      });
 
-    let tutorialIndex = 0;
-    const overlay = document.getElementById("tutorialOverlay");
-    const titleEl = document.getElementById("tutorialTitle");
-    const textEl = document.getElementById("tutorialText");
-    const nextBtn = document.getElementById("tutorialNextBtn");
+      // MOOD BUTTONS
+      document.querySelectorAll('.mood-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
 
-    function showStep(index) {
+      // Load Settings
+      loadSavedTheme();
+      const savedFont = localStorage.getItem('freiTrackerFont');
+      if (savedFont) setFont(savedFont);
+
+      // Initial Locks
+      updateLockedButtons();
+
+      // Tutorial
+      const tutorialSteps = [
+        { title: 'Dein FreiTracker!', text: 'Willkommen zu deinem Jahr der Freiheit! FreiTracker unterstützt dich dabei, ein Jahr lang schlechte Gewohnheiten abzulegen und geistlich zu wachsen.' },
+        { title: 'Wie der FreiTracker funktioniert', text: 'Keine Anmeldung erforderlich! Es werden keine Daten an Server gesendet. Zähler und Notizen werden ausschließlich in diesem Browser auf diesem Gerät gespeichert. Der Zähler zählt automatisch weiter, auch wenn du die Seite schließt. Richte dir diese Seite als Startseite für diesen Browser ein!' },
+        { title: 'Level-Anzeige', text: 'Der FreiTracker hat insgesamt 18 Level. Jedes Level hat ein eigenes Etappenziel.' },
+        { title: 'Tageszähler', text: 'Diese Zahl zeigt, wie viele Tage seit dem letzten Zurücksetzen des Counters vergangen sind.' },
+        { title: 'Fortschrittsanzeige', text: 'Die Skala zeigt den Fortschritt bis zur nächsten Etappe und aktualisiert sich automatisch.' },
+        { title: 'Mood Tracker', text: 'Wähle täglich deinen Mood aus (😎 bis 😩) und füge optional eine Notiz hinzu. Sieh dir dein Journal jederzeit an!' },
+        { title: 'Counter zurücksetzen', text: 'Setzt den Tageszähler auf null zurück. Achtung: Frühere Zählstände werden nicht gespeichert!' }
+      ];
+
+      let tutorialIndex = 0;
+      const overlay = document.getElementById('tutorialOverlay');
+      const titleEl = document.getElementById('tutorialTitle');
+      const textEl = document.getElementById('tutorialText');
+      const nextBtn = document.getElementById('tutorialNextBtn');
+
+      function showStep(index) {
         titleEl.textContent = tutorialSteps[index].title;
         textEl.textContent = tutorialSteps[index].text;
-        nextBtn.textContent = index === tutorialSteps.length - 1 ? "Verstanden – starten" : "Weiter";
-    }
+        nextBtn.textContent = index === tutorialSteps.length - 1 ? 'Verstanden & starten' : 'Weiter';
+      }
 
-    if (!localStorage.getItem("freiTrackerTutorialSeen")) {
-        overlay.classList.remove("hidden");
+      if (!localStorage.getItem('freiTrackerTutorialSeen')) {
+        overlay.classList.remove('hidden');
         showStep(0);
-    }
+      }
 
-    nextBtn.addEventListener("click", () => {
+      nextBtn.addEventListener('click', () => {
         tutorialIndex++;
         if (tutorialIndex < tutorialSteps.length) {
-            showStep(tutorialIndex);
+          showStep(tutorialIndex);
         } else {
-            overlay.classList.add("hidden");
-            localStorage.setItem("freiTrackerTutorialSeen", "true");
+          overlay.classList.add('hidden');
+          localStorage.setItem('freiTrackerTutorialSeen', 'true');
         }
-    });
+      });
 
-    // ESC to close popup
-    document.addEventListener('keydown', function(e) {
+      // ESC to close popup
+      document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            closeMotivationPopup();
-            settingsOverlay.classList.remove('show');
+          closeMotivationPopup();
+          closeHelpPopup();
+          document.getElementById('settingsOverlay').classList.remove('show');
         }
+      });
+
+      // Initial display
+      updateDisplay();
+      setInterval(updateDisplay, 60000);
     });
-    
-    // Initial Level-Locks setzen
-    updateLockedButtons();
-
-    // Initial display
-    updateDisplay();
-    setInterval(updateDisplay, 60000);
-});
-    function switchToHelpPopup() {
-        document.getElementById('motivationPopup').classList.remove('show');
-        document.getElementById('helpPopup').classList.add('show');
-    }
-
-</script>
-
-
-
+  </script>
 </body>
 </html>
