@@ -361,14 +361,14 @@
     .journal-close {
         font-size: 1.8rem;
         cursor: pointer;
-        padding: 10px;
-        border-radius: 50%;
-        transition: all 0.3s;
+        padding: 0;              /* Kein extra Padding */
+        border-radius: 0;         /* Kein rundes Oval */
+        transition: transform 0.3s; 
         color: white;
     }
 
     .journal-close:hover {
-        background: rgba(255,255,255,0.3);
+        background: none;         /* Kein Hintergrund beim Hover */
         transform: rotate(180deg);
     }
 
