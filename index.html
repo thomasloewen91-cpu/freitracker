@@ -294,6 +294,20 @@
         font-family: var(--current-font);
         resize:vertical;
     }
+    
+    .delete-note {
+        color: red;
+        cursor: pointer;
+        float: right;
+        font-size: 1.2rem;
+        margin-left: 10px;
+        transition: transform 0.2s;
+    }
+
+    .delete-note:hover {
+        transform: scale(1.2);
+    }
+        
     @media (max-width: 480px) {
         .main-content { padding: 10px; }
         .counter-card { padding: 30px 20px; max-width: 100vw; }
@@ -1553,18 +1567,29 @@ function renderJournalList() {
 
     countEl.textContent = `(${data.journal.length})`;
 
-    listEl.innerHTML = data.journal.map((entry) => {
+    listEl.innerHTML = data.journal.map((entry, index) => {
         let displayDate = entry.date;
         let displayText = entry.text;
         return `
-            <div class="journal-item">
-                <strong>${displayDate}</strong><br>
+            <div class="journal-item" data-index="${index}">
+                <strong>${displayDate}</strong>
+                <span class="delete-note" title="Notiz löschen">🗑️</span><br>
                 ${displayText}
             </div>
         `;
     }).reverse().join('');
 }
-
+// Notiz löschen
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('delete-note')) {
+        const index = parseInt(e.target.closest('.journal-item').dataset.index);
+        if (confirm('Diese Notiz löschen?')) {
+            data.journal.splice(data.journal.length - 1 - index, 1); // reverse order beachten
+            saveData();
+            renderJournalList();
+        }
+    }
+});
 </script>
 
 
