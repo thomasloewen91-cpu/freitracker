@@ -830,7 +830,10 @@
     </div>
 
 <script>
-let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+let data = JSON.parse(localStorage.getItem('freiTracker') || '{"lastReset": null, "journal": []}');
+if (!Array.isArray(data.journal)) {
+    data.journal = [];
+}
 let lastLevelShown = 1;
 
 const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
@@ -1154,16 +1157,26 @@ function createMilestoneScale(currentDays) {
 
 function saveNote() {
     let note = document.getElementById('journal').value.trim();
-    if (!note) return alert('Bitte eine Notiz eingeben.');
+    if (!note) {
+        alert('Bitte eine Notiz eingeben.');
+        return;
+    }
     if (note.length > 140) {
         note = note.substring(0, 140);
         alert('Notiz auf 140 Zeichen gekürzt.');
     }
-    data.journal.push(note);
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('de-DE');
+    const entry = {
+        date: formattedDate,
+        text: note
+    };
+    data.journal.push(entry);
     saveData();
     document.getElementById('journal').value = '';
     updateDisplay();
 }
+
 
 function updateDisplay() {
     const now = new Date();
@@ -1195,14 +1208,23 @@ function updateDisplay() {
 
     const lastNoteEl = document.getElementById('lastNote');
     const lastNoteContainer = document.getElementById('lastNoteContainer');
-    if (data.journal.length > 0) {
-        lastNoteEl.textContent = data.journal[data.journal.length - 1];
+    if (Array.isArray(data.journal) && data.journal.length > 0) {
+        const lastEntry = data.journal[data.journal.length - 1];
+        let displayText;
+        if (typeof lastEntry === 'string') {
+            displayText = lastEntry; // Alte Notizen (Kompatibilität)
+        } else {
+            displayText = `${lastEntry.date}: ${lastEntry.text}`;
+        }
+        lastNoteEl.textContent = displayText;
         lastNoteEl.style.display = 'block';
         lastNoteContainer.style.display = 'block';
     } else {
+        lastNoteEl.textContent = 'Noch keine Notiz';
         lastNoteEl.style.display = 'none';
         lastNoteContainer.style.display = 'block';
     }
+
 
     const milestone = document.getElementById('milestone');
     if (milestones.includes(daysFree)) {
