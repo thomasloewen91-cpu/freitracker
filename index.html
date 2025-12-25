@@ -275,21 +275,16 @@
     }
 
     /* JOURNAL - UNTEN OHNE VERDECKUNG */
-    .journal-dropdown {
-        position: fixed !important;
-        bottom: 20px; /* Oben über Footer */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 95vw;
+    .journal-container {
+        width: 100%;
         max-width: 900px;
-        max-height: 35vh;
+        margin: 30px auto 0;
         background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
         backdrop-filter: blur(25px);
-        border-radius: 25px 25px 20px 20px;
+        border-radius: 25px;
         padding: 0;
         border: 1px solid var(--accent-border);
-        box-shadow: 0 -10px 50px rgba(0,0,0,0.7);
-        z-index: 1002;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
         overflow: hidden;
     }
 
@@ -861,17 +856,14 @@
                 <!-- NEU: Journal Button -->
                 <button class="journal-btn" onclick="toggleJournal()" id="journalBtn">Journal 📖</button>
             </div>
-
-            <!-- NEU: Journal Dropdown - UNTER Notizfeld -->
-            <div id="journalDropdown" class="journal-dropdown" style="display: none;">
-                <div class="journal-header">
-                    <h3>Mein Journal <span id="journalCount">(0)</span></h3>
-                    <span class="journal-close" onclick="toggleJournal()">&times;</span>
-                </div>
-                <div id="journalList" class="journal-list">
-                    <!-- Dynamisch gefüllt -->
-                </div>
+        </div>
+        
+        <div id="journalContainer" class="journal-container" style="display:none;">
+            <div class="journal-header">
+                <h3>Mein Journal <span id="journalCount">(0)</span></h3>
+                <span class="journal-close" onclick="toggleJournal()">&times;</span>
             </div>
+            <div id="journalList" class="journal-list"></div>
         </div>
     </div>
 
@@ -1495,12 +1487,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // JOURNAL FUNCTIONS
 function toggleJournal() {
-    const dropdown = document.getElementById('journalDropdown');
-    if (dropdown.style.display === 'block') {
-        dropdown.style.display = 'none';
+    const container = document.getElementById('journalContainer');
+    if (container.style.display === 'block') {
+        container.style.display = 'none';
     } else {
-        dropdown.style.display = 'block';
+        container.style.display = 'block';
         renderJournalList();
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -1533,18 +1526,6 @@ function renderJournalList() {
         `;
     }).reverse().join(''); // Neueste zuerst
 }
-
-
-// Journal bei Klick außen schließen
-document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('journalDropdown');
-    const journalBtn = document.getElementById('journalBtn');
-    if (dropdown.style.display === 'block' && 
-        !dropdown.contains(e.target) && 
-        !journalBtn.contains(e.target)) {
-        toggleJournal();
-    }
-});
 
 </script>
 
