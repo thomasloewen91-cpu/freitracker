@@ -110,6 +110,18 @@
         border: 1px solid var(--accent-border); /* DYNAMISCH */
     }
 
+    .highscore-box {
+        margin: 15px 0;
+        padding: 12px 20px;
+        background: linear-gradient(90deg, #ff6b09, #ff8e53);
+        border-radius: 25px;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
     .counter-row {
         display: flex;        /* Cards nebeneinander */
         gap: 40px;            /* Abstand zwischen Cards */
@@ -234,7 +246,6 @@
             gap: 20px;
         }
         .journal-btn {
-            order: 3; /* Rechts */
         }
     }
         
@@ -913,6 +924,9 @@
             <div class="counter-card">
                 <h1 id="levelTitle">🚀 Level 1</h1>
                 <div class="days" id="days">0</div>
+                <div class="highscore-box" id="highscoreBox">
+                    🏆 Persönlicher Rekord: <span id="highscore">0</span> Tage frei!
+                </div>
                 <div class="milestone-scale" id="milestoneScale"></div>
                 <div class="last-view" id="lastView"></div>
                 <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
@@ -1369,12 +1383,16 @@ function updateDisplay() {
     const daysFree = data.lastReset
         ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
         : 0;
-
     document.getElementById('days').textContent = daysFree;
     document.getElementById('lastView').textContent = data.lastReset
         ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`
         : 'Noch nie zurückgesetzt';
-
+    let highscore = parseInt(localStorage.getItem('freiTrackerHighscore')) || 0;
+    if (daysFree > highscore) {
+        highscore = daysFree;
+        localStorage.setItem('freiTrackerHighscore', highscore);
+    }
+    document.getElementById('highscore').textContent = highscore;
     const level = getLevel(daysFree);
     const levelTitleText = levelTitles[level] || "🚀 Level 1";
     const levelTitleEl = document.getElementById('levelTitle');
