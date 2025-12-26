@@ -1026,6 +1026,14 @@
     </div>
 
 <script>
+let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+
+// Falls noch kein lastReset gesetzt ist
+if (!data.lastReset) {
+    data.lastReset = new Date().toISOString();
+    localStorage.setItem('freiTracker', JSON.stringify(data));
+}
+
 let selectedMood = null;
 document.querySelectorAll('.mood-btn').forEach(btn => {
     btn.addEventListener('click', () => {
