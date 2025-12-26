@@ -110,18 +110,6 @@
         border: 1px solid var(--accent-border); /* DYNAMISCH */
     }
 
-    .highscore-box {
-        margin: 15px 0;
-        padding: 12px 20px;
-        background: linear-gradient(90deg, #ff6b09, #ff8e53);
-        border-radius: 25px;
-        color: white;
-        font-weight: 700;
-        font-size: 1.2rem;
-        text-align: center;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    }
-
     .counter-row {
         display: flex;        /* Cards nebeneinander */
         gap: 40px;            /* Abstand zwischen Cards */
@@ -246,6 +234,7 @@
             gap: 20px;
         }
         .journal-btn {
+            order: 3; /* Rechts */
         }
     }
         
@@ -924,9 +913,6 @@
             <div class="counter-card">
                 <h1 id="levelTitle">🚀 Level 1</h1>
                 <div class="days" id="days">0</div>
-                <div class="highscore-box" id="highscoreBox">
-                    🏆 Persönlicher Rekord: <span id="highscore">0</span> Tage frei!
-                </div>
                 <div class="milestone-scale" id="milestoneScale"></div>
                 <div class="last-view" id="lastView"></div>
                 <div class="milestone" id="milestone" style="display:none;">🎉 Milestone erreicht!</div>
@@ -940,9 +926,9 @@
                 <div class="journal">
                     <p style="font-size:0.95rem; margin-bottom:6px;">Wie läuft's gerade?</p>
                     <div class="mood-options">
-                        <button class="mood-btn" data-mood="sehr schwer">😫 Sehr schwer</button>
-                        <button class="mood-btn" data-mood="herausfordernd">😔 Herausfordernd</button>
-                        <button class="mood-btn" data-mood="normal">😐 Normal</button>
+                        <button class="mood-btn" data-mood="sehr schwer">😞 Sehr schwer</button>
+                        <button class="mood-btn" data-mood="herausfordernd">😐 Herausfordernd</button>
+                        <button class="mood-btn" data-mood="normal">😌 Normal</button>
                         <button class="mood-btn" data-mood="leicht">🙂 Leicht</button>
                         <button class="mood-btn" data-mood="super easy">😎 Super easy</button>
                     </div>
@@ -1026,90 +1012,653 @@
     </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Daten laden / initialisieren
-    let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
-    if (!data.lastReset) { data.lastReset = new Date().toISOString(); localStorage.setItem('freiTracker', JSON.stringify(data)); }
-
-    let selectedMood = null;
-    let lastLevelShown = null;
-
-    const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
-    const levelTitles = {1:"🚀 Level 1",2:"⭐ Level 2",3:"⛓️‍💥 Level 3",4:"🗡️ Level 4",5:"⚓ Level 5",6:"🌟 Level 6",7:"🔰 Level 7",8:"🛡️ Level 8",9:"⚔️ Level 9",10:"🔥 Level 10",11:"💥 Level 11",12:"⚡ Level 12",13:"🪙 Level 13",14:"🏅 Level 14",15:"🥇 Level 15",16:"👑 Level 16",17:"🦾 Level 17",18:"🏆 Level 18"};
-    const verses = ["„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29","„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10"];
-
-    // Mood Buttons
-    document.querySelectorAll('.mood-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            selectedMood = btn.dataset.mood;
-        });
+let selectedMood = null;
+document.querySelectorAll('.mood-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Alle Buttons deselecten
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+        // Diesen Button auswählen
+        btn.classList.add('selected');
+        selectedMood = btn.dataset.mood;
     });
+});
 
-    // Zufälliger Bibelvers
-    function getRandomVerse() { return verses[Math.floor(Math.random() * verses.length)]; }
+let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+let lastLevelShown = null;
 
-    // Tage seit lastReset
-    function getCurrentDays() { return Math.floor((new Date() - new Date(data.lastReset)) / (1000*60*60*24)); }
-
-    // Display updaten
-    function updateDisplay() {
-        const days = getCurrentDays();
-        document.getElementById('days').textContent = days;
-        document.getElementById('lastView').textContent = `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`;
-        document.getElementById('highscore').textContent = Math.max(days, parseInt(localStorage.getItem('freiTrackerHighscore')||0));
-        document.getElementById('bibleVerse').textContent = getRandomVerse();
-        document.getElementById('levelTitle').textContent = levelTitles[getLevel(days)] || "🚀 Level 1";
+const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
+const milestoneLabels = {
+    7: "Eine Woche frei!",
+    30: "Ein Monat frei!",
+    92: "Drei Monate frei!",
+    183: "Ein halbes Jahr frei!",
+    275: "Neun Monate frei!",
+    365: "1 Jahr frei!",
+};
+const levelTitles = {
+    1: "🚀 Level 1", 2: "⭐ Level 2", 3: "⛓️‍💥 Level 3", 4: "🗡️ Level 4", 5: "⚓ Level 5",
+    6: "🌟 Level 6", 7: "🔰 Level 7", 8: "🛡️ Level 8", 9: "⚔️ Level 9", 10: "🔥 Level 10",
+    11: "💥 Level 11", 12: "⚡ Level 12", 13: "🪙 Level 13", 14: "🏅 Level 14", 15: "🥇 Level 15",
+    16: "👑 Level 16", 17: "🦾 Level 17", 18: "🏆 Level 18"
+};
+const verses = [
+    "„Durch Christus können wir alles schaffen.“ – Philipper 4:13","„Er gibt Kraft den Müden.“ – Jesaja 40:29",
+    "„Gott ist treu und wird nicht zulassen.“ – 1. Kor 10:13","„Fürchte dich nicht, ich bin bei dir!“ – Jesaja 41:10",
+    "„Meine Gnade genügt dir.“ – 2. Korinther 12:9","„Die auf den Herrn harren, kriegen neue Kraft.“ – Jesaja 40:31",
+    "„Seid stark und mutig!“ – Josua 1:9","„Der Herr ist mein Licht und mein Heil.“ – Psalm 27:1",
+    "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Kor 3:17","„Zur Freiheit hat uns Christus befreit!“ – Galater 5:1",
+    "„Ich will euch erquicken.“ – Matthäus 11:28","„Nichts ist unmöglich für Gott.“ – Lukas 1:37",
+    "„Frieden lasse ich euch.“ – Johannes 14:27","„Seid fest und unerschütterlich.“ – 1. Kor 15:58",
+    "„Der Herr steht mir bei und stärkt mich.“ – 2. Tim 4:17","„Euer Herz fasse Mut!“ – Psalm 31:25",
+    "„Ich bin gewiss: nichts trennt uns von Gottes Liebe.“ – Römer 8:38-39","„Der Gott der Hoffnung erfülle euch.“ – Römer 15:13",
+    "„Deine Güte reicht bis zum Himmel.“ – Psalm 36:6","„Wenn du durch Wasser gehst, bin ich bei dir.“ – Jesaja 43:2",
+    "„An dem Tag, da ich rief, gabst du mir Mut.“ – Psalm 138:3","„Meine Hilfe kommt vom Herrn.“ – Psalm 121:2",
+    "„Ihr seid zur Freiheit berufen.“ – Galater 5:13","„Alles ist mir erlaubt, aber nicht alles dient zum Guten.“ – 1. Kor 6:12",
+    "„Ich wandle in weitem Raum.“ – Psalm 119:45","„Der Herr bewahrt die Seelen seiner Heiligen.“ – Psalm 97:10",
+    "„Gib nicht auf – Gott trägt dich!“ – Jesaja 46:4","„Deine Kraft wird in Schwachheit vollkommen.“ – 2. Kor 12:9",
+    "„Schaut auf Jesus, den Anfänger und Vollender.“ – Hebräer 12:2","„Gott hat euch ein neues Herz gegeben.“ – Hesekiel 36:26",
+    "„Ihr seid mehr als Überwinder!“ – Römer 8:37"
+];
+const motivationMessages = [
+    { title: "Ein Neustart ist kein Game Over!", verse: "„Denn der Gerechte fällt siebenmal und steht wieder auf.“ – Sprüche 24,16" },
+    { title: "Gott ist gnädiger zu dir, als du zu dir selbst!", verse: "„Meine Gnade ist alles, was du brauchst.“ – 2. Korinther 12,9" },
+    { title: "Wichtig ist nicht, dass du gefallen bist – sondern dass du wieder aufstehst.", verse: "„Der Herr stützt alle, die fallen.“ – Psalm 145,14" },
+    { title: "Gott definiert dich nicht durch Rückschläge, sondern durch deine Schritte zu ihm.", verse: "„Wer zu mir kommt, den werde ich nicht hinausstoßen.“ – Johannes 6,37" },
+    { title: "Deine Freiheit ist wertvoll. Starte neu, gehe weiter!", verse: "„Zur Freiheit hat uns Christus befreit.“ – Galater 5,1" },
+    { title: "Ein Fehltritt ist kein Finale. Deine Geschichte geht weiter.", verse: "„Siehe, ich mache alles neu.“ – Offenbarung 21,5" },
+    { title: "Steh auf! Heute ist ein neuer Tag voller Gnade.", verse: "„Die Gnade des Herrn ist jeden Morgen neu.“ – Klagelieder 3,22–23" },
+    { title: "Du bist stärker, als du gerade glaubst.", verse: "„Alles vermag ich durch Christus, der mich stärkt.“ – Philipper 4,13" },
+    { title: "Scham hält dich fest. Gnade macht dich frei.", verse: "„Wo der Geist des Herrn ist, da ist Freiheit.“ – 2. Korinther 3,17" },
+    { title: "Mach weiter! Gott ist größer als jede Versuchung.", verse: "„Der Herr ist gnädig und barmherzig, geduldig und von großer Güte.“ – Psalm 103,8" }
+];
+// 🔒 LEVEL LOCKS
+const levelLocks = {
+    themes: {
+        'gruen': 2,
+        'blau': 5, 
+        'gelb': 8,
+        'rot': 11
+    },
+    fonts: {
+        'poppins': 4,
+        'inter': 7,
+        'tinos': 10,
+        'open-sans': 13,
+        'rajdhani': 14,
+        'orbitron': 16,
+        'bungee': 17
     }
+};
+function isUnlocked(type, name) {
+    const currentLevel = getLevel(getCurrentDays());
+    const requiredLevel = levelLocks[type][name];
+    return !requiredLevel || currentLevel >= requiredLevel;
+}
 
-    // Level berechnen
-    function getLevel(days) { for(let i=0;i<milestones.length;i++){ if(days<milestones[i]) return i+1; } return milestones.length; }
+function getCurrentDays() {
+    const now = new Date();
+    return data.lastReset 
+        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
+        : 0;
+}
 
-    // Note speichern
-    window.saveNote = function() {
-        const note = document.getElementById('journal').value.trim();
-        if(!note && !selectedMood) return alert("Bitte Notiz oder Mood wählen");
-        data.journal.push({text:note,mood:selectedMood,date:new Date().toLocaleDateString('de-DE')});
-        localStorage.setItem('freiTracker', JSON.stringify(data));
-        document.getElementById('journal').value = '';
-        selectedMood = null;
-        document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
-        renderJournalList();
-        updateDisplay();
+// 🎨 THEME FUNCTION
+function setTheme(color) {
+    if (!isUnlocked('themes', color)) {
+        alert(`🔒 ${color.charAt(0).toUpperCase() + color.slice(1)} freigeschaltet ab Level ${levelLocks.themes[color]}!`);
+        return;
     }
-
-    // Journal rendern
-    function renderJournalList() {
-        const list = document.getElementById('journalList');
-        const count = document.getElementById('journalCount');
-        if(!data.journal || data.journal.length===0){ list.innerHTML='<div class="journal-empty">Noch keine Notizen gespeichert.</div>'; count.textContent='(0)'; return; }
-        count.textContent=`(${data.journal.length})`;
-        list.innerHTML=data.journal.map(e=>`<div class="journal-item">${e.date}: ${e.mood?e.mood+' ':''}${e.text}</div>`).reverse().join('');
+    
+    const root = document.documentElement;
+    let primary, secondary, accentColor, accentBorder, noteBg, saveHoverShadow, popupHoverShadow;
+    
+    switch(color) {
+        case 'orange':
+            primary = 'linear-gradient(45deg, #ff6b09, #ff8e53)';
+            secondary = 'linear-gradient(90deg, #ff6b09, #ff8e53)';
+            accentColor = '#ff6b09';
+            accentBorder = 'rgba(255,107,9,0.2)';
+            noteBg = 'rgba(255,142,83,0.15)';
+            saveHoverShadow = 'rgba(255,140,80,0.7)';
+            popupHoverShadow = 'rgba(255,107,9,0.6)';
+            break;
+        case 'gruen':
+            primary = 'linear-gradient(45deg, #28a745, #20c997)';
+            secondary = 'linear-gradient(90deg, #28a745, #20c997)';
+            accentColor = '#28a745';
+            accentBorder = 'rgba(40,167,69,0.2)';
+            noteBg = 'rgba(40,167,69,0.15)';
+            saveHoverShadow = 'rgba(40,200,100,0.7)';
+            popupHoverShadow = 'rgba(40,167,69,0.6)';
+            break;
+        case 'blau':
+            primary = 'linear-gradient(45deg, #007bff, #00d4ff)';
+            secondary = 'linear-gradient(90deg, #007bff, #00d4ff)';
+            accentColor = '#007bff';
+            accentBorder = 'rgba(0,123,255,0.2)';
+            noteBg = 'rgba(0,123,255,0.15)';
+            saveHoverShadow = 'rgba(0,160,255,0.7)';
+            popupHoverShadow = 'rgba(0,123,255,0.6)';
+            break;
+        case 'gelb':
+            primary = 'linear-gradient(45deg, #ffc107, #ffeb3b)';
+            secondary = 'linear-gradient(90deg, #ffc107, #ffeb3b)';
+            accentColor = '#ffc107';
+            accentBorder = 'rgba(255,193,7,0.2)';
+            noteBg = 'rgba(255,235,59,0.15)';
+            saveHoverShadow = 'rgba(255,235,59,0.7)';
+            popupHoverShadow = 'rgba(255,193,7,0.6)';
+            break;
+        case 'rot':
+            primary = 'linear-gradient(45deg, #dc3545, #ff6b6b)';
+            secondary = 'linear-gradient(90deg, #dc3545, #ff6b6b)';
+            accentColor = '#dc3545';
+            accentBorder = 'rgba(220,53,69,0.2)';
+            noteBg = 'rgba(255,107,107,0.15)';
+            saveHoverShadow = 'rgba(255,100,100,0.7)';
+            popupHoverShadow = 'rgba(220,53,69,0.6)';
+            break;
+        case 'grau':
+            primary = 'linear-gradient(45deg, #6c757d, #adb5bd)';
+            secondary = 'linear-gradient(90deg, #6c757d, #adb5bd)';
+            accentColor = '#6c757d';
+            accentBorder = 'rgba(108,117,125,0.2)';
+            noteBg = 'rgba(173,181,189,0.15)';
+            saveHoverShadow = 'rgba(173,181,189,0.7)';
+            popupHoverShadow = 'rgba(108,117,125,0.6)';
+            break;
     }
+    
+    root.style.setProperty('--primary-gradient', primary);
+    root.style.setProperty('--secondary-gradient', secondary);
+    root.style.setProperty('--accent-color', accentColor);
+    root.style.setProperty('--accent-border', accentBorder);
+    root.style.setProperty('--note-bg', noteBg);
+    root.style.setProperty('--save-hover-shadow', saveHoverShadow);
+    root.style.setProperty('--popup-hover-shadow', popupHoverShadow);
+    
+    localStorage.setItem('freiTrackerTheme', color);
+    document.getElementById('settingsOverlay').classList.remove('show');
+    document.getElementById('colorOptions').style.display = 'none';
+}
 
-    // Journal toggle
-    window.toggleJournal = function() {
-        const container=document.getElementById('journalContainer');
-        container.style.display = container.style.display==='block'?'none':'block';
-        if(container.style.display==='block') renderJournalList();
+// 🔤 FONT FUNCTION (NEU!)
+function setFont(fontName) {
+    if (!isUnlocked('fonts', fontName)) {
+        alert(`🔒 ${fontName.charAt(0).toUpperCase() + fontName.slice(1)} freigeschaltet ab Level ${levelLocks.fonts[fontName]}!`);
+        return;
     }
+    
+    const root = document.documentElement;
+    root.style.setProperty('--current-font', `'${fontName}', sans-serif`);
+    localStorage.setItem('freiTrackerFont', fontName);
+    document.getElementById('settingsOverlay').classList.remove('show');
+    document.getElementById('fontOptions').style.display = 'none';
+}
 
-    // Counter zurücksetzen
-    window.resetCounter = function() {
-        if(confirm('Bist du sicher?')) {
-            data.lastReset=new Date().toISOString();
-            localStorage.setItem('freiTracker', JSON.stringify(data));
-            updateDisplay();
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('freiTrackerTheme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    }
+}
+
+function getRandomVerse() {
+    return verses[Math.floor(Math.random() * verses.length)];
+}
+
+function getRandomMotivationMessage() {
+    const randomIndex = Math.floor(Math.random() * motivationMessages.length);
+    return motivationMessages[randomIndex];
+}
+
+function showMotivationPopup() {
+    const message = getRandomMotivationMessage();
+    const popupMessageEl = document.getElementById('popupMessage');
+    popupMessageEl.innerHTML = `
+        <div class="popup-title">${message.title}</div>
+        <div class="popup-verse">${message.verse}</div>
+    `;
+    const popup = document.getElementById('motivationPopup');
+    popup.classList.add('show');
+}
+
+function closeMotivationPopup() {
+    const popup = document.getElementById('motivationPopup');
+    popup.classList.remove('show');
+}
+// 🛟 HELP POPUP FUNCTIONS
+function showHelpPopup() {
+    document.getElementById('helpPopup').classList.add('show');
+}
+
+function closeHelpPopup() {
+    document.getElementById('helpPopup').classList.remove('show');
+}
+
+// Help Links auto-close + neue Fenster
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('help-option')) {
+    setTimeout(closeHelpPopup, 200);
+  }
+  // NEU: Help-Popup schließen bei Klick auf grauen Hintergrund
+  if (e.target.id === 'helpPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
+    closeHelpPopup();
+  }
+  // NEU: Motivation-Popup schließen bei Klick auf grauen Hintergrund  
+  if (e.target.id === 'motivationPopup' && !e.target.querySelector('.popup-content').contains(e.target)) {
+    closeMotivationPopup();
+  }
+});
+
+
+function getNextMilestone(currentDays) {
+    for (let milestone of milestones) {
+        if (currentDays < milestone) return milestone;
+    }
+    return 365;
+}
+
+function getLastMilestone(currentDays) {
+    let last = 0;
+    for (let i = 0; i < milestones.length; i++) {
+        if (milestones[i] <= currentDays) last = milestones[i];
+        else break;
+    }
+    return last;
+}
+
+function getLevel(currentDays) {
+    const bounds = [0, ...milestones];
+    for (let i = 0; i < bounds.length - 1; i++) {
+        const start = bounds[i];
+        const end = bounds[i + 1];
+        if (i === bounds.length - 2) {
+            if (currentDays >= start && currentDays <= end) return i + 1;
+        } else {
+            if (currentDays >= start && currentDays < end) return i + 1;
         }
     }
+    return 1;
+}
 
-    // Initiales Display
-    updateDisplay();
+function createMilestoneScale(currentDays) {
+    const scaleEl = document.getElementById('milestoneScale');
+    if (currentDays >= 366) {
+        const html = `
+            <div class="simple-scale-container">
+                <div class="simple-scale-line">
+                    <div class="simple-scale-fill" style="width:100%;"></div>
+                </div>
+                <div class="simple-scale-labels">
+                    <span>0</span><span>365</span>
+                </div>
+            </div>
+            <div class="next-milestone">Nächstes Ziel: 365 Tage</div>
+            <div class="days-left">Gratulation zu einem Jahr in Freiheit! 🎉 starte erneut für ein weiteres Jahr.</div>
+        `;
+        scaleEl.innerHTML = html;
+        return;
+    }
+
+    const nextMilestone = getNextMilestone(currentDays);
+    const lastMilestone = getLastMilestone(currentDays);
+    const start = lastMilestone;
+    const end = nextMilestone;
+    const totalRange = end - start;
+    const progressInRange = Math.max(0, Math.min(currentDays - start, totalRange));
+    const progressPercent = totalRange > 0 ? (progressInRange / totalRange) * 100 : 0;
+    const ticksCount = Math.max(0, totalRange - 1);
+
+    let html = `
+        <div class="simple-scale-container">
+            <div class="simple-scale-line">
+                <div class="simple-scale-fill" style="width:${progressPercent}%;"></div>
+                <div class="simple-scale-ticks">
+    `;
+    for (let i = 1; i <= ticksCount; i++) {
+        const pos = (i / totalRange) * 100;
+        html += `<div class="simple-scale-tick" style="left:${pos}%;"></div>`;
+    }
+    html += `
+                </div>
+            </div>
+            <div class="simple-scale-labels">
+                <span>${start}</span><span>${end}</span>
+            </div>
+        </div>
+    `;
+
+    const daysLeft = end - currentDays;
+    const label = milestoneLabels[end] || `${end} Tage`;
+    let daysLeftText;
+    if (daysLeft === 1) {
+        daysLeftText = "Nur noch ein Tag, zieh durch! 💪";
+    } else {
+        daysLeftText = `⏳ ${daysLeft} Tage fehlen`;
+    }
+    
+    html += `
+        <div class="next-milestone">Nächstes Ziel: ${label}</div>
+        <div class="days-left">${daysLeftText}</div>
+    `;
+    scaleEl.innerHTML = html;
+}
+
+function saveNote() {
+    let note = document.getElementById('journal').value.trim();
+    if (!note && !selectedMood) return alert('Bitte eine Notiz eingeben oder einen Mood auswählen.');
+
+    let entry = {
+        text: note,
+        mood: selectedMood || null,
+        date: new Date().toLocaleDateString('de-DE')
+    };
+
+    data.journal.push(entry);
+    saveData();
+    document.getElementById('journal').value = '';
+    selectedMood = null;
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
     renderJournalList();
-    setInterval(updateDisplay,60000);
+    updateDisplay();
+}
 
+function updateDisplay() {
+    const now = new Date();
+    const daysFree = data.lastReset
+        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
+        : 0;
+
+    document.getElementById('days').textContent = daysFree;
+    document.getElementById('lastView').textContent = data.lastReset
+        ? `Seit: ${new Date(data.lastReset).toLocaleDateString('de-DE')}`
+        : 'Noch nie zurückgesetzt';
+
+    const level = getLevel(daysFree);
+    const levelTitleText = levelTitles[level] || "🚀 Level 1";
+    const levelTitleEl = document.getElementById('levelTitle');
+
+    if (level !== lastLevelShown) {
+        levelTitleEl.classList.remove('level-fade');
+        void levelTitleEl.offsetWidth;
+        levelTitleEl.textContent = levelTitleText;
+        levelTitleEl.classList.add('level-fade');
+        lastLevelShown = level;
+    } else {
+        levelTitleEl.textContent = levelTitleText;
+    }
+
+    createMilestoneScale(daysFree);
+    document.getElementById('bibleVerse').textContent = getRandomVerse();
+
+    const milestone = document.getElementById('milestone');
+    if (milestones.includes(daysFree)) {
+        milestone.style.display = 'block';
+        setTimeout(() => milestone.style.display = 'none', 3000);
+    } else {
+        milestone.style.display = 'none';
+    }
+
+    // 🔒 LEVEL-LOCKED BUTTONS UPDATEN
+    updateLockedButtons();
+}
+// 🔒 Level-locked Buttons updaten (TOOLTIP + CLICK!)
+function updateLockedButtons() {
+    const currentLevel = getLevel(getCurrentDays());
+    
+    // Themes
+    Object.keys(levelLocks.themes).forEach(theme => {
+        const btn = document.querySelector(`[onclick="setTheme('${theme}')"]`);
+        if (btn) {
+            const originalText = ['orange','gruen','blau','gelb','rot','grau'].includes(theme) ? 
+                btn.innerHTML.replace(/ 🔒ab Level \d+/g, '').trim() : btn.textContent.replace(/ 🔒ab Level \d+/g, '').trim();
+                
+            if (currentLevel < levelLocks.themes[theme]) {
+                if (!btn.innerHTML.includes('🔒ab Level')) {
+                    btn.innerHTML = originalText + ` 🔒ab Level ${levelLocks.themes[theme]}`;
+                }
+                btn.style.opacity = '0.5';
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            }
+        }
+    });
+    
+    // Fonts
+    Object.keys(levelLocks.fonts).forEach(font => {
+        const btn = document.querySelector(`[onclick="setFont('${font}')"]`);
+        if (btn) {
+            const originalText = btn.textContent.replace(/ 🔒ab Level \d+/g, '').trim();
+            
+            if (currentLevel < levelLocks.fonts[font]) {
+                if (!btn.innerHTML.includes('🔒ab Level')) {
+                    btn.innerHTML = originalText + ` 🔒ab Level ${levelLocks.fonts[font]}`;
+                }
+                btn.style.opacity = '0.5';
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            }
+        }
+    });
+}
+
+
+
+
+function resetCounter() {
+    if (confirm('Bist du sicher? Das setzt deinen Counter zurück.')) {
+        data.lastReset = new Date().toISOString();
+        saveData();
+        updateDisplay();
+        showMotivationPopup();
+    }
+}
+
+function saveData() {
+    localStorage.setItem('freiTracker', JSON.stringify(data));
+}
+
+// EVENT LISTENERS - KOMPLETT KORRIGIERT!
+document.addEventListener('DOMContentLoaded', function() {
+    const settingsIcon = document.getElementById('settingsIcon');
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    
+    // ⚙️ Öffnet Menü
+    settingsIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        settingsOverlay.classList.toggle('show');
+    });
+    
+    // 🎨 Farben Toggle
+    document.getElementById('colorCategory').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const colorOptions = document.getElementById('colorOptions');
+        const fontOptions = document.getElementById('fontOptions');
+        colorOptions.style.display = colorOptions.style.display === 'block' ? 'none' : 'block';
+        fontOptions.style.display = 'none';
+    });
+    
+    // 🔤 Schriften Toggle
+    document.getElementById('fontCategory').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const fontOptions = document.getElementById('fontOptions');
+        const colorOptions = document.getElementById('colorOptions');
+        fontOptions.style.display = fontOptions.style.display === 'block' ? 'none' : 'block';
+        colorOptions.style.display = 'none';
+    });
+    
+    // Klick außerhalb schließt
+    document.addEventListener('click', e => {
+        if (!settingsOverlay.contains(e.target) && e.target !== settingsIcon) {
+            settingsOverlay.classList.remove('show');
+        }
+    });
+    
+    // Lade Settings
+    loadSavedTheme();
+    setFont(localStorage.getItem('freiTrackerFont') || 'montserrat');
+
+    // Initial Locks
+    updateLockedButtons();
+    
+    // Tutorial
+    const tutorialSteps = [
+        {
+            title: "Dein FreiTracker!",
+            text: `Willkommen zu deinem Jahr der Freiheit!\nDer FreiTracker unterstützt dich dabei, ein Jahr lang schlechte Gewohnheiten abzulegen und geistlich zu wachsen.`
+        },
+        {
+            title: "Wie der FreiTracker funktioniert",
+            text: `• Keine Anmeldung erforderlich! Es werden keine Daten an Server gesendet.\n• Zähler und Notizen werden ausschließlich in diesem Browser auf diesem Gerät gespeichert.\n• Der Zähler zählt automatisch weiter, auch wenn du die Seite schließt.\n\nTipp: Richte dir diese Seite als Startseite für diesen Browser ein!`
+        },
+        {
+            title: "Level-Anzeige",
+            text: `Der FreiTracker hat insgesamt 18 Level. Jedes Level hat ein eigenes Etappenziel.`
+        },
+        {
+            title: "Tageszähler",
+            text: `Diese Zahl zeigt, wie viele Tage seit dem letzten Zurücksetzen des Counters vergangen sind.`
+        },
+        {
+            title: "Fortschrittsanzeige",
+            text: `Die Skala zeigt den Fortschritt bis zur nächsten Etappe und aktualisiert sich automatisch.`
+        },
+        {
+            title: "Notizfeld",
+            text: `Hier kannst du kurze Notizen speichern (Ziele, dein Warum, motivierende Sprüche...). Die zuletzt gespeicherte Notiz wird angezeigt.`
+        },
+        {
+            title: "Counter zurücksetzen",
+            text: `Setzt den Tageszähler auf null zurück. Achtung: Frühere Zählstände werden nicht gespeichert!`
+        }
+    ];
+
+    let tutorialIndex = 0;
+    const overlay = document.getElementById("tutorialOverlay");
+    const titleEl = document.getElementById("tutorialTitle");
+    const textEl = document.getElementById("tutorialText");
+    const nextBtn = document.getElementById("tutorialNextBtn");
+
+    function showStep(index) {
+        titleEl.textContent = tutorialSteps[index].title;
+        textEl.textContent = tutorialSteps[index].text;
+        nextBtn.textContent = index === tutorialSteps.length - 1 ? "Verstanden – starten" : "Weiter";
+    }
+
+    if (!localStorage.getItem("freiTrackerTutorialSeen")) {
+        overlay.classList.remove("hidden");
+        showStep(0);
+    }
+
+    nextBtn.addEventListener("click", () => {
+        tutorialIndex++;
+        if (tutorialIndex < tutorialSteps.length) {
+            showStep(tutorialIndex);
+        } else {
+            overlay.classList.add("hidden");
+            localStorage.setItem("freiTrackerTutorialSeen", "true");
+        }
+    });
+
+    // ESC to close popup
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMotivationPopup();
+            settingsOverlay.classList.remove('show');
+        }
+    });
+    
+    // Initial Level-Locks setzen
+    updateLockedButtons();
+
+    // Initial display
+    updateDisplay();
+    setInterval(updateDisplay, 60000);
+});
+    function switchToHelpPopup() {
+        document.getElementById('motivationPopup').classList.remove('show');
+        document.getElementById('helpPopup').classList.add('show');
+    }
+
+// TOGGLE FÜR DAS JOURNAL (mittig unter den beiden Counter-Cards)
+function toggleJournal() {
+    const container = document.getElementById('journalContainer');
+    // öffnen / schließen
+    container.style.display = container.style.display === 'block' ? 'none' : 'block';
+    // bei Öffnen Inhalte rendern & scrollen
+    if (container.style.display === 'block') {
+        renderJournalList();
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// RENDER-FUNKTION bleibt unverändert
+function renderJournalList() {
+    const listEl = document.getElementById('journalList');
+    const countEl = document.getElementById('journalCount');
+
+    if (!Array.isArray(data.journal) || data.journal.length === 0) {
+        listEl.innerHTML = '<div class="journal-empty">Noch keine Notizen gespeichert.<br>Deine erste Reise wird hier dokumentiert.</div>';
+        countEl.textContent = '(0)';
+        return;
+    }
+
+    countEl.textContent = `(${data.journal.length})`;
+
+    // Neueste Notiz oben
+    listEl.innerHTML = data.journal
+    .map((entry, index) => {
+        let displayDate = entry.date || 'Unbekanntes Datum';
+        let displayText = entry.text || '';
+        let moodEmoji = '';
+        
+        switch(entry.mood) {
+            case 'sehr schwer': moodEmoji = '😞'; break;
+            case 'herausfordernd': moodEmoji = '😐'; break;
+            case 'normal': moodEmoji = '😌'; break;
+            case 'leicht': moodEmoji = '🙂'; break;
+            case 'super easy': moodEmoji = '😎'; break;
+        }
+
+        return `
+            <div class="journal-item" data-index="${index}">
+                <strong>${displayDate}</strong>
+                <span class="delete-note" title="Notiz löschen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6l-1 14H6L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                        <path d="M9 6V4h6v2"></path>
+                    </svg>
+                </span>
+                ${moodEmoji ? moodEmoji + ' ' : ''}${displayText}
+            </div>
+        `;
+    })
+    .reverse()
+    .join('');
+}
+// Notiz löschen – funktioniert auch mit SVG-Icon
+document.addEventListener('click', function(e) {
+    let span = e.target.closest('.delete-note');
+    if (span) {
+        const displayedItem = span.closest('.journal-item');
+        const displayedIndex = parseInt(displayedItem.dataset.index);
+
+        if (confirm('Diese Notiz löschen?')) {
+            data.journal.splice(displayedIndex, 1); // löscht die angeklickte Notiz
+            saveData();
+            renderJournalList();
+        }
+    }
 });
 </script>
 
