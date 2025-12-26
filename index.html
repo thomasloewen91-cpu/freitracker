@@ -1038,6 +1038,12 @@ document.querySelectorAll('.mood-btn').forEach(btn => {
 });
 
 let data = JSON.parse(localStorage.getItem('freiTracker')) || { lastReset: null, journal: [] };
+
+// NEU: Setze lastReset automatisch, falls noch null
+if (!data.lastReset) {
+    data.lastReset = new Date().toISOString();
+    localStorage.setItem('freiTracker', JSON.stringify(data));
+}
 let lastLevelShown = null;
 
 const milestones = [3,7,14,30,40,50,75,92,100,125,150,183,200,235,275,300,333,365];
