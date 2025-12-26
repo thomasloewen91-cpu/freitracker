@@ -1397,12 +1397,16 @@ function updateDisplay() {
         : 'Noch nie zurückgesetzt';
 
     // Highscore prüfen und aktualisieren
-    let highscore = parseInt(localStorage.getItem('freiTrackerHighscore')) || 0;
+    let highscore = parseInt(localStorage.getItem('freiTrackerHighscore'));
+    if (isNaN(highscore)) highscore = 0;
+
     if (daysFree > highscore) {
         highscore = daysFree;
         localStorage.setItem('freiTrackerHighscore', highscore);
     }
-    document.getElementById('highscore').textContent = highscore;
+
+    const highscoreEl = document.getElementById('highscore');
+    if (highscoreEl) highscoreEl.textContent = highscore;
 
     // Level berechnen und anzeigen
     const level = getLevel(daysFree);
