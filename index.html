@@ -1117,9 +1117,11 @@ function isUnlocked(type, name) {
 
 function getCurrentDays() {
     const now = new Date();
-    return data.lastReset 
-        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
-        : 0;
+    if (!data.lastReset) {
+        data.lastReset = now.toISOString();
+        saveData();
+    }
+    return Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24));
 }
 
 // 🎨 THEME FUNCTION
@@ -1386,9 +1388,7 @@ function saveNote() {
 
 function updateDisplay() {
     const now = new Date();
-    const daysFree = data.lastReset
-        ? Math.floor((now - new Date(data.lastReset)) / (1000 * 60 * 60 * 24))
-        : 0;
+    const daysFree = getCurrentDays(); // ✅ fix für "lädt"
 
     // Tage und letzte Ansicht aktualisieren
     document.getElementById('days').textContent = daysFree;
