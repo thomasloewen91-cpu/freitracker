@@ -904,6 +904,10 @@
             <button onclick="setFont('orbitron')">Orbitron</button>
             <button onclick="setFont('bungee')">Bungee</button>
         </div>
+
+        <button class="category-btn" onclick="resetHighscore()">
+            🏆 Highscore zurücksetzen
+        </button>
     </div>
 
 
@@ -1477,6 +1481,15 @@ function resetCounter() {
         updateDisplay();
         showMotivationPopup();
     }
+}
+
+function resetHighscore() {
+    if (!confirm('Willst du deinen persönlichen Rekord wirklich löschen?')) return;
+
+    localStorage.removeItem('freiTrackerHighscore');
+    updateDisplay();
+
+    alert('🏆 Dein Highscore wurde zurückgesetzt.');
 }
 
 function saveData() {
